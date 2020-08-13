@@ -1,0 +1,46 @@
+{
+  "name": "image-resizer",
+  "version": "0.1.0",
+  "license": "MIT",
+  "homepage": "https://habaneroconsulting.github.io/image-resizer",
+  "dependencies": {
+    "@emotion/core": "10.0.28",
+    "@fluentui/react": "7.124.1",
+    "emotion-theming": "10.0.27",
+    "react-dom": "16.13.1",
+    "react-dropzone": "11.0.2",
+    "react-image-crop": "8.6.4",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "3.4.1",
+    "react-uid": "2.3.0",
+    "react": "16.13.1"
+  },
+  "devDependencies": {
+    "@types/react-image-crop": "8.1.2",
+    "node-sass": "4.14.1",
+    "source-map-explorer": "2.4.2",
+    "typescript": "3.9.7"
+  },
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "build": "react-scripts build",
+    "prettier": "prettier ./src/**/* --write",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

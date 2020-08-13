@@ -1,0 +1,28 @@
+{
+	"React component": {
+		"scope": "typescriptreact",
+		"prefix": "component",
+		"body": [
+			"/** @jsx jsx */",
+			"",
+			"import { jsx } from '@emotion/core';",
+			"import React from 'react';",
+			"",
+			"import { useTheme } from 'Theme/use-theme';",
+			"",
+			"type ${1:ComponentName}Props = {};",
+			"",
+			"export const $1 = ({}: $1Props) => {",
+			"  const theme = useTheme();",
+			"",
+			"  return (",
+			"    <div>$1</div>",
+			"  );",
+			"};",
+			"",
+			"$1.displayName = '$1';",
+			""
+		],
+		"description": "Create a common React component"
+	}
+}

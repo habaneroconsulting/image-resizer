@@ -1,0 +1,39 @@
+{
+  "breakpoints": ["320px", "480px", "640px", "1024px", "1366px", "1920px"],
+  "colors": {
+    "themePrimary": "#a71930",
+    "themeDark": "#7e1325",
+    "themeDarker": "#5d0e1b",
+    "themeLight": "#e4aab4",
+    "neutralPrimary": "#293339",
+    "neutralSecondary": "#445560",
+    "neutralLight": "#c9cdd0",
+    "neutralLighter": "#eaeaea",
+    "neutralLighterAlt": "#f1f1f1",
+    "neutralDark": "#131a1e",
+    "black": "#000000",
+    "white": "#fff",
+    "primaryText": "#293339",
+    "bodyText": "#293339",
+    "disabledBackground": "#eaeaea",
+    "disabledText": "#91999e"
+  },
+  "fonts": {
+    "body": "system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "heading": "system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'"
+  },
+  "fontSizes": [10, 12, 14, 16, 18, 20, 24, 28, 32, 42, 68],
+  "fontWeights": {
+    "regular": 400,
+    "semibold": 600,
+    "bold": 700
+  },
+  "lineHeights": {
+    "body": 1.4,
+    "heading": 1
+  },
+  "shadows": {
+    "depth16": "0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)"
+  },
+  "space": [0, 4, 8, 16, 24, 32, 40, 48, 64, 72, 80]
+}
