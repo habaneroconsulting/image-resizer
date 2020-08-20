@@ -1,13 +1,22 @@
-# Habanero.ImageResizer
+# habaneroconsulting/image-resizer
 
 This tool helps resize and crop basic images and provides a set of query string
 parameters to link to specific maximum widths and aspect ratios. It is meant to
 help content authors create specific sized imagery when their content management
-tools may not provide cropping.
+system may not provide cropping.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
+and licensed with the MIT license. It makes use of [`react-dropzone`](https://github.com/react-dropzone/react-dropzone)
+and [`react-image-crop`](https://github.com/DominicTobias/react-image-crop).
 
-## Available Scripts
+## Query string options:
+
+- **max-w** `[number]`: Sets the maximum width of the image.
+- **ar-w** `[number]`: Sets the aspect ratio width.
+- **ar-h** `[number]`: Sets the aspect ratio height.
+- **format** `['jpg'|'png']`: Sets the format of the image.
+
+## Available Scripts (via Create React App)
 
 In the project directory, you can run:
 
@@ -19,12 +28,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
@@ -35,9 +38,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment)
 for more information.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
