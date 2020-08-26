@@ -172,13 +172,17 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 		setFileState({ status: Status.Downloading, file: fileState.file, src: fileState.src });
 
+		const maxWidth = formState.preventScalingUp
+			? Math.min(formState.maxWidth, imageRef.current.naturalWidth)
+			: formState.maxWidth;
+
 		// Generate the image.
 		const results = await downloadImage({
 			crop,
 			fileName: fileState.file.name,
 			format: formState.format,
 			image: imageRef.current,
-			maxWidth: formState.maxWidth
+			maxWidth
 		});
 
 		setResults(results);
