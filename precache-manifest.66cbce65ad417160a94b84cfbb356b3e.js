@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7d24c5514407f012cfdb013c094fabc4",
+    "revision": "b2bda58dd3495f26073f9af9cfc7c9ae",
     "url": "/image-resizer/index.html"
   },
   {
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/image-resizer/static/js/ReactImageCrop.62898a32.chunk.js"
   },
   {
-    "revision": "c5c8197bf15e7daa9ad8",
-    "url": "/image-resizer/static/js/main.5b4faa04.chunk.js"
+    "revision": "56c3bd8b7a4d204c8f51",
+    "url": "/image-resizer/static/js/main.51b4d311.chunk.js"
   },
   {
     "revision": "133ba061ee41e744e151",
