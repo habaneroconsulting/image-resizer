@@ -2,8 +2,8 @@
   "files": {
     "ReactImageCrop.js": "/image-resizer/static/js/ReactImageCrop.62898a32.chunk.js",
     "ReactImageCrop.js.map": "/image-resizer/static/js/ReactImageCrop.62898a32.chunk.js.map",
-    "main.js": "/image-resizer/static/js/main.51b4d311.chunk.js",
-    "main.js.map": "/image-resizer/static/js/main.51b4d311.chunk.js.map",
+    "main.js": "/image-resizer/static/js/main.7b3c3e5f.chunk.js",
+    "main.js.map": "/image-resizer/static/js/main.7b3c3e5f.chunk.js.map",
     "runtime-main.js": "/image-resizer/static/js/runtime-main.029c1508.js",
     "runtime-main.js.map": "/image-resizer/static/js/runtime-main.029c1508.js.map",
     "static/js/3.8312f31c.chunk.js": "/image-resizer/static/js/3.8312f31c.chunk.js",
@@ -12,7 +12,7 @@
     "static/js/4.0a4b6a24.chunk.js": "/image-resizer/static/js/4.0a4b6a24.chunk.js",
     "static/js/4.0a4b6a24.chunk.js.map": "/image-resizer/static/js/4.0a4b6a24.chunk.js.map",
     "index.html": "/image-resizer/index.html",
-    "precache-manifest.66cbce65ad417160a94b84cfbb356b3e.js": "/image-resizer/precache-manifest.66cbce65ad417160a94b84cfbb356b3e.js",
+    "precache-manifest.8b790dcf5c79c2a85a40871a2f53c950.js": "/image-resizer/precache-manifest.8b790dcf5c79c2a85a40871a2f53c950.js",
     "service-worker.js": "/image-resizer/service-worker.js",
     "static/css/4.cbeaa07e.chunk.css.map": "/image-resizer/static/css/4.cbeaa07e.chunk.css.map",
     "static/js/3.8312f31c.chunk.js.LICENSE.txt": "/image-resizer/static/js/3.8312f31c.chunk.js.LICENSE.txt",
@@ -21,6 +21,6 @@
   "entrypoints": [
     "static/js/runtime-main.029c1508.js",
     "static/js/3.8312f31c.chunk.js",
-    "static/js/main.51b4d311.chunk.js"
+    "static/js/main.7b3c3e5f.chunk.js"
   ]
 }
