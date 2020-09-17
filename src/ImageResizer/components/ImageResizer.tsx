@@ -309,6 +309,9 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				{(fileState.status === Status.Success || fileState.status === Status.Downloading) && (
 					<div
 						css={{
+							alignItems: 'center',
+							display: 'flex',
+							flexDirection: 'column',
 							maxWidth: imageRef?.current?.naturalWidth
 						}}
 					>
@@ -365,9 +368,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 								<ReactImageCrop
 									crop={crop}
 									disabled={!formState.crop || fileState.status === Status.Downloading}
-									imageStyle={{
-										width: imageRef.current?.naturalWidth
-									}}
 									locked={!formState.crop || fileState.status === Status.Downloading}
 									onChange={(newCrop) => {
 										requestAnimationFrame(() => setCrop(newCrop));
