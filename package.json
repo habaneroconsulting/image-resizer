@@ -4,22 +4,22 @@
   "license": "MIT",
   "homepage": "https://habaneroconsulting.github.io/image-resizer",
   "dependencies": {
-    "@emotion/core": "10.0.28",
-    "@fluentui/react": "7.124.1",
+    "@emotion/core": "10.0.35",
+    "@fluentui/react": "7.147.1",
     "emotion-theming": "10.0.27",
-    "react-dom": "16.13.1",
-    "react-dropzone": "11.0.2",
-    "react-image-crop": "8.6.4",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "react-dropzone": "11.2.1",
+    "react-image-crop": "8.6.6",
     "react-router-dom": "5.2.0",
-    "react-scripts": "3.4.1",
-    "react-uid": "2.3.0",
-    "react": "16.13.1"
+    "react-scripts": "3.4.4",
+    "react-uid": "2.3.0"
   },
   "devDependencies": {
     "@types/react-image-crop": "8.1.2",
     "node-sass": "4.14.1",
-    "source-map-explorer": "2.4.2",
-    "typescript": "3.9.7"
+    "source-map-explorer": "2.5.0",
+    "typescript": "4.0.3"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
