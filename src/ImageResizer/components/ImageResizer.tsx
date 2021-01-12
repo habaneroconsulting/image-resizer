@@ -1,6 +1,6 @@
-/** @jsx jsx  */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
+import { useTheme } from '@emotion/react';
 import React, { useCallback, useState, useRef } from 'react';
 
 import type { Crop } from 'react-image-crop';
@@ -15,7 +15,6 @@ import { Footer } from './Footer';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
 import { ResultsTable } from './ResultsTable';
-import { useTheme } from 'Theme/use-theme';
 
 type ImageResizerProps = {
 	aspectRatioHeight?: string;

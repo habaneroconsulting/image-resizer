@@ -1,9 +1,7 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { Global, jsx } from '@emotion/core';
+import { Global, useTheme } from '@emotion/react';
 import { registerIcons } from '@fluentui/react/lib/Styling';
-
-import { useTheme } from '../use-theme';
 
 registerIcons({
 	icons: {

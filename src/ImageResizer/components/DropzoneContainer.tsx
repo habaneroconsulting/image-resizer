@@ -1,10 +1,8 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
-
+import { useTheme } from '@emotion/react';
 import Dropzone, { DropzoneOptions } from 'react-dropzone';
 
-import { useTheme } from 'Theme/use-theme';
 import { DropzonePlaceholder } from './DropzonePlaceholder';
 
 type DropzoneContainerProps = Pick<DropzoneOptions, 'onDropAccepted'>;

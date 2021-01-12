@@ -1,8 +1,6 @@
-/** @jsx jsx  */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
-
-import { useTheme } from 'Theme/use-theme';
+import { useTheme } from '@emotion/react';
 
 type FieldsetProps = React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement> & {
 	legend?: string;

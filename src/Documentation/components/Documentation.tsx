@@ -1,9 +1,7 @@
-/** @jsx jsx  */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
+import { useTheme } from '@emotion/react';
 import { Link } from 'react-router-dom';
-
-import { useTheme } from 'Theme/use-theme';
 
 export const Documentation = () => {
 	const theme = useTheme();

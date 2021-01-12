@@ -6,16 +6,25 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": false,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
-    "typeRoots": ["node_modules/@types", "src/types", "src/node-env.d.ts"]
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types",
+      "src/node-env.d.ts"
+    ],
+    "noFallthroughCasesInSwitch": true
   },
   "exclude": [
     "dist",
@@ -28,5 +37,8 @@
     "**/~~**/*",
     "**/**~~/*"
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }

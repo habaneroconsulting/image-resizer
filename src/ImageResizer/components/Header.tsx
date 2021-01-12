@@ -1,9 +1,7 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
+import { useTheme } from '@emotion/react';
 import React from 'react';
-
-import { useTheme } from 'Theme/use-theme';
 
 import { ReactComponent as LogoSvg } from '../logo.svg';
 

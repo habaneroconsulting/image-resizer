@@ -1,9 +1,8 @@
-/** @jsx jsx  */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
+import { useTheme } from '@emotion/react';
 
 import { getReadableSize } from '../utilities/get-readable-size';
-import { useTheme } from 'Theme/use-theme';
 
 import type { ResultsRow } from '../types';
 

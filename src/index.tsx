@@ -1,10 +1,8 @@
-/** @jsx jsx  */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
 import React from 'react';
-
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { Documentation } from './Documentation';
 import { ImageResizerContainer } from './ImageResizer';

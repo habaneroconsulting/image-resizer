@@ -1,6 +1,4 @@
-/** @jsx jsx  */
-
-import { jsx } from '@emotion/core';
+/** @jsxImportSource @emotion/react */
 
 import { ImageResizer } from './ImageResizer';
 

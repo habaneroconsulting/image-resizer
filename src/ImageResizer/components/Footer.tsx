@@ -1,11 +1,9 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-
-import { useTheme } from 'Theme/use-theme';
 
 type FooterProps = {
 	children?: React.ReactNode;

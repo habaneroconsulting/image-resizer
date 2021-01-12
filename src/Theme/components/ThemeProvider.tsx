@@ -1,11 +1,9 @@
-/** @jsx jsx */
-/** @jsxFrag React.Fragment */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
 import React from 'react';
 
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { loadTheme } from '@fluentui/react/lib/Styling';
-import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 
 import theme from '../theme.json';
 import { GlobalStyles } from './GlobalStyles';
@@ -24,7 +22,7 @@ type ThemeProviderProps = {
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 	return (
-		<EmotionThemeProvider theme={theme}>
+		<EmotionThemeProvider theme={theme as any}>
 			<GlobalStyles />
 
 			{children}

@@ -1,6 +1,6 @@
-/** @jsx jsx  */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 
 import { Button } from '@fluentui/react/lib/Button';
@@ -16,7 +16,6 @@ import {
 import { Fieldset } from './Fieldset';
 import { FormState } from '../types';
 import { SpinButtonContainer } from '../../Shared/components/SpinButtonContainer';
-import { useTheme } from '../../Theme/use-theme';
 
 type ImageResizerFormProps = {
 	isDownloading?: boolean;
