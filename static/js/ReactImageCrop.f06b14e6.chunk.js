@@ -1,0 +1,2 @@
+(this["webpackJsonpimage-resizer"]=this["webpackJsonpimage-resizer"]||[]).push([[0],{163:function(e,s,i){"use strict";i.r(s);var a=i(161),r=i.n(a),t=(i(162),r.a);s.default=t}}]);
+//# sourceMappingURL=ReactImageCrop.f06b14e6.chunk.js.map
