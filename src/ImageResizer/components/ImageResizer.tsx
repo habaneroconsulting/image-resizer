@@ -10,7 +10,7 @@ import { Spinner } from '@fluentui/react/lib/Spinner';
 import { DEFAULT_FORMAT } from '../../constants';
 import { downloadImage } from '../utilities/download-image';
 import { DropzoneContainer } from './DropzoneContainer';
-import { FileState, Status, Results, FormState } from '../types';
+import { FileState, Status, FormState } from '../types';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
 
@@ -52,7 +52,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
 		preventScalingUp: true
 	});
-	const [results, setResults] = useState<Results>();
 
 	//#region CALLBACKS
 
@@ -150,7 +149,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 	const resetImage = useCallback(() => {
 		resetCrop();
 		setFileState(DEFAULT_FILE_STATE);
-		setResults(undefined);
 	}, [resetCrop]);
 
 	/**
@@ -175,7 +173,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			: formState.maxWidth;
 
 		// Generate the image.
-		const results = await downloadImage({
+		await downloadImage({
 			crop,
 			fileName: fileState.file.name,
 			format: formState.format,
@@ -183,10 +181,8 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			maxWidth
 		});
 
-		setResults(results);
-
 		setFileState({ status: Status.Success, file: fileState.file, src: fileState.src });
-	}, [crop, fileState, formState, imageRef, setFileState, setResults]);
+	}, [crop, fileState, formState, imageRef, setFileState]);
 
 	//#endregion CALLBACKS
 
