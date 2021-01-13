@@ -11,7 +11,6 @@ import { DEFAULT_FORMAT } from '../../constants';
 import { downloadImage } from '../utilities/download-image';
 import { DropzoneContainer } from './DropzoneContainer';
 import { FileState, Status, Results, FormState } from '../types';
-import { Footer } from './Footer';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
 import { ResultsTable } from './ResultsTable';
@@ -285,8 +284,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 						<hr />
 					</React.Fragment>
 				)}
-
-				<Footer />
 			</div>
 
 			<div
