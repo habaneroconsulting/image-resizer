@@ -2,14 +2,12 @@
 
 import { useTheme } from '@emotion/react';
 
-type FieldsetProps = React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement> & {
-	legend?: string;
-};
+type FieldsetProps = React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement>;
 
 /**
  * Common styles for fieldsets.
  */
-export const Fieldset = ({ children }: FieldsetProps) => {
+export const Fieldset = ({ children, ...props }: FieldsetProps) => {
 	const theme = useTheme();
 
 	return (
@@ -19,6 +17,7 @@ export const Fieldset = ({ children }: FieldsetProps) => {
 				paddingLeft: theme.space[3],
 				paddingRight: theme.space[3]
 			}}
+			{...props}
 		>
 			{children}
 		</fieldset>

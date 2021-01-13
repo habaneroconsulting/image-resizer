@@ -13,7 +13,7 @@ import { DropzoneContainer } from './DropzoneContainer';
 import { FileState, Status, Results, FormState } from '../types';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
-import { ResultsTable } from './ResultsTable';
+// import { ResultsTable } from './ResultsTable';
 
 type ImageResizerProps = {
 	aspectRatioHeight?: string;
@@ -48,6 +48,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		aspectRatioWidth: hasDefaultAspectRatio ? defaultAspectRatioWidth : null,
 		crop: true,
 		lockAspectRatio: hasDefaultAspectRatio,
+		key: 'CUSTOM',
 		format: props.format || DEFAULT_FORMAT,
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
 		preventScalingUp: true
@@ -240,12 +241,13 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				css={{
 					backgroundColor: theme.colors.white,
 					borderRight: `1px solid ${theme.colors.neutralLight}`,
-					height: '100%',
+					bottom: 65,
 					left: 0,
 					overflowY: 'scroll',
 					paddingBottom: theme.space[3],
 					paddingTop: theme.space[3],
 					position: 'fixed',
+					top: 0,
 					width: SIDEBAR_WIDTH
 				}}
 			>
@@ -257,33 +259,32 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					formState={formState}
 					setFormState={setFormState}
 					onSubmit={onSubmit}
-				/>
+				>
+					{/* {fileState.status === Status.Downloading && <Spinner>Compressing image...</Spinner>}
 
-				{fileState.status === Status.Downloading && <Spinner>Compressing image...</Spinner>}
+					{results && fileState.status === Status.Success && (
+						<React.Fragment>
+							<hr />
 
-				<hr />
-
-				{results && fileState.status === Status.Success && (
-					<React.Fragment>
-						<ResultsTable
-							results={[
-								{
-									name: 'Original',
-									width: imageRef.current.naturalWidth,
-									height: imageRef.current.naturalHeight,
-									size: fileState.file.size
-								},
-								{
-									name: 'New',
-									width: results.width,
-									height: results.height,
-									size: results.size
-								}
-							]}
-						/>
-						<hr />
-					</React.Fragment>
-				)}
+							<ResultsTable
+								results={[
+									{
+										name: 'Original',
+										width: imageRef.current.naturalWidth,
+										height: imageRef.current.naturalHeight,
+										size: fileState.file.size
+									},
+									{
+										name: 'New',
+										width: results.width,
+										height: results.height,
+										size: results.size
+									}
+								]}
+							/>
+						</React.Fragment>
+					)} */}
+				</ImageResizerForm>
 			</div>
 
 			<div

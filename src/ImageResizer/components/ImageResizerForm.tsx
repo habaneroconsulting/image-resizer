@@ -1,31 +1,34 @@
 /** @jsxImportSource @emotion/react */
 
 import { useTheme } from '@emotion/react';
-import React from 'react';
-
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup } from '@fluentui/react/lib/ChoiceGroup';
 import { Toggle } from '@fluentui/react/lib/Toggle';
+import { Dispatch, SetStateAction } from 'react';
 
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
 	DEFAULT_ASPECT_RATIO_WIDTH,
 	DEFAULT_MAX_WIDTH,
-	IMAGE_FORMAT_OPTIONS
+	IMAGE_FORMAT_OPTIONS,
+	PRESET_OPTIONS
 } from '../../constants';
+import { CategorizedChoiceGroup } from './CategorizedChoiceGroup';
 import { Fieldset } from './Fieldset';
 import { FormState } from '../types';
 import { SpinButtonContainer } from '../../Shared/components/SpinButtonContainer';
 
 type ImageResizerFormProps = {
+	children?: React.ReactNode;
 	isDownloading?: boolean;
 	image?: HTMLImageElement;
 	formState: FormState;
 	onSubmit: () => any;
-	setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+	setFormState: Dispatch<SetStateAction<FormState>>;
 };
 
 export const ImageResizerForm = ({
+	children,
 	isDownloading = false,
 	image,
 	formState,
@@ -61,7 +64,93 @@ export const ImageResizerForm = ({
 			}}
 		>
 			<div>
-				<Fieldset legend="Size">
+				<Fieldset>
+					<CategorizedChoiceGroup
+						label="Preset options"
+						name="preset-options"
+						onChange={(_e, { key }) => {
+							if (!(key in PRESET_OPTIONS)) {
+								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM' }));
+
+								return;
+							}
+
+							// Set preset options on top of previous state.
+							setFormState((prevState) => ({ ...prevState, ...PRESET_OPTIONS[key] }));
+						}}
+						groups={[
+							{
+								options: [
+									{ key: 'CUSTOM', text: 'Custom' },
+									{
+										...PRESET_OPTIONS.OPENGRAPH,
+										text: 'Open Graph',
+										aspectRatioLabel: '1200x630'
+									}
+								]
+							},
+							{
+								label: 'Facebook',
+								options: [
+									{
+										...PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
+										text: 'Cover photo',
+										aspectRatioLabel: '820x312'
+									},
+									{
+										...PRESET_OPTIONS.FACEBOOK_POST,
+										text: 'Post',
+										aspectRatioLabel: '1200x630'
+									},
+									{
+										...PRESET_OPTIONS.FACEBOOK_SQUARE_POST,
+										text: 'Square post',
+										aspectRatioLabel: '1200x1200'
+									}
+								]
+							},
+							{
+								label: 'Twitter',
+								options: [
+									{
+										...PRESET_OPTIONS.TWITTER_HEADER_PHOTO,
+										text: 'Header photo',
+										aspectRatioLabel: '1500x500'
+									},
+									{
+										...PRESET_OPTIONS.TWITTER_POST,
+										text: 'Post',
+										aspectRatioLabel: '1012x512'
+									}
+								]
+							},
+							{
+								label: 'LinkedIn',
+								options: [
+									{
+										...PRESET_OPTIONS.LINKEDIN_COVER_PHOTO,
+										text: 'Cover photo',
+										aspectRatioLabel: '1584x396'
+									},
+									{
+										...PRESET_OPTIONS.LINKEDIN_POST,
+										text: 'Post',
+										aspectRatioLabel: '1200x628'
+									}
+								]
+							},
+							{
+								label: 'Instagram',
+								options: []
+							}
+						]}
+						value={formState.key}
+					/>
+				</Fieldset>
+
+				<hr />
+
+				<Fieldset>
 					<div
 						css={{
 							display: 'grid',
@@ -82,7 +171,7 @@ export const ImageResizerForm = ({
 
 								const newMaxWidth = parseInt(value);
 
-								setFormState((prevState) => ({ ...prevState, maxWidth: newMaxWidth }));
+								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
 							}}
 							onDecrement={(value) => {
 								if (value === Infinity.toString()) {
@@ -91,7 +180,7 @@ export const ImageResizerForm = ({
 
 								const newMaxWidth = parseInt(value);
 
-								setFormState((prevState) => ({ ...prevState, maxWidth: newMaxWidth }));
+								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
 
 								return `${newMaxWidth} px`;
 							}}
@@ -102,7 +191,7 @@ export const ImageResizerForm = ({
 
 								const newMaxWidth = parseInt(value);
 
-								setFormState((prevState) => ({ ...prevState, maxWidth: newMaxWidth }));
+								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
 
 								return `${newMaxWidth} px`;
 							}}
@@ -115,13 +204,14 @@ export const ImageResizerForm = ({
 							disabled={isDownloading}
 							label="Prevent scaling up?"
 							offText="Off"
-							onChange={(_e, preventScalingUp) =>
+							onChange={(_e, preventScalingUp) => {
 								setFormState((prevState) => ({
 									...prevState,
+									key: 'CUSTOM',
 									maxWidth: preventScalingUp ? image?.naturalWidth ?? undefined : maxWidth,
 									preventScalingUp
-								}))
-							}
+								}));
+							}}
 							onText="On"
 						/>
 					</div>
@@ -129,7 +219,7 @@ export const ImageResizerForm = ({
 
 				<hr />
 
-				<Fieldset legend="Cropping">
+				<Fieldset>
 					<div
 						css={{
 							display: 'grid',
@@ -142,7 +232,9 @@ export const ImageResizerForm = ({
 							disabled={isDownloading}
 							label="Crop?"
 							offText="Off"
-							onChange={(_e, crop) => setFormState((prevState) => ({ ...prevState, crop }))}
+							onChange={(_e, crop) => {
+								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', crop }));
+							}}
 							onText="On"
 						/>
 
@@ -151,14 +243,15 @@ export const ImageResizerForm = ({
 							disabled={isDownloading || !formState.crop}
 							label="Lock aspect ratio?"
 							offText="Off"
-							onChange={(_e, lockAspectRatio) =>
+							onChange={(_e, lockAspectRatio) => {
 								setFormState((prevState) => ({
 									...prevState,
 									aspectRatioHeight: prevState.aspectRatioHeight ?? 1,
 									aspectRatioWidth: prevState.aspectRatioWidth ?? 1,
+									key: 'CUSTOM',
 									lockAspectRatio
-								}))
-							}
+								}));
+							}}
 							onText="On"
 						/>
 
@@ -175,13 +268,13 @@ export const ImageResizerForm = ({
 									aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
 								}
 
-								setFormState((prevState) => ({ ...prevState, aspectRatioWidth }));
+								setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
 							}}
 							onDecrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value) }));
+								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
 							}}
 							onIncrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value) }));
+								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
 							}}
 							step={0.1}
 							value={aspectRatioWidthValue}
@@ -199,13 +292,13 @@ export const ImageResizerForm = ({
 									aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
 								}
 
-								setFormState((prevState) => ({ ...prevState, aspectRatioHeight }));
+								setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
 							}}
 							onDecrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value) }));
+								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
 							}}
 							onIncrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value) }));
+								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
 							}}
 							step={0.1}
 							value={aspectRatioHeightValue}
@@ -215,7 +308,7 @@ export const ImageResizerForm = ({
 
 				<hr />
 
-				<Fieldset legend="Image format">
+				<Fieldset>
 					<ChoiceGroup
 						disabled={isDownloading}
 						label="Image format"
@@ -224,18 +317,33 @@ export const ImageResizerForm = ({
 						onChange={(_e, option) => {
 							const format = option.key;
 
-							setFormState((prevState) => ({ ...prevState, format }));
+							setFormState((prevState) => ({ ...prevState, format, key: 'CUSTOM' }));
 						}}
 					/>
 				</Fieldset>
+			</div>
 
-				<hr />
-
-				<Fieldset>
+			<div
+				css={{
+					backgroundColor: theme.colors.white,
+					borderRight: `1px solid ${theme.colors.neutralLight}`,
+					borderTop: `1px solid ${theme.colors.neutralLight}`,
+					bottom: 0,
+					label: 'footer',
+					left: 0,
+					paddingBottom: theme.space[3],
+					paddingTop: theme.space[3],
+					position: 'fixed',
+					width: 320
+				}}
+			>
+				<div
+					css={{
+						display: 'flex',
+						justifyContent: 'center'
+					}}
+				>
 					<PrimaryButton
-						css={{
-							width: '100%'
-						}}
 						disabled={isDownloading || !image?.currentSrc}
 						iconProps={{
 							iconName: 'Download'
@@ -244,7 +352,9 @@ export const ImageResizerForm = ({
 					>
 						Download resized image
 					</PrimaryButton>
-				</Fieldset>
+				</div>
+
+				{children}
 			</div>
 		</form>
 	);
