@@ -3,7 +3,7 @@
 import { useTheme } from '@emotion/react';
 import React from 'react';
 
-import { Button } from '@fluentui/react/lib/Button';
+import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup } from '@fluentui/react/lib/ChoiceGroup';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 
@@ -232,7 +232,7 @@ export const ImageResizerForm = ({
 				<hr />
 
 				<Fieldset>
-					<Button
+					<PrimaryButton
 						css={{
 							width: '100%'
 						}}
@@ -243,7 +243,7 @@ export const ImageResizerForm = ({
 						onClick={onSubmit}
 					>
 						Download resized image
-					</Button>
+					</PrimaryButton>
 				</Fieldset>
 			</div>
 		</form>
