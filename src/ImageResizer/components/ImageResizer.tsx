@@ -13,7 +13,6 @@ import { DropzoneContainer } from './DropzoneContainer';
 import { FileState, Status, Results, FormState } from '../types';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
-// import { ResultsTable } from './ResultsTable';
 
 type ImageResizerProps = {
 	aspectRatioHeight?: string;
@@ -259,32 +258,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					formState={formState}
 					setFormState={setFormState}
 					onSubmit={onSubmit}
-				>
-					{/* {fileState.status === Status.Downloading && <Spinner>Compressing image...</Spinner>}
-
-					{results && fileState.status === Status.Success && (
-						<React.Fragment>
-							<hr />
-
-							<ResultsTable
-								results={[
-									{
-										name: 'Original',
-										width: imageRef.current.naturalWidth,
-										height: imageRef.current.naturalHeight,
-										size: fileState.file.size
-									},
-									{
-										name: 'New',
-										width: results.width,
-										height: results.height,
-										size: results.size
-									}
-								]}
-							/>
-						</React.Fragment>
-					)} */}
-				</ImageResizerForm>
+				/>
 			</div>
 
 			<div

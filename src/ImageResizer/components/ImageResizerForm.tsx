@@ -19,7 +19,6 @@ import { FormState } from '../types';
 import { SpinButtonContainer } from '../../Shared/components/SpinButtonContainer';
 
 type ImageResizerFormProps = {
-	children?: React.ReactNode;
 	isDownloading?: boolean;
 	image?: HTMLImageElement;
 	formState: FormState;
@@ -28,7 +27,6 @@ type ImageResizerFormProps = {
 };
 
 export const ImageResizerForm = ({
-	children,
 	isDownloading = false,
 	image,
 	formState,
@@ -353,8 +351,6 @@ export const ImageResizerForm = ({
 						Download resized image
 					</PrimaryButton>
 				</div>
-
-				{children}
 			</div>
 		</form>
 	);
