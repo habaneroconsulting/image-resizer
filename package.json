@@ -6,7 +6,6 @@
   "dependencies": {
     "@emotion/react": "11.1.4",
     "@fluentui/react": "7.155.3",
-    "emotion-theming": "11.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-dropzone": "11.2.4",
