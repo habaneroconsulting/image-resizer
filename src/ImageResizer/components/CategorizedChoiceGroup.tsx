@@ -18,6 +18,7 @@ type CategorizedChoiceGroupOptions = {
 };
 
 type CategorizedChoiceGroupProps = {
+	disabled?: boolean;
 	groups: CategorizedChoiceGroupOptions[];
 	label: string;
 	name: string;
@@ -25,7 +26,14 @@ type CategorizedChoiceGroupProps = {
 	value: string;
 };
 
-export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }: CategorizedChoiceGroupProps) => {
+export const CategorizedChoiceGroup = ({
+	disabled = false,
+	groups,
+	label,
+	name,
+	onChange,
+	value
+}: CategorizedChoiceGroupProps) => {
 	const theme = useTheme();
 
 	if (!groups) {
@@ -91,7 +99,7 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 												transitionTimingFunction: 'ease',
 
 												'&:hover, &:focus-within': {
-													backgroundColor: theme.colors.neutralLighter,
+													backgroundColor: disabled ? undefined : theme.colors.neutralLighter,
 													borderColor: isChecked ? theme.colors.themePrimary : theme.colors.neutralSecondary,
 
 													'[class*="input"]': {
@@ -117,7 +125,7 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 													width: 16,
 
 													'&:hover, &:focus': {
-														opacity: 1
+														opacity: disabled ? 0 : 1
 													},
 
 													'&:focus': {
@@ -145,6 +153,7 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 													opacity: 0,
 													position: 'absolute'
 												}}
+												disabled={disabled}
 												name={name}
 												onChange={(e) => onChange(e, option)}
 												type="radio"

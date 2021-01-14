@@ -17,6 +17,7 @@ import { CategorizedChoiceGroup } from './CategorizedChoiceGroup';
 import { Fieldset } from './Fieldset';
 import { FormState } from '../types';
 import { SpinButtonContainer } from '../../Shared/components/SpinButtonContainer';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 
 type ImageResizerFormProps = {
 	isDownloading?: boolean;
@@ -307,17 +308,40 @@ export const ImageResizerForm = ({
 				<hr />
 
 				<Fieldset>
-					<ChoiceGroup
-						disabled={isDownloading}
-						label="Image format"
-						selectedKey={formState.format}
-						options={IMAGE_FORMAT_OPTIONS}
-						onChange={(_e, option) => {
-							const format = option.key;
-
-							setFormState((prevState) => ({ ...prevState, format, key: 'CUSTOM' }));
+					<div
+						css={{
+							display: 'grid',
+							gridGap: theme.space[3],
+							gridTemplateColumns: '1fr'
 						}}
-					/>
+					>
+						<ChoiceGroup
+							disabled={isDownloading}
+							label="Image format"
+							selectedKey={formState.format}
+							options={IMAGE_FORMAT_OPTIONS}
+							onChange={(_e, option) => {
+								const format = option.key;
+
+								setFormState((prevState) => ({ ...prevState, format, key: 'CUSTOM' }));
+							}}
+						/>
+
+						<Toggle
+							checked={formState.optimize}
+							disabled={isDownloading}
+							label="Optimize? (Slower)"
+							offText="Off"
+							onChange={(_e, optimize) => {
+								setFormState((prevState) => ({
+									...prevState,
+									key: 'CUSTOM',
+									optimize
+								}));
+							}}
+							onText="On"
+						/>
+					</div>
 				</Fieldset>
 			</div>
 
@@ -344,11 +368,16 @@ export const ImageResizerForm = ({
 					<PrimaryButton
 						disabled={isDownloading || !image?.currentSrc}
 						iconProps={{
-							iconName: 'Download'
+							iconName: isDownloading ? undefined : 'Download'
 						}}
 						onClick={onSubmit}
 					>
-						Download resized image
+						{isDownloading && <Spinner size={SpinnerSize.xSmall} />}
+
+						{/* Adding a <Spinner> above removes the label from the text below. */}
+						<span css={{ fontWeight: theme.fontWeights.semibold, marginLeft: theme.space[2] }}>
+							Download resized image
+						</span>
 					</PrimaryButton>
 				</div>
 			</div>

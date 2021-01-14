@@ -35,6 +35,7 @@ export type FormState = {
 	key: string;
 	lockAspectRatio: boolean;
 	maxWidth?: number;
+	optimize: boolean;
 	preventScalingUp: boolean;
 };
 

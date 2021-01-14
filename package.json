@@ -6,6 +6,9 @@
   "dependencies": {
     "@emotion/react": "11.1.4",
     "@fluentui/react": "7.155.3",
+    "greenlet": "1.1.0",
+    "mozjpeg-js": "3.3.1",
+    "optipng-js": "^0.1.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-dropzone": "11.2.4",

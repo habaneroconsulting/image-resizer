@@ -50,6 +50,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		key: 'CUSTOM',
 		format: props.format || DEFAULT_FORMAT,
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
+		optimize: true,
 		preventScalingUp: true
 	});
 
@@ -178,6 +179,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			fileName: fileState.file.name,
 			format: formState.format,
 			image: imageRef.current,
+			optimize: formState.optimize,
 			maxWidth
 		});
 

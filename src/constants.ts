@@ -19,6 +19,7 @@ export const COMMON_OPTIONS = {
 	crop: true,
 	format: 'png',
 	lockAspectRatio: true,
+	optimize: true,
 	preventScalingUp: true
 };
 
