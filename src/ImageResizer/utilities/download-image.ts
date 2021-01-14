@@ -1,6 +1,4 @@
 import type { Crop } from 'react-image-crop';
-// import type { encode } from 'mozjpeg-js';
-// import greenlet from 'greenlet';
 
 import type { Results } from '../types';
 
