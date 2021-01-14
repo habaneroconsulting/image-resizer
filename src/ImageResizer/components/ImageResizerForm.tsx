@@ -276,7 +276,7 @@ export const ImageResizerForm = ({
 							onChange={(_e, option) => {
 								const format = option.key;
 
-								setFormState((prevState) => ({ ...prevState, format, key: 'CUSTOM' }));
+								setFormState((prevState) => ({ ...prevState, format }));
 							}}
 						/>
 
@@ -288,7 +288,6 @@ export const ImageResizerForm = ({
 							onChange={(_e, optimize) => {
 								setFormState((prevState) => ({
 									...prevState,
-									key: 'CUSTOM',
 									optimize
 								}));
 							}}

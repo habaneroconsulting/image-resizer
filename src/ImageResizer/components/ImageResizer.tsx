@@ -51,7 +51,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		id: 'CUSTOM',
 		lockAspectRatio: hasDefaultAspectRatio,
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
-		optimize: true,
+		optimize: false,
 		preventScalingUp: true,
 		text: 'Custom'
 	});
