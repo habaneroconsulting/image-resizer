@@ -7,7 +7,7 @@ import { ChangeEvent, Fragment } from 'react';
 type CategorizedChoiceOption = {
 	aspectRatioHeight?: number;
 	aspectRatioWidth?: number;
-	key: string;
+	id: string;
 	text: string;
 };
 
@@ -37,7 +37,7 @@ const CategorizedChoiceOptionElement = ({
 }: CategorizedChoiceOptionProps) => {
 	const theme = useTheme();
 
-	const isChecked = option.key === value;
+	const isChecked = option.id === value;
 	const isLandscape = option.aspectRatioWidth >= option.aspectRatioHeight;
 
 	const height = isLandscape ? `${(option.aspectRatioHeight / option.aspectRatioWidth) * 100}%` : '100%';
@@ -120,9 +120,11 @@ const CategorizedChoiceOptionElement = ({
 				}}
 				disabled={disabled}
 				name={name}
-				onChange={(e) => onChange(e, option)}
+				onChange={(e) => {
+					onChange(e, option);
+				}}
 				type="radio"
-				value={option.key}
+				value={option.id}
 			/>
 
 			{option.aspectRatioWidth && option.aspectRatioHeight && (

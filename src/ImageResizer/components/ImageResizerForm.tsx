@@ -67,19 +67,13 @@ export const ImageResizerForm = ({
 					<CategorizedChoiceGroup
 						label="Preset options"
 						name="preset-options"
-						onChange={(_e, { key }) => {
-							if (!(key in PRESET_OPTIONS)) {
-								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM' }));
-
-								return;
-							}
-
+						onChange={(_e, option) => {
 							// Set preset options on top of previous state.
-							setFormState((prevState) => ({ ...prevState, ...PRESET_OPTIONS[key] }));
+							setFormState((prevState) => ({ ...prevState, ...option }));
 						}}
 						groups={[
 							{
-								options: [{ key: 'CUSTOM', text: 'Custom' }, PRESET_OPTIONS.OPENGRAPH]
+								options: [{ id: 'CUSTOM', text: 'Custom' }, PRESET_OPTIONS.OPENGRAPH]
 							},
 							{
 								label: 'Facebook',
@@ -102,7 +96,7 @@ export const ImageResizerForm = ({
 								options: []
 							}
 						]}
-						value={formState.key}
+						value={formState.id}
 					/>
 				</Fieldset>
 
@@ -234,7 +228,7 @@ export const ImageResizerForm = ({
 							onIncrement={(value) => {
 								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
 							}}
-							step={0.1}
+							step={1}
 							value={aspectRatioWidthValue}
 						/>
 
@@ -258,7 +252,7 @@ export const ImageResizerForm = ({
 							onIncrement={(value) => {
 								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
 							}}
-							step={0.1}
+							step={1}
 							value={aspectRatioHeightValue}
 						/>
 					</div>

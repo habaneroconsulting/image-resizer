@@ -32,7 +32,7 @@ export type FormState = {
 	aspectRatioWidth: number;
 	crop: boolean;
 	format: string;
-	key: string;
+	id: string;
 	lockAspectRatio: boolean;
 	maxWidth?: number;
 	optimize: boolean;
