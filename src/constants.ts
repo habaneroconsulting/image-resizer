@@ -11,7 +11,7 @@ export const IMAGE_FORMAT_OPTIONS = [
 	},
 	{
 		key: 'png',
-		text: 'PNG (illustrations or text)'
+		text: 'PNG (illustrations, text or transparency)'
 	}
 ];
 
