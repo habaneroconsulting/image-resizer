@@ -74,12 +74,13 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 										<label
 											css={{
 												backgroundColor: theme.colors.neutralLighterAlt,
-												border: '1px solid transparent',
+												border: '1px solid',
+												borderColor: isChecked ? theme.colors.themePrimary : 'transparent',
 												cursor: 'pointer',
 												display: 'flex',
 												flexDirection: 'column',
 												fontSize: theme.fontSizes[1],
-												height: 90,
+												height: 110,
 												justifyContent: 'center',
 												lineHeight: theme.lineHeights.heading,
 												padding: theme.space[2],
@@ -91,27 +92,29 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 
 												'&:hover, &:focus-within': {
 													backgroundColor: theme.colors.neutralLighter,
-													borderColor: theme.colors.neutralSecondary,
+													borderColor: isChecked ? theme.colors.themePrimary : theme.colors.neutralSecondary,
 
-													input: {
+													'[class*="input"]': {
 														opacity: 1
 													}
 												}
 											}}
-											style={{
-												borderColor: isChecked ? theme.colors.themePrimary : undefined
-											}}
 										>
-											<input
-												checked={isChecked}
+											<div
 												css={{
-													opacity: 0,
+													backgroundColor: theme.colors.white,
+													border: `1px solid ${theme.colors.neutralSecondary}`,
+													borderRadius: '50%',
+													label: 'input',
+													height: 16,
+													opacity: isChecked ? 1 : 0,
 													position: 'absolute',
 													right: theme.space[1],
 													top: theme.space[1],
 													transitionDuration: '200ms',
 													transitionProperty: 'all',
 													transitionTimingFunction: 'ease',
+													width: 16,
 
 													'&:hover, &:focus': {
 														opacity: 1
@@ -119,13 +122,31 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 
 													'&:focus': {
 														outlineColor: theme.colors.themePrimary
+													},
+
+													'::before': {
+														backgroundColor: theme.colors.themePrimary,
+														borderRadius: '50%',
+														content: '""',
+														display: isChecked ? 'block' : 'none',
+														height: 8,
+														left: 3,
+														position: 'absolute',
+														top: 3,
+														width: 8
 													}
+												}}
+												role="presentation"
+											/>
+
+											<input
+												checked={isChecked}
+												css={{
+													opacity: 0,
+													position: 'absolute'
 												}}
 												name={name}
 												onChange={(e) => onChange(e, option)}
-												style={{
-													opacity: isChecked ? 1 : undefined
-												}}
 												type="radio"
 												value={option.key}
 											/>
@@ -145,7 +166,8 @@ export const CategorizedChoiceGroup = ({ groups, label, name, onChange, value }:
 														css={{
 															alignItems: 'center',
 															display: 'flex',
-															justifyContent: 'center'
+															justifyContent: 'center',
+															label: 'aspect-ratio-preview'
 														}}
 														style={{
 															backgroundColor: isChecked ? theme.colors.themePrimary : theme.colors.neutralLight,
