@@ -79,64 +79,23 @@ export const ImageResizerForm = ({
 						}}
 						groups={[
 							{
-								options: [
-									{ key: 'CUSTOM', text: 'Custom' },
-									{
-										...PRESET_OPTIONS.OPENGRAPH,
-										text: 'Open Graph',
-										aspectRatioLabel: '1200x630'
-									}
-								]
+								options: [{ key: 'CUSTOM', text: 'Custom' }, PRESET_OPTIONS.OPENGRAPH]
 							},
 							{
 								label: 'Facebook',
 								options: [
-									{
-										...PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
-										text: 'Cover photo',
-										aspectRatioLabel: '820x312'
-									},
-									{
-										...PRESET_OPTIONS.FACEBOOK_POST,
-										text: 'Post',
-										aspectRatioLabel: '1200x630'
-									},
-									{
-										...PRESET_OPTIONS.FACEBOOK_SQUARE_POST,
-										text: 'Square post',
-										aspectRatioLabel: '1200x1200'
-									}
+									PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
+									PRESET_OPTIONS.FACEBOOK_POST,
+									PRESET_OPTIONS.FACEBOOK_SQUARE_POST
 								]
 							},
 							{
 								label: 'Twitter',
-								options: [
-									{
-										...PRESET_OPTIONS.TWITTER_HEADER_PHOTO,
-										text: 'Header photo',
-										aspectRatioLabel: '1500x500'
-									},
-									{
-										...PRESET_OPTIONS.TWITTER_POST,
-										text: 'Post',
-										aspectRatioLabel: '1012x512'
-									}
-								]
+								options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
 							},
 							{
 								label: 'LinkedIn',
-								options: [
-									{
-										...PRESET_OPTIONS.LINKEDIN_COVER_PHOTO,
-										text: 'Cover photo',
-										aspectRatioLabel: '1584x396'
-									},
-									{
-										...PRESET_OPTIONS.LINKEDIN_POST,
-										text: 'Post',
-										aspectRatioLabel: '1200x628'
-									}
-								]
+								options: [PRESET_OPTIONS.LINKEDIN_COVER_PHOTO, PRESET_OPTIONS.LINKEDIN_POST]
 							},
 							{
 								label: 'Instagram',

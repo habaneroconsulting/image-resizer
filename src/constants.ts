@@ -29,55 +29,63 @@ export const PRESET_OPTIONS: { [k: string]: FormState } = {
 		aspectRatioHeight: 630,
 		aspectRatioWidth: 1200,
 		key: 'OPENGRAPH',
-		maxWidth: 1200
+		maxWidth: 1200,
+		text: 'Open Graph'
 	},
 	FACEBOOK_COVER_PHOTO: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 312,
 		aspectRatioWidth: 820,
 		key: 'FACEBOOK_COVER_PHOTO',
-		maxWidth: 820
+		maxWidth: 820,
+		text: 'Cover photo'
 	},
 	FACEBOOK_POST: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 630,
 		aspectRatioWidth: 1200,
 		key: 'FACEBOOK_POST',
-		maxWidth: 1200
+		maxWidth: 1200,
+		text: 'Post'
 	},
 	FACEBOOK_SQUARE_POST: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 1200,
 		aspectRatioWidth: 1200,
 		key: 'FACEBOOK_SQUARE_POST',
-		maxWidth: 1200
+		maxWidth: 1200,
+		text: 'Square post'
 	},
 	TWITTER_HEADER_PHOTO: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 500,
 		aspectRatioWidth: 1500,
 		key: 'TWITTER_HEADER_PHOTO',
-		maxWidth: 1500
+		maxWidth: 1500,
+		text: 'Header photo'
 	},
 	TWITTER_POST: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 512,
 		aspectRatioWidth: 1012,
 		key: 'TWITTER_POST',
-		maxWidth: 1012
+		maxWidth: 1012,
+		text: 'Post'
 	},
 	LINKEDIN_COVER_PHOTO: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 396,
 		aspectRatioWidth: 1584,
 		key: 'LINKEDIN_COVER_PHOTO',
-		maxWidth: 1584
+		maxWidth: 1584,
+		text: 'Cover photo'
 	},
 	LINKEDIN_POST: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 628,
 		aspectRatioWidth: 1200,
 		key: 'LINKEDIN_POST',
-		maxWidth: 1200
+		maxWidth: 1200,
+		text: 'Post'
 	}
 };

@@ -37,6 +37,7 @@ export type FormState = {
 	maxWidth?: number;
 	optimize: boolean;
 	preventScalingUp: boolean;
+	text: string;
 };
 
 export type Results = {

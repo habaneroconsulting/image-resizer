@@ -52,7 +52,8 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		format: props.format || DEFAULT_FORMAT,
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
 		optimize: true,
-		preventScalingUp: true
+		preventScalingUp: true,
+		text: 'Custom'
 	});
 
 	//#region CALLBACKS
