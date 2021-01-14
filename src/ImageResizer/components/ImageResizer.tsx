@@ -9,6 +9,7 @@ import { Spinner } from '@fluentui/react/lib/Spinner';
 
 import { DEFAULT_FORMAT } from '../../constants';
 import { downloadImage } from '../utilities/download-image';
+import { getReadableSize } from '../utilities/get-readable-size';
 import { DropzoneContainer } from './DropzoneContainer';
 import { FileState, Status, FormState } from '../types';
 import { Header } from './Header';
@@ -174,7 +175,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			: formState.maxWidth;
 
 		// Generate the image.
-		await downloadImage({
+		const results = await downloadImage({
 			crop,
 			fileName: fileState.file.name,
 			format: formState.format,
@@ -182,6 +183,22 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			optimize: formState.optimize,
 			maxWidth
 		});
+
+		// Temporarily show stats within the console area.
+		console.table([
+			{
+				name: 'Original',
+				width: imageRef.current.naturalWidth,
+				height: imageRef.current.naturalHeight,
+				size: getReadableSize(fileState.file.size)
+			},
+			{
+				name: 'New',
+				width: results.width,
+				height: results.height,
+				size: getReadableSize(results.size)
+			}
+		]);
 
 		setFileState({ status: Status.Success, file: fileState.file, src: fileState.src });
 	}, [crop, fileState, formState, imageRef, setFileState]);
