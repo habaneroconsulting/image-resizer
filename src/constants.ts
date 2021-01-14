@@ -28,6 +28,7 @@ export const PRESET_OPTIONS: { [k: string]: FormState } = {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 630,
 		aspectRatioWidth: 1200,
+		format: 'jpg',
 		id: 'OPENGRAPH',
 		maxWidth: 1200,
 		text: 'Open Graph'
