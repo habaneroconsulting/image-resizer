@@ -63,267 +63,261 @@ export const ImageResizerForm = ({
 				onSubmit();
 			}}
 		>
-			<div>
-				<Fieldset>
-					<CategorizedChoiceGroup
-						label="Preset options"
-						name="preset-options"
-						onChange={(_e, option) => {
-							// Set preset options on top of previous state.
-							setFormState((prevState) => ({ ...prevState, ...option }));
-						}}
-						groups={[
-							{
-								options: [{ id: 'CUSTOM', text: 'Custom' }, PRESET_OPTIONS.OPENGRAPH]
-							},
-							{
-								label: 'Facebook',
-								options: [
-									PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
-									PRESET_OPTIONS.FACEBOOK_POST,
-									PRESET_OPTIONS.FACEBOOK_SQUARE_POST
-								]
-							},
-							{
-								label: 'Twitter',
-								options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
-							},
-							{
-								label: 'LinkedIn',
-								options: [PRESET_OPTIONS.LINKEDIN_COVER_PHOTO, PRESET_OPTIONS.LINKEDIN_POST]
-							},
-							{
-								label: 'Instagram',
-								options: []
-							}
-						]}
-						value={formState.id}
-					/>
-				</Fieldset>
-
-				<hr />
-
-				<Fieldset>
-					<div
-						css={{
-							display: 'grid',
-							gridGap: theme.space[4],
-							gridTemplateColumns: '105px 105px 1fr',
-							marginBottom: theme.space[3]
-						}}
-					>
-						<TooltipHost content="Units wide">
-							<label
-								aria-label="Aspect ratio units wide"
+			<Fieldset legend="Custom" isExpanded={true}>
+				<div
+					css={{
+						display: 'grid',
+						gridGap: theme.space[4],
+						gridTemplateColumns: '105px 105px 1fr',
+						marginBottom: theme.space[3]
+					}}
+				>
+					<TooltipHost content="Units wide">
+						<label
+							aria-label="Aspect ratio units wide"
+							css={{
+								display: 'flex',
+								lineHeight: '32px'
+							}}
+						>
+							<span
 								css={{
-									display: 'flex',
-									lineHeight: '32px'
+									fontSize: theme.fontSizes[2],
+									marginRight: theme.space[2],
+									opacity: aspectRatioDisabled ? 0.5 : undefined
 								}}
+								role="presentation"
 							>
-								<span
-									css={{
-										marginRight: theme.space[2],
-										opacity: aspectRatioDisabled ? 0.5 : undefined
-									}}
-									role="presentation"
-								>
-									w
-								</span>
-								<SpinButtonContainer
-									disabled={isDownloading || aspectRatioDisabled}
-									// label={'Ratio width'}
-									max={Infinity}
-									min={0.1}
-									onBlur={(e) => {
-										const value = e.currentTarget.value;
-										let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
+								w
+							</span>
+							<SpinButtonContainer
+								disabled={isDownloading || aspectRatioDisabled}
+								max={Infinity}
+								min={0.1}
+								onBlur={(e) => {
+									const value = e.currentTarget.value;
+									let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
 
-										if (isNaN(aspectRatioWidth)) {
-											aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
-										}
+									if (isNaN(aspectRatioWidth)) {
+										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
+									}
 
-										setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
-									}}
-									onDecrement={(value) => {
-										setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
-									}}
-									onIncrement={(value) => {
-										setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
-									}}
-									step={1}
-									value={aspectRatioWidthValue}
-								/>
-							</label>
-						</TooltipHost>
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
+								}}
+								onDecrement={(value) => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+								}}
+								onIncrement={(value) => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+								}}
+								step={1}
+								value={aspectRatioWidthValue}
+							/>
+						</label>
+					</TooltipHost>
 
-						<TooltipHost content="Units high">
-							<label
-								aria-label="Aspect ratio units high"
+					<TooltipHost content="Units high">
+						<label
+							aria-label="Aspect ratio units high"
+							css={{
+								display: 'flex',
+								lineHeight: '32px'
+							}}
+						>
+							<span
 								css={{
-									display: 'flex',
-									lineHeight: '32px'
+									fontSize: theme.fontSizes[2],
+									marginRight: theme.space[2],
+									opacity: aspectRatioDisabled ? 0.5 : undefined
 								}}
+								role="presentation"
 							>
-								<span
-									css={{
-										marginRight: theme.space[2],
-										opacity: aspectRatioDisabled ? 0.5 : undefined
-									}}
-									role="presentation"
-								>
-									h
-								</span>
-								<SpinButtonContainer
-									disabled={isDownloading || aspectRatioDisabled}
-									// label={'Ratio height'}
-									max={Infinity}
-									onBlur={(e) => {
-										const value = e.currentTarget.value;
-										let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
+								h
+							</span>
+							<SpinButtonContainer
+								disabled={isDownloading || aspectRatioDisabled}
+								max={Infinity}
+								onBlur={(e) => {
+									const value = e.currentTarget.value;
+									let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
 
-										if (isNaN(aspectRatioHeight)) {
-											aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
-										}
+									if (isNaN(aspectRatioHeight)) {
+										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
+									}
 
-										setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
-									}}
-									onDecrement={(value) => {
-										setFormState((prevState) => ({
-											...prevState,
-											aspectRatioHeight: parseFloat(value),
-											key: 'CUSTOM'
-										}));
-									}}
-									onIncrement={(value) => {
-										setFormState((prevState) => ({
-											...prevState,
-											aspectRatioHeight: parseFloat(value),
-											key: 'CUSTOM'
-										}));
-									}}
-									step={1}
-									value={aspectRatioHeightValue}
-								/>
-							</label>
-						</TooltipHost>
-
-						<TooltipHost content="Lock aspect ratio">
-							<IconButton
-								ariaLabel="Toggle aspect ratio lock"
-								checked={formState.lockAspectRatio}
-								iconProps={{ iconName: formState.lockAspectRatio ? 'Lock' : 'Unlock' }}
-								onClick={() => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
+								}}
+								onDecrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
-										lockAspectRatio: !prevState.lockAspectRatio
+										aspectRatioHeight: parseFloat(value),
+										key: 'CUSTOM'
 									}));
 								}}
+								onIncrement={(value) => {
+									setFormState((prevState) => ({
+										...prevState,
+										aspectRatioHeight: parseFloat(value),
+										key: 'CUSTOM'
+									}));
+								}}
+								step={1}
+								value={aspectRatioHeightValue}
 							/>
-						</TooltipHost>
-					</div>
+						</label>
+					</TooltipHost>
 
-					<div
-						css={{
-							display: 'grid',
-							gridGap: theme.space[4],
-							gridTemplateColumns: '105px 1fr'
-						}}
-					>
-						<SpinButtonContainer
-							disabled={isDownloading}
-							label={'Output width'}
-							max={maxWidth}
-							onBlur={(e) => {
-								let value = e.currentTarget.value;
-
-								if (value === Infinity.toString()) {
-									value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
-								}
-
-								const newMaxWidth = parseInt(value);
-
-								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
-							}}
-							onDecrement={(value) => {
-								if (value === Infinity.toString()) {
-									value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
-								}
-
-								const newMaxWidth = parseInt(value);
-
-								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
-
-								return `${newMaxWidth} px`;
-							}}
-							onIncrement={(value) => {
-								if (value === Infinity.toString()) {
-									value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
-								}
-
-								const newMaxWidth = parseInt(value);
-
-								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
-
-								return `${newMaxWidth} px`;
-							}}
-							step={1}
-							value={maxWidth === Infinity || isNaN(maxWidth) ? '' : `${maxWidth} px`}
-						/>
-
-						<Toggle
-							checked={formState.preventScalingUp}
-							disabled={isDownloading}
-							label="Prevent scaling up"
-							offText="Off"
-							onChange={(_e, preventScalingUp) => {
+					<TooltipHost content="Lock aspect ratio">
+						<IconButton
+							ariaLabel="Toggle aspect ratio lock"
+							checked={formState.lockAspectRatio}
+							iconProps={{ iconName: formState.lockAspectRatio ? 'Lock' : 'Unlock' }}
+							onClick={() => {
 								setFormState((prevState) => ({
 									...prevState,
-									key: 'CUSTOM',
-									maxWidth: preventScalingUp ? image?.naturalWidth ?? undefined : maxWidth,
-									preventScalingUp
+									lockAspectRatio: !prevState.lockAspectRatio
 								}));
 							}}
-							onText="On"
 						/>
-					</div>
-				</Fieldset>
+					</TooltipHost>
+				</div>
 
-				<hr />
+				<div
+					css={{
+						display: 'grid',
+						gridGap: theme.space[4],
+						gridTemplateColumns: '105px 1fr'
+					}}
+				>
+					<SpinButtonContainer
+						disabled={isDownloading}
+						label={'Output width'}
+						max={maxWidth}
+						onBlur={(e) => {
+							let value = e.currentTarget.value;
 
-				<Fieldset>
-					<div
-						css={{
-							display: 'grid',
-							gridGap: theme.space[3],
-							gridTemplateColumns: '1fr'
+							if (value === Infinity.toString()) {
+								value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
+							}
+
+							const newMaxWidth = parseInt(value);
+
+							setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
 						}}
-					>
-						<Dropdown
-							disabled={isDownloading}
-							label="Image format"
-							selectedKey={formState.format}
-							options={IMAGE_FORMAT_OPTIONS}
-							onChange={(_e, option) => {
-								setFormState((prevState) => ({ ...prevState, format: option.key.toString() }));
-							}}
-						/>
+						onDecrement={(value) => {
+							if (value === Infinity.toString()) {
+								value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
+							}
 
-						<Toggle
-							checked={formState.optimize}
-							disabled={isDownloading}
-							label="Optimize image"
-							offText="Off"
-							onChange={(_e, optimize) => {
-								setFormState((prevState) => ({
-									...prevState,
-									optimize
-								}));
-							}}
-							onText="On"
-						/>
-					</div>
-				</Fieldset>
-			</div>
+							const newMaxWidth = parseInt(value);
+
+							setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
+
+							return `${newMaxWidth} px`;
+						}}
+						onIncrement={(value) => {
+							if (value === Infinity.toString()) {
+								value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
+							}
+
+							const newMaxWidth = parseInt(value);
+
+							setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
+
+							return `${newMaxWidth} px`;
+						}}
+						step={1}
+						value={maxWidth === Infinity || isNaN(maxWidth) ? '' : `${maxWidth} px`}
+					/>
+
+					<Toggle
+						checked={formState.preventScalingUp}
+						disabled={isDownloading}
+						label="Prevent scaling up"
+						offText="Off"
+						onChange={(_e, preventScalingUp) => {
+							setFormState((prevState) => ({
+								...prevState,
+								key: 'CUSTOM',
+								maxWidth: preventScalingUp ? image?.naturalWidth ?? undefined : maxWidth,
+								preventScalingUp
+							}));
+						}}
+						onText="On"
+					/>
+				</div>
+			</Fieldset>
+
+			<Fieldset legend="Preset options" isExpanded={formState.id !== 'CUSTOM'}>
+				<CategorizedChoiceGroup
+					label="Preset options"
+					name="preset-options"
+					onChange={(_e, option) => {
+						// Set preset options on top of previous state.
+						setFormState((prevState) => ({ ...prevState, ...option }));
+					}}
+					groups={[
+						{
+							options: [{ id: 'CUSTOM', text: 'Custom' }, PRESET_OPTIONS.OPENGRAPH]
+						},
+						{
+							label: 'Facebook',
+							options: [
+								PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
+								PRESET_OPTIONS.FACEBOOK_POST,
+								PRESET_OPTIONS.FACEBOOK_SQUARE_POST
+							]
+						},
+						{
+							label: 'Twitter',
+							options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
+						},
+						{
+							label: 'LinkedIn',
+							options: [PRESET_OPTIONS.LINKEDIN_COVER_PHOTO, PRESET_OPTIONS.LINKEDIN_POST]
+						},
+						{
+							label: 'Instagram',
+							options: []
+						}
+					]}
+					value={formState.id}
+				/>
+			</Fieldset>
+
+			<Fieldset legend="Advanced">
+				<div
+					css={{
+						display: 'grid',
+						gridGap: theme.space[3],
+						gridTemplateColumns: '1fr'
+					}}
+				>
+					<Dropdown
+						disabled={isDownloading}
+						label="Image format"
+						selectedKey={formState.format}
+						options={IMAGE_FORMAT_OPTIONS}
+						onChange={(_e, option) => {
+							setFormState((prevState) => ({ ...prevState, format: option.key.toString() }));
+						}}
+					/>
+
+					<Toggle
+						checked={formState.optimize}
+						disabled={isDownloading}
+						label="Optimize image"
+						offText="Off"
+						onChange={(_e, optimize) => {
+							setFormState((prevState) => ({
+								...prevState,
+								optimize
+							}));
+						}}
+						onText="On"
+					/>
+				</div>
+			</Fieldset>
 
 			<div
 				css={{
