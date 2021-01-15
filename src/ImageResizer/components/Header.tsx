@@ -57,8 +57,9 @@ export const Header = ({ children }: HeaderProps) => {
 					by{' '}
 					<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
 						Habanero Consulting Group
-					</a>{' '}
-					| <Link to="/image-resizer/documentation">Documentation</Link>
+					</a>
+					<br />
+					<Link to="/image-resizer/documentation">Documentation</Link>
 				</p>
 			</div>
 
