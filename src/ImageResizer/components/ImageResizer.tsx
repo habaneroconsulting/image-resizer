@@ -7,7 +7,7 @@ import type { Crop } from 'react-image-crop';
 import { ActionButton } from '@fluentui/react/lib/Button';
 import { Spinner } from '@fluentui/react/lib/Spinner';
 
-import { DEFAULT_FORMAT } from '../../constants';
+import { DEFAULT_FORMAT, PRESET_OPTIONS } from '../../constants';
 import { downloadImage } from '../utilities/download-image';
 import { getReadableSize } from '../utilities/get-readable-size';
 import { DropzoneContainer } from './DropzoneContainer';
@@ -18,7 +18,9 @@ import { ImageResizerForm } from './ImageResizerForm';
 type ImageResizerProps = {
 	aspectRatioHeight?: string;
 	aspectRatioWidth?: string;
+	id?: string;
 	format?: string;
+	optimize?: boolean;
 	maxWidth?: string;
 	maxHeight?: string;
 };
@@ -43,18 +45,24 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 	const [crop, setCrop] = useState<Crop>({ aspect: defaultAspectRatio });
 	const [fileState, setFileState] = useState<FileState>(DEFAULT_FILE_STATE);
-	const [formState, setFormState] = useState<FormState>({
-		aspectRatioHeight: hasDefaultAspectRatio ? defaultAspectRatioHeight : null,
-		aspectRatioWidth: hasDefaultAspectRatio ? defaultAspectRatioWidth : null,
-		crop: true,
-		format: props.format || DEFAULT_FORMAT,
-		id: 'CUSTOM',
-		lockAspectRatio: hasDefaultAspectRatio,
-		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
-		optimize: false,
-		preventScalingUp: true,
-		text: 'Custom'
-	});
+
+	const defaultFormState =
+		props.id in PRESET_OPTIONS
+			? PRESET_OPTIONS[props.id]
+			: {
+					aspectRatioHeight: hasDefaultAspectRatio ? defaultAspectRatioHeight : null,
+					aspectRatioWidth: hasDefaultAspectRatio ? defaultAspectRatioWidth : null,
+					crop: true,
+					format: props.format || DEFAULT_FORMAT,
+					id: 'CUSTOM',
+					lockAspectRatio: hasDefaultAspectRatio,
+					maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
+					optimize: props.optimize,
+					preventScalingUp: true,
+					text: 'Custom'
+			  };
+
+	const [formState, setFormState] = useState<FormState>(defaultFormState);
 
 	//#region CALLBACKS
 
