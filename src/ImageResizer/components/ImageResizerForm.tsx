@@ -104,78 +104,105 @@ export const ImageResizerForm = ({
 				<hr />
 
 				<Fieldset>
-					{/* <Toggle
-							checked={formState.crop}
-							disabled={isDownloading}
-							label="Crop"
-							offText="Off"
-							onChange={(_e, crop) => {
-								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', crop }));
-							}}
-							onText="On"
-						/> */}
-
 					<div
 						css={{
 							display: 'grid',
-							gridGap: theme.space[3],
-							gridTemplateColumns: '100px 10px 100px 1fr',
+							gridGap: theme.space[4],
+							gridTemplateColumns: '105px 105px 1fr',
 							marginBottom: theme.space[3]
 						}}
 					>
 						<TooltipHost content="Units wide">
-							<SpinButtonContainer
-								disabled={isDownloading || aspectRatioDisabled}
-								// label={'Ratio width'}
-								max={Infinity}
-								min={0.1}
-								onBlur={(e) => {
-									const value = e.currentTarget.value;
-									let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
+							<label
+								aria-label="Aspect ratio units wide"
+								css={{
+									display: 'flex',
+									lineHeight: '32px'
+								}}
+							>
+								<span
+									css={{
+										marginRight: theme.space[2]
+									}}
+									role="presentation"
+								>
+									w
+								</span>
+								<SpinButtonContainer
+									disabled={isDownloading || aspectRatioDisabled}
+									// label={'Ratio width'}
+									max={Infinity}
+									min={0.1}
+									onBlur={(e) => {
+										const value = e.currentTarget.value;
+										let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
 
-									if (isNaN(aspectRatioWidth)) {
-										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
-									}
+										if (isNaN(aspectRatioWidth)) {
+											aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
+										}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
-								}}
-								onDecrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
-								}}
-								onIncrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
-								}}
-								step={1}
-								value={aspectRatioDisabled ? '' : `${aspectRatioWidthValue} w`}
-							/>
+										setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
+									}}
+									onDecrement={(value) => {
+										setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+									}}
+									onIncrement={(value) => {
+										setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+									}}
+									step={1}
+									value={aspectRatioWidthValue}
+								/>
+							</label>
 						</TooltipHost>
 
-						<span css={{ alignContent: 'center', display: 'flex' }}>x</span>
-
 						<TooltipHost content="Units high">
-							<SpinButtonContainer
-								disabled={isDownloading || aspectRatioDisabled}
-								// label={'Ratio height'}
-								max={Infinity}
-								onBlur={(e) => {
-									const value = e.currentTarget.value;
-									let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
+							<label
+								aria-label="Aspect ratio units high"
+								css={{
+									display: 'flex',
+									lineHeight: '32px'
+								}}
+							>
+								<span
+									css={{
+										marginRight: theme.space[2]
+									}}
+									role="presentation"
+								>
+									h
+								</span>
+								<SpinButtonContainer
+									disabled={isDownloading || aspectRatioDisabled}
+									// label={'Ratio height'}
+									max={Infinity}
+									onBlur={(e) => {
+										const value = e.currentTarget.value;
+										let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
 
-									if (isNaN(aspectRatioHeight)) {
-										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
-									}
+										if (isNaN(aspectRatioHeight)) {
+											aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
+										}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
-								}}
-								onDecrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
-								}}
-								onIncrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
-								}}
-								step={1}
-								value={aspectRatioDisabled ? '' : `${aspectRatioHeightValue} h`}
-							/>
+										setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
+									}}
+									onDecrement={(value) => {
+										setFormState((prevState) => ({
+											...prevState,
+											aspectRatioHeight: parseFloat(value),
+											key: 'CUSTOM'
+										}));
+									}}
+									onIncrement={(value) => {
+										setFormState((prevState) => ({
+											...prevState,
+											aspectRatioHeight: parseFloat(value),
+											key: 'CUSTOM'
+										}));
+									}}
+									step={1}
+									value={aspectRatioHeightValue}
+								/>
+							</label>
 						</TooltipHost>
 
 						<TooltipHost content="Lock aspect ratio">
@@ -196,8 +223,8 @@ export const ImageResizerForm = ({
 					<div
 						css={{
 							display: 'grid',
-							gridGap: theme.space[3],
-							gridTemplateColumns: '100px 10px 1fr'
+							gridGap: theme.space[4],
+							gridTemplateColumns: '120px 1fr'
 						}}
 					>
 						<SpinButtonContainer
@@ -240,8 +267,6 @@ export const ImageResizerForm = ({
 							step={1}
 							value={maxWidth === Infinity || isNaN(maxWidth) ? '' : `${maxWidth} px`}
 						/>
-
-						<span />
 
 						<Toggle
 							checked={formState.preventScalingUp}
