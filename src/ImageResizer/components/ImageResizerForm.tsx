@@ -122,7 +122,8 @@ export const ImageResizerForm = ({
 							>
 								<span
 									css={{
-										marginRight: theme.space[2]
+										marginRight: theme.space[2],
+										opacity: aspectRatioDisabled ? 0.5 : undefined
 									}}
 									role="presentation"
 								>
@@ -165,7 +166,8 @@ export const ImageResizerForm = ({
 							>
 								<span
 									css={{
-										marginRight: theme.space[2]
+										marginRight: theme.space[2],
+										opacity: aspectRatioDisabled ? 0.5 : undefined
 									}}
 									role="presentation"
 								>
@@ -224,7 +226,7 @@ export const ImageResizerForm = ({
 						css={{
 							display: 'grid',
 							gridGap: theme.space[4],
-							gridTemplateColumns: '120px 1fr'
+							gridTemplateColumns: '105px 1fr'
 						}}
 					>
 						<SpinButtonContainer

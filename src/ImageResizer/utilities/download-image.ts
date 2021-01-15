@@ -39,13 +39,13 @@ export async function downloadImage({
 
 	// Get the x-y coordinates. If no crop is available, then we'll be using the
 	// entire canvas.
-	const cropX = crop.x ? crop.x : 0;
-	const cropY = crop.y ? crop.y : 0;
+	const cropX = crop.x ?? 0;
+	const cropY = crop.y ?? 0;
 
 	// Get the crop width and height. If no crop is available, we'll be using the
 	// entire canvas.
-	const cropWidth = crop.width ? crop.width : image.width;
-	const cropHeight = crop.height ? crop.height : image.height;
+	const cropWidth = crop.width ?? image.width;
+	const cropHeight = crop.height ?? image.height;
 
 	// If the maximum image width is larger than the area that was selected, then
 	// we need to resize the image down.
@@ -138,12 +138,12 @@ function downloadHref(filename: string, href: string) {
 
 async function optimizeImage(data: Uint8Array, type: string): Promise<{ data: Uint8Array }> {
 	if (type === 'image/png') {
-		const optipng = await import('optipng-js');
+		const optipng = await import(/* webpackChunkName: "optipng-js" */ 'optipng-js');
 
 		return optipng.default(data, ['-o2']);
 	}
 
-	const { encode } = await import('mozjpeg-js');
+	const { encode } = await import(/* webpackChunkName: "mozjpeg-js" */ 'mozjpeg-js');
 
 	return encode(data);
 }

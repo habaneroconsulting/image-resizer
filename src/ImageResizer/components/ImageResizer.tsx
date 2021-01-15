@@ -122,7 +122,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		// If we have existing aspect ratio form values, keep the aspect ratio
 		// locked.
 		if (formState.aspectRatioHeight && formState.aspectRatioWidth) {
-			setCrop({ aspect: formState.aspectRatioWidth / formState.aspectRatioHeight });
+			setCrop({ aspect: formState.aspectRatioWidth / formState.aspectRatioHeight, x: 0, y: 0 });
 		}
 		// Otherwise, remove the aspect ratio.
 		else {
@@ -367,6 +367,14 @@ export const ImageResizer = (props: ImageResizerProps) => {
 									locked={!formState.crop || fileState.status === Status.Downloading}
 									onChange={(newCrop) => {
 										requestAnimationFrame(() => setCrop(newCrop));
+									}}
+									onComplete={(newCrop) => {
+										// If the crop completes with no width or height, we can assume that
+										// the user clicked outside of the marquee.
+										if (newCrop.width === 0 && newCrop.height === 0) {
+											// Force a reset, so no x/y values remain in the crop.
+											resetCrop();
+										}
 									}}
 									onImageLoaded={(image) => {
 										imageRef.current = image;
