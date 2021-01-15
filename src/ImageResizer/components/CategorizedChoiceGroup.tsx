@@ -38,7 +38,7 @@ const CategorizedChoiceOptionElement = ({
 	const theme = useTheme();
 
 	const isChecked = option.id === value;
-	const isLandscape = option.aspectRatioWidth >= option.aspectRatioHeight;
+	const isLandscape = option.aspectRatioWidth > option.aspectRatioHeight;
 
 	const height = isLandscape ? `${(option.aspectRatioHeight / option.aspectRatioWidth) * 100}%` : '100%';
 	const width = isLandscape ? '100%' : `${(option.aspectRatioHeight / option.aspectRatioWidth) * 100}%`;
@@ -57,7 +57,8 @@ const CategorizedChoiceOptionElement = ({
 				height: 130,
 				justifyContent: 'center',
 				lineHeight: theme.lineHeights.heading,
-				padding: theme.space[2],
+				padding: theme.space[3],
+				paddingBottom: theme.space[2],
 				position: 'relative',
 				textAlign: 'center',
 				transitionDuration: '200ms',
@@ -136,7 +137,7 @@ const CategorizedChoiceOptionElement = ({
 						flexGrow: 1,
 						justifyContent: 'center',
 						marginBottom: theme.space[3],
-						width: 84
+						width: isLandscape ? 100 : 84
 					}}
 					role="presentation"
 				>
