@@ -46,6 +46,7 @@ const CategorizedChoiceOptionElement = ({
 	return (
 		<label
 			css={{
+				alignItems: 'center',
 				backgroundColor: theme.colors.neutralLighterAlt,
 				border: '1px solid',
 				borderColor: isChecked ? theme.colors.themePrimary : 'transparent',
@@ -53,7 +54,7 @@ const CategorizedChoiceOptionElement = ({
 				display: 'flex',
 				flexDirection: 'column',
 				fontSize: theme.fontSizes[1],
-				height: 110,
+				height: 130,
 				justifyContent: 'center',
 				lineHeight: theme.lineHeights.heading,
 				padding: theme.space[2],
@@ -134,14 +135,17 @@ const CategorizedChoiceOptionElement = ({
 						display: 'flex',
 						flexGrow: 1,
 						justifyContent: 'center',
-						marginBottom: theme.space[2]
+						marginBottom: theme.space[3],
+						width: 84
 					}}
 					role="presentation"
 				>
 					<div
 						css={{
 							alignItems: 'center',
+							boxShadow: theme.shadows.depth8,
 							display: 'flex',
+							fontSize: theme.fontSizes[0],
 							justifyContent: 'center',
 							label: 'aspect-ratio-preview'
 						}}
@@ -152,7 +156,7 @@ const CategorizedChoiceOptionElement = ({
 							width
 						}}
 					>
-						{option.aspectRatioWidth}x{option.aspectRatioHeight}
+						{option.aspectRatioWidth} x {option.aspectRatioHeight}
 					</div>
 				</div>
 			)}
@@ -203,7 +207,7 @@ export const CategorizedChoiceGroup = ({
 								css={{
 									display: 'grid',
 									gap: theme.space[2],
-									gridTemplateColumns: 'repeat(3, 1fr)'
+									gridTemplateColumns: 'repeat(2, 1fr)'
 								}}
 							>
 								{group.options.map((option, optionIndex) => (

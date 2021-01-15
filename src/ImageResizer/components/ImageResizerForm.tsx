@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { useTheme } from '@emotion/react';
-import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup } from '@fluentui/react/lib/ChoiceGroup';
 import { Toggle } from '@fluentui/react/lib/Toggle';
+import { TooltipHost } from '@fluentui/react/lib/Tooltip';
 import { Dispatch, SetStateAction } from 'react';
 
 import {
@@ -103,16 +104,105 @@ export const ImageResizerForm = ({
 				<hr />
 
 				<Fieldset>
+					{/* <Toggle
+							checked={formState.crop}
+							disabled={isDownloading}
+							label="Crop"
+							offText="Off"
+							onChange={(_e, crop) => {
+								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', crop }));
+							}}
+							onText="On"
+						/> */}
+
 					<div
 						css={{
 							display: 'grid',
 							gridGap: theme.space[3],
-							gridTemplateColumns: '1fr 1fr'
+							gridTemplateColumns: '100px 10px 100px 1fr',
+							marginBottom: theme.space[3]
+						}}
+					>
+						<TooltipHost content="Units wide">
+							<SpinButtonContainer
+								disabled={isDownloading || aspectRatioDisabled}
+								// label={'Ratio width'}
+								max={Infinity}
+								min={0.1}
+								onBlur={(e) => {
+									const value = e.currentTarget.value;
+									let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
+
+									if (isNaN(aspectRatioWidth)) {
+										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
+									}
+
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
+								}}
+								onDecrement={(value) => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+								}}
+								onIncrement={(value) => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+								}}
+								step={1}
+								value={aspectRatioDisabled ? '' : `${aspectRatioWidthValue} w`}
+							/>
+						</TooltipHost>
+
+						<span css={{ alignContent: 'center', display: 'flex' }}>x</span>
+
+						<TooltipHost content="Units high">
+							<SpinButtonContainer
+								disabled={isDownloading || aspectRatioDisabled}
+								// label={'Ratio height'}
+								max={Infinity}
+								onBlur={(e) => {
+									const value = e.currentTarget.value;
+									let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
+
+									if (isNaN(aspectRatioHeight)) {
+										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
+									}
+
+									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
+								}}
+								onDecrement={(value) => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
+								}}
+								onIncrement={(value) => {
+									setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
+								}}
+								step={1}
+								value={aspectRatioDisabled ? '' : `${aspectRatioHeightValue} h`}
+							/>
+						</TooltipHost>
+
+						<TooltipHost content="Lock aspect ratio">
+							<IconButton
+								ariaLabel="Toggle aspect ratio lock"
+								checked={formState.lockAspectRatio}
+								iconProps={{ iconName: formState.lockAspectRatio ? 'Lock' : 'Unlock' }}
+								onClick={() => {
+									setFormState((prevState) => ({
+										...prevState,
+										lockAspectRatio: !prevState.lockAspectRatio
+									}));
+								}}
+							/>
+						</TooltipHost>
+					</div>
+
+					<div
+						css={{
+							display: 'grid',
+							gridGap: theme.space[3],
+							gridTemplateColumns: '100px 10px 1fr'
 						}}
 					>
 						<SpinButtonContainer
 							disabled={isDownloading}
-							label={'Width'}
+							label={'Output width'}
 							max={maxWidth}
 							onBlur={(e) => {
 								let value = e.currentTarget.value;
@@ -151,10 +241,12 @@ export const ImageResizerForm = ({
 							value={maxWidth === Infinity || isNaN(maxWidth) ? '' : `${maxWidth} px`}
 						/>
 
+						<span />
+
 						<Toggle
 							checked={formState.preventScalingUp}
 							disabled={isDownloading}
-							label="Prevent scaling up?"
+							label="Prevent scaling up"
 							offText="Off"
 							onChange={(_e, preventScalingUp) => {
 								setFormState((prevState) => ({
@@ -165,95 +257,6 @@ export const ImageResizerForm = ({
 								}));
 							}}
 							onText="On"
-						/>
-					</div>
-				</Fieldset>
-
-				<hr />
-
-				<Fieldset>
-					<div
-						css={{
-							display: 'grid',
-							gridGap: theme.space[3],
-							gridTemplateColumns: '1fr 1fr'
-						}}
-					>
-						<Toggle
-							checked={formState.crop}
-							disabled={isDownloading}
-							label="Crop?"
-							offText="Off"
-							onChange={(_e, crop) => {
-								setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', crop }));
-							}}
-							onText="On"
-						/>
-
-						<Toggle
-							checked={formState.lockAspectRatio}
-							disabled={isDownloading || !formState.crop}
-							label="Lock aspect ratio?"
-							offText="Off"
-							onChange={(_e, lockAspectRatio) => {
-								setFormState((prevState) => ({
-									...prevState,
-									aspectRatioHeight: prevState.aspectRatioHeight ?? 1,
-									aspectRatioWidth: prevState.aspectRatioWidth ?? 1,
-									key: 'CUSTOM',
-									lockAspectRatio
-								}));
-							}}
-							onText="On"
-						/>
-
-						<SpinButtonContainer
-							disabled={isDownloading || aspectRatioDisabled}
-							label={'Ratio width'}
-							max={Infinity}
-							min={0.1}
-							onBlur={(e) => {
-								const value = e.currentTarget.value;
-								let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
-
-								if (isNaN(aspectRatioWidth)) {
-									aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
-								}
-
-								setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
-							}}
-							onDecrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
-							}}
-							onIncrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
-							}}
-							step={1}
-							value={aspectRatioWidthValue}
-						/>
-
-						<SpinButtonContainer
-							disabled={isDownloading || aspectRatioDisabled}
-							label={'Ratio height'}
-							max={Infinity}
-							onBlur={(e) => {
-								const value = e.currentTarget.value;
-								let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
-
-								if (isNaN(aspectRatioHeight)) {
-									aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
-								}
-
-								setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
-							}}
-							onDecrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
-							}}
-							onIncrement={(value) => {
-								setFormState((prevState) => ({ ...prevState, aspectRatioHeight: parseFloat(value), key: 'CUSTOM' }));
-							}}
-							step={1}
-							value={aspectRatioHeightValue}
 						/>
 					</div>
 				</Fieldset>
@@ -283,7 +286,7 @@ export const ImageResizerForm = ({
 						<Toggle
 							checked={formState.optimize}
 							disabled={isDownloading}
-							label="Optimize? (Slower)"
+							label="Optimize image"
 							offText="Off"
 							onChange={(_e, optimize) => {
 								setFormState((prevState) => ({

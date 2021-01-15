@@ -36,6 +36,7 @@ declare module '@emotion/react' {
 			heading: number;
 		};
 		shadows: {
+			depth8: string;
 			depth16: string;
 		};
 		space: [number, number, number, number, number, number, number, number, number, number, number];

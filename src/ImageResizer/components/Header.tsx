@@ -57,17 +57,8 @@ export const Header = ({ children }: HeaderProps) => {
 					by{' '}
 					<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
 						Habanero Consulting Group
-					</a>
-				</p>
-
-				<p
-					css={{
-						fontSize: theme.fontSizes[1],
-						marginBottom: 0,
-						marginTop: theme.space[2]
-					}}
-				>
-					<Link to="/image-resizer/documentation">Documentation</Link>
+					</a>{' '}
+					| <Link to="/image-resizer/documentation">Documentation</Link>
 				</p>
 			</div>
 
