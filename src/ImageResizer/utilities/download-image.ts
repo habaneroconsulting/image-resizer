@@ -4,7 +4,8 @@ import type { Results } from '../types';
 
 const MIME_TYPE_MAP = {
 	jpg: 'image/jpeg',
-	png: 'image/png'
+	png: 'image/png',
+	webp: 'image/webp'
 };
 
 type DownloadImageOptions = {

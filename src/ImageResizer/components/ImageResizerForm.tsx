@@ -2,7 +2,7 @@
 
 import { useTheme } from '@emotion/react';
 import { IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
-import { ChoiceGroup } from '@fluentui/react/lib/ChoiceGroup';
+import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import { TooltipHost } from '@fluentui/react/lib/Tooltip';
 import { Dispatch, SetStateAction } from 'react';
@@ -298,15 +298,13 @@ export const ImageResizerForm = ({
 							gridTemplateColumns: '1fr'
 						}}
 					>
-						<ChoiceGroup
+						<Dropdown
 							disabled={isDownloading}
 							label="Image format"
 							selectedKey={formState.format}
 							options={IMAGE_FORMAT_OPTIONS}
 							onChange={(_e, option) => {
-								const format = option.key;
-
-								setFormState((prevState) => ({ ...prevState, format }));
+								setFormState((prevState) => ({ ...prevState, format: option.key.toString() }));
 							}}
 						/>
 

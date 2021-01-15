@@ -1,4 +1,5 @@
 import { FormState } from 'ImageResizer/types';
+import { detectWebPCanvasSupport } from 'ImageResizer/utilities/detect-webp-canvas-support';
 
 export const DEFAULT_ASPECT_RATIO_HEIGHT = 1;
 export const DEFAULT_ASPECT_RATIO_WIDTH = 1;
@@ -14,6 +15,13 @@ export const IMAGE_FORMAT_OPTIONS = [
 		text: 'PNG (illustrations, text or transparency)'
 	}
 ];
+
+if (detectWebPCanvasSupport()) {
+	IMAGE_FORMAT_OPTIONS.push({
+		key: 'webp',
+		text: 'WebP'
+	});
+}
 
 export const COMMON_OPTIONS = {
 	crop: true,
