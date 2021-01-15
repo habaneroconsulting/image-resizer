@@ -22,7 +22,6 @@ type CategorizedChoiceGroupOptions = {
 type CategorizedChoiceGroupProps = {
 	disabled?: boolean;
 	groups: CategorizedChoiceGroupOptions[];
-	label: string;
 	name: string;
 	onChange: (event: ChangeEvent, option: CategorizedChoiceOption) => void;
 	value: string;
@@ -170,7 +169,6 @@ const CategorizedChoiceOptionElement = ({
 export const CategorizedChoiceGroup = ({
 	disabled = false,
 	groups,
-	label,
 	name,
 	onChange,
 	value
@@ -183,22 +181,13 @@ export const CategorizedChoiceGroup = ({
 
 	return (
 		<Fragment>
-			<legend
-				css={{
-					fontSize: 14,
-					fontWeight: 'bold'
-				}}
-			>
-				{label}
-			</legend>
-
 			{groups
 				.filter((group) => group.options.length > 0)
 				.map((group, groupIndex) => {
 					return (
 						<div
 							css={{
-								marginTop: theme.space[3]
+								marginTop: groupIndex === 0 ? 0 : theme.space[3]
 							}}
 							key={`group-key-${groupIndex}`}
 						>

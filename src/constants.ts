@@ -28,7 +28,7 @@ export const COMMON_OPTIONS = {
 	format: 'jpg',
 	lockAspectRatio: true,
 	optimize: false,
-	preventScalingUp: false
+	preventScalingUp: true
 };
 
 export const PRESET_OPTIONS: { [k: string]: FormState } = {

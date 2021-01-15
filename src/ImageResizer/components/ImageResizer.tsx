@@ -58,7 +58,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					lockAspectRatio: hasDefaultAspectRatio,
 					maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
 					optimize: props.optimize,
-					preventScalingUp: false,
+					preventScalingUp: true,
 					text: 'Custom'
 			  };
 
@@ -87,15 +87,30 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		const image = imageRef.current;
 
 		const defaultCrop = {
-			aspect,
 			unit: 'px',
 			x: 0,
 			y: 0
 		} as const;
 
+		// If there is no aspect ratio yet, assume we have a new image. Set the aspect
+		// ratio form fields and add a default crop.
+		if (isNaN(aspect)) {
+			setFormState((prevState) => ({
+				...prevState,
+				aspectRatioHeight: image.naturalHeight,
+				aspectRatioWidth: image.naturalWidth,
+				lockAspectRatio: true
+			}));
+
+			setCrop({
+				...defaultCrop,
+				height: image.height,
+				width: image.width
+			});
+		}
 		// If the image is too wide for the aspect ratio, then the crop can be full
 		// height and centered horizontally (x-axis).
-		if (image.width / aspect > image.height) {
+		else if (image.width / aspect > image.height) {
 			setCrop({
 				...defaultCrop,
 				height: image.height,
@@ -216,34 +231,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 	//#region USEEFFECTS
 
-	/**
-	 * Enable or disable crop when the state value changes.
-	 */
-	React.useEffect(() => {
-		console.info(`[ImageResizer] The crop toggle has been changed to ${formState.crop}.`);
-
-		if (formState.crop) {
-			setDefaultCrop();
-		} else {
-			setCrop({});
-		}
-	}, [formState.crop, setDefaultCrop]);
-
-	/**
-	 * Enable or disable the locked image ratio.
-	 */
-	React.useEffect(() => {
-		console.info(`[ImageResizer] The lock aspect ratio toggle has been changed to ${formState.lockAspectRatio}.`);
-
-		if (formState.lockAspectRatio) {
-			setDefaultCrop();
-		} else {
-			setCrop((prevState) => {
-				return { ...prevState, aspect: undefined };
-			});
-		}
-	}, [formState.lockAspectRatio, setDefaultCrop]);
-
 	// Re-set the crop.
 	React.useEffect(() => {
 		console.info(
@@ -252,7 +239,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 		if (formState.aspectRatioWidth && formState.aspectRatioHeight) {
 			setDefaultCrop();
-			setFormState((prevState) => ({ ...prevState, crop: true }));
 		}
 	}, [formState.aspectRatioHeight, formState.aspectRatioWidth, setDefaultCrop]);
 
@@ -357,14 +343,18 @@ export const ImageResizer = (props: ImageResizerProps) => {
 						<div
 							css={{
 								boxShadow: theme.shadows.depth16,
-								maxHeight: 'calc(100% - 40px)'
+								maxHeight: 'calc(100% - 40px)',
+								userSelect: 'none'
 							}}
 						>
 							<React.Suspense fallback={<div />}>
 								<ReactImageCrop
-									crop={crop}
-									disabled={!formState.crop || fileState.status === Status.Downloading}
-									locked={!formState.crop || fileState.status === Status.Downloading}
+									crop={{
+										...crop,
+										aspect: formState.lockAspectRatio ? formState.aspectRatioWidth / formState.aspectRatioHeight : null
+									}}
+									disabled={fileState.status === Status.Downloading}
+									locked={fileState.status === Status.Downloading}
 									onChange={(newCrop) => {
 										requestAnimationFrame(() => setCrop(newCrop));
 									}}
@@ -378,10 +368,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 									}}
 									onImageLoaded={(image) => {
 										imageRef.current = image;
-
-										if (!formState.crop) {
-											return;
-										}
 
 										requestAnimationFrame(setDefaultCrop);
 									}}

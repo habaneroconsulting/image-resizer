@@ -30,7 +30,6 @@ export type FileState =
 export type FormState = {
 	aspectRatioHeight: number;
 	aspectRatioWidth: number;
-	crop: boolean;
 	format: string;
 	id: string;
 	lockAspectRatio: boolean;

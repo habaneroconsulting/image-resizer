@@ -51,9 +51,11 @@ export const ImageResizerForm = ({
 		}
 	}
 
-	const aspectRatioDisabled = !formState.crop || !formState.lockAspectRatio;
+	const aspectRatioDisabled = !formState.lockAspectRatio;
 	const aspectRatioHeightValue = aspectRatioDisabled ? '' : formState.aspectRatioHeight?.toString() ?? '1';
 	const aspectRatioWidthValue = aspectRatioDisabled ? '' : formState.aspectRatioWidth?.toString() ?? '1';
+
+	const isCustom = formState.id === 'CUSTOM';
 
 	return (
 		<form
@@ -63,7 +65,7 @@ export const ImageResizerForm = ({
 				onSubmit();
 			}}
 		>
-			<Fieldset legend="Custom" isExpanded={true}>
+			<Fieldset legend="Custom" isExpanded={isCustom}>
 				<div
 					css={{
 						display: 'grid',
@@ -102,13 +104,13 @@ export const ImageResizerForm = ({
 										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, key: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, id: 'CUSTOM' }));
 								}}
 								onDecrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: 'CUSTOM' }));
 								}}
 								onIncrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), key: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: 'CUSTOM' }));
 								}}
 								step={1}
 								value={aspectRatioWidthValue}
@@ -145,20 +147,20 @@ export const ImageResizerForm = ({
 										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, key: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, id: 'CUSTOM' }));
 								}}
 								onDecrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
-										key: 'CUSTOM'
+										id: 'CUSTOM'
 									}));
 								}}
 								onIncrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
-										key: 'CUSTOM'
+										id: 'CUSTOM'
 									}));
 								}}
 								step={1}
@@ -175,6 +177,7 @@ export const ImageResizerForm = ({
 							onClick={() => {
 								setFormState((prevState) => ({
 									...prevState,
+									id: 'CUSTOM',
 									lockAspectRatio: !prevState.lockAspectRatio
 								}));
 							}}
@@ -202,7 +205,7 @@ export const ImageResizerForm = ({
 
 							const newMaxWidth = parseInt(value);
 
-							setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
+							setFormState((prevState) => ({ ...prevState, id: 'CUSTOM', maxWidth: newMaxWidth }));
 						}}
 						onDecrement={(value) => {
 							if (value === Infinity.toString()) {
@@ -211,7 +214,7 @@ export const ImageResizerForm = ({
 
 							const newMaxWidth = parseInt(value);
 
-							setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
+							setFormState((prevState) => ({ ...prevState, id: 'CUSTOM', maxWidth: newMaxWidth }));
 
 							return `${newMaxWidth} px`;
 						}}
@@ -222,7 +225,7 @@ export const ImageResizerForm = ({
 
 							const newMaxWidth = parseInt(value);
 
-							setFormState((prevState) => ({ ...prevState, key: 'CUSTOM', maxWidth: newMaxWidth }));
+							setFormState((prevState) => ({ ...prevState, id: 'CUSTOM', maxWidth: newMaxWidth }));
 
 							return `${newMaxWidth} px`;
 						}}
@@ -238,7 +241,7 @@ export const ImageResizerForm = ({
 						onChange={(_e, preventScalingUp) => {
 							setFormState((prevState) => ({
 								...prevState,
-								key: 'CUSTOM',
+								id: 'CUSTOM',
 								maxWidth: preventScalingUp ? image?.naturalWidth ?? undefined : maxWidth,
 								preventScalingUp
 							}));
@@ -248,18 +251,14 @@ export const ImageResizerForm = ({
 				</div>
 			</Fieldset>
 
-			<Fieldset legend="Preset options" isExpanded={formState.id !== 'CUSTOM'}>
+			<Fieldset legend="Presets" isExpanded={!isCustom}>
 				<CategorizedChoiceGroup
-					label="Preset options"
-					name="preset-options"
+					name="presets"
 					onChange={(_e, option) => {
-						// Set preset options on top of previous state.
+						// Set presets on top of previous state.
 						setFormState((prevState) => ({ ...prevState, ...option }));
 					}}
 					groups={[
-						{
-							options: [{ id: 'CUSTOM', text: 'Custom' }, PRESET_OPTIONS.OPENGRAPH]
-						},
 						{
 							label: 'Facebook',
 							options: [
