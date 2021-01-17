@@ -43,7 +43,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 	const theme = useTheme();
 	const imageRef = useRef<HTMLImageElement>();
 
-	const [crop, setCrop] = useState<Crop>({ aspect: defaultAspectRatio });
+	const [crop, setCrop] = useState<Crop>({ aspect: defaultAspectRatio, unit: '%' });
 	const [fileState, setFileState] = useState<FileState>(DEFAULT_FILE_STATE);
 
 	const defaultFormState =
@@ -52,7 +52,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			: {
 					aspectRatioHeight: hasDefaultAspectRatio ? defaultAspectRatioHeight : null,
 					aspectRatioWidth: hasDefaultAspectRatio ? defaultAspectRatioWidth : null,
-					crop: true,
 					format: props.format || DEFAULT_FORMAT,
 					id: 'CUSTOM',
 					lockAspectRatio: hasDefaultAspectRatio,
@@ -67,13 +66,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 	//#region CALLBACKS
 
 	/**
-	 * Return the current aspect ratio of the form to create a crop object.
-	 */
-	const getAspectRatio = useCallback(() => {
-		return formState.aspectRatioWidth / formState.aspectRatioHeight;
-	}, [formState.aspectRatioWidth, formState.aspectRatioHeight]);
-
-	/**
 	 * Create a default crop for the current image using the form aspect ratio.
 	 * This involves determining the x and y coordinates and width and height of
 	 * the crop based on the form aspect ratio and current image.
@@ -83,18 +75,18 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			return;
 		}
 
-		const aspect = getAspectRatio();
+		const aspectRatio = formState.aspectRatioWidth / formState.aspectRatioHeight;
 		const image = imageRef.current;
 
 		const defaultCrop = {
-			unit: 'px',
+			unit: '%',
 			x: 0,
 			y: 0
 		} as const;
 
 		// If there is no aspect ratio yet, assume we have a new image. Set the aspect
 		// ratio form fields and add a default crop.
-		if (isNaN(aspect)) {
+		if (isNaN(aspectRatio)) {
 			setFormState((prevState) => ({
 				...prevState,
 				aspectRatioHeight: image.naturalHeight,
@@ -104,31 +96,35 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 			setCrop({
 				...defaultCrop,
-				height: image.height,
-				width: image.width
+				height: 100,
+				width: 100
 			});
 		}
 		// If the image is too wide for the aspect ratio, then the crop can be full
 		// height and centered horizontally (x-axis).
-		else if (image.width / aspect > image.height) {
+		else if (image.width / aspectRatio > image.height) {
+			const width = (image.height / image.width) * aspectRatio * 100;
+
 			setCrop({
 				...defaultCrop,
-				height: image.height,
-				width: image.height * aspect,
-				x: (image.width - image.height * aspect) / 2
+				height: 100,
+				width,
+				x: (100 - width) / 2
 			});
 		}
 		// If the image is too tall for the aspect ratio, then the crop can be full
 		// width and centered vertically (y-axis).
 		else {
+			const height = (image.width / image.height / aspectRatio) * 100;
+
 			setCrop({
 				...defaultCrop,
-				height: image.width / aspect,
-				width: image.width,
-				y: (image.height - image.width / aspect) / 2
+				height,
+				width: 100,
+				y: (100 - height) / 2
 			});
 		}
-	}, [imageRef, getAspectRatio]);
+	}, [imageRef, formState.aspectRatioHeight, formState.aspectRatioWidth]);
 
 	/**
 	 * When deselected, reset the crop state.
@@ -304,7 +300,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 							}}
 						>
 							<ActionButton
-								disabled={!crop || isNaN(crop.height) || (crop.width === 0 && crop.height === 0)}
+								disabled={isNaN(crop.height) || (crop.width === 0 && crop.height === 0)}
 								iconProps={{
 									iconName: 'ClearSelection'
 								}}
@@ -355,9 +351,9 @@ export const ImageResizer = (props: ImageResizerProps) => {
 									}}
 									disabled={fileState.status === Status.Downloading}
 									locked={fileState.status === Status.Downloading}
-									onChange={(newCrop) => {
+									onChange={(_newCrop, percentageCrop) => {
 										requestAnimationFrame(() => {
-											setCrop(newCrop);
+											setCrop(percentageCrop);
 										});
 									}}
 									onComplete={(newCrop) => {
@@ -367,12 +363,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 											// Force a reset, so no x/y values remain in the crop.
 											resetCrop();
 										}
-
-										setFormState((prevState) => ({
-											...prevState,
-											aspectRatioHeight: crop.height,
-											aspectRatioWidth: crop.width
-										}));
 									}}
 									onImageLoaded={(image) => {
 										imageRef.current = image;

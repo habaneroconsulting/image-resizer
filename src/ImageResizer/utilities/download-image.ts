@@ -40,13 +40,13 @@ export async function downloadImage({
 
 	// Get the x-y coordinates. If no crop is available, then we'll be using the
 	// entire canvas.
-	const cropX = crop.x ?? 0;
-	const cropY = crop.y ?? 0;
+	const cropX = (crop.x / 100) * image.width ?? 0;
+	const cropY = (crop.y / 100) * image.height ?? 0;
 
 	// Get the crop width and height. If no crop is available, we'll be using the
 	// entire canvas.
-	const cropWidth = crop.width ?? image.width;
-	const cropHeight = crop.height ?? image.height;
+	const cropWidth = (crop.width / 100) * image.width ?? image.width;
+	const cropHeight = (crop.height / 100) * image.height ?? image.height;
 
 	// If the maximum image width is larger than the area that was selected, then
 	// we need to resize the image down.
