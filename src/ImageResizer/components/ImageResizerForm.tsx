@@ -309,7 +309,7 @@ export const ImageResizerForm = ({
 
 					<Toggle
 						checked={formState.optimize}
-						disabled={isDownloading}
+						disabled={isDownloading || !IMAGE_FORMAT_OPTIONS.find((o) => o.key === formState.format).optimize}
 						label="Optimize image"
 						offText="Off"
 						onChange={(_e, optimize) => {

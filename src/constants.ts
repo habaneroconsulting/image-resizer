@@ -8,18 +8,21 @@ export const DEFAULT_MAX_WIDTH = 1000;
 export const IMAGE_FORMAT_OPTIONS = [
 	{
 		key: 'jpg',
-		text: 'JPG (photography)'
+		text: 'JPG (photography',
+		optimize: true
 	},
 	{
 		key: 'png',
-		text: 'PNG (illustrations, text or transparency)'
+		text: 'PNG (illustrations, text or transparency)',
+		optimize: true
 	}
 ];
 
 if (detectWebPCanvasSupport()) {
 	IMAGE_FORMAT_OPTIONS.push({
 		key: 'webp',
-		text: 'WebP'
+		text: 'WebP',
+		optimize: false
 	});
 }
 

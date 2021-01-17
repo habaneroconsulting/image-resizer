@@ -142,9 +142,11 @@ async function optimizeImage(data: Uint8Array, type: string): Promise<{ data: Ui
 		const optipng = await import(/* webpackChunkName: "optipng-js" */ 'optipng-js');
 
 		return optipng.default(data, ['-o2']);
+	} else if (type === 'image/jpeg') {
+		const { encode } = await import(/* webpackChunkName: "mozjpeg-js" */ 'mozjpeg-js');
+
+		return encode(data);
 	}
 
-	const { encode } = await import(/* webpackChunkName: "mozjpeg-js" */ 'mozjpeg-js');
-
-	return encode(data);
+	return { data };
 }
