@@ -28,7 +28,7 @@ type ImageResizerProps = {
 const DEFAULT_FILE_STATE: FileState = { status: Status.Initial };
 const SIDEBAR_WIDTH = 320;
 
-const ReactImageCrop = React.lazy(() => import(/* webpackChunkName: "ReactImageCrop" */ './ReactImageCrop'));
+const ImageCrop = React.lazy(() => import(/* webpackChunkName: "ImageCrop" */ './ImageCrop'));
 
 /**
  * Main image resizer component. Keeps state for the form, drop zone and crop
@@ -343,24 +343,21 @@ export const ImageResizer = (props: ImageResizerProps) => {
 							}}
 						>
 							<React.Suspense fallback={<div />}>
-								<ReactImageCrop
+								<ImageCrop
 									crop={{
 										...crop,
 										aspect: formState.lockAspectRatio ? formState.aspectRatioWidth / formState.aspectRatioHeight : null
 									}}
 									disabled={fileState.status === Status.Downloading}
 									locked={fileState.status === Status.Downloading}
-									onChange={(_newCrop, percentageCrop) => {
-										requestAnimationFrame(() => {
-											setCrop(percentageCrop);
-										});
-									}}
-									onComplete={(newCrop) => {
+									onComplete={(newCrop, percentageCrop) => {
 										// If the crop completes with no width or height, we can assume that
 										// the user clicked outside of the marquee.
 										if (newCrop.width === 0 && newCrop.height === 0) {
 											// Force a reset, so no x/y values remain in the crop.
 											resetCrop();
+										} else {
+											setCrop(percentageCrop);
 										}
 									}}
 									onImageLoaded={(image) => {
