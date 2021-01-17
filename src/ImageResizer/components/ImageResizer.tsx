@@ -356,7 +356,9 @@ export const ImageResizer = (props: ImageResizerProps) => {
 									disabled={fileState.status === Status.Downloading}
 									locked={fileState.status === Status.Downloading}
 									onChange={(newCrop) => {
-										requestAnimationFrame(() => setCrop(newCrop));
+										requestAnimationFrame(() => {
+											setCrop(newCrop);
+										});
 									}}
 									onComplete={(newCrop) => {
 										// If the crop completes with no width or height, we can assume that
@@ -365,6 +367,12 @@ export const ImageResizer = (props: ImageResizerProps) => {
 											// Force a reset, so no x/y values remain in the crop.
 											resetCrop();
 										}
+
+										setFormState((prevState) => ({
+											...prevState,
+											aspectRatioHeight: crop.height,
+											aspectRatioWidth: crop.width
+										}));
 									}}
 									onImageLoaded={(image) => {
 										imageRef.current = image;

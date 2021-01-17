@@ -2,9 +2,8 @@
 
 import { useTheme } from '@emotion/react';
 
-import { getReadableSize } from '../utilities/get-readable-size';
-
 import type { ResultsRow } from '../types';
+import { getReadableSize } from '../utilities/get-readable-size';
 
 type ResultsTableProps = {
 	results: ResultsRow[];

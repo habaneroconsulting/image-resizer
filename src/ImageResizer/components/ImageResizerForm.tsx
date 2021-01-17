@@ -17,7 +17,7 @@ import {
 import { CategorizedChoiceGroup } from './CategorizedChoiceGroup';
 import { Fieldset } from './Fieldset';
 import { FormState } from '../types';
-import { SpinButtonContainer } from '../../Shared/components/SpinButtonContainer';
+import { SpinButtonContainer } from './SpinButtonContainer';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 
 type ImageResizerFormProps = {
