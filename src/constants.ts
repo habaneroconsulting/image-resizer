@@ -8,13 +8,23 @@ export const DEFAULT_MAX_WIDTH = 1000;
 export const IMAGE_FORMAT_OPTIONS = [
 	{
 		key: 'jpg',
-		text: 'JPG (photography',
+		text: 'JPG (photography)',
 		optimize: true
 	},
 	{
 		key: 'png',
 		text: 'PNG (illustrations, text or transparency)',
 		optimize: true
+	},
+	{
+		key: 'gif',
+		text: 'GIF',
+		optimize: false
+	},
+	{
+		key: 'tiff',
+		text: 'TIFF',
+		optimize: false
 	}
 ];
 
