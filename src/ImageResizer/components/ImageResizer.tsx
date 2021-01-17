@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { useTheme } from '@emotion/react';
-import React, { useCallback, useState, useRef } from 'react';
-
-import type { Crop } from 'react-image-crop';
 import { ActionButton } from '@fluentui/react/lib/Button';
 import { Spinner } from '@fluentui/react/lib/Spinner';
+import React, { useCallback, useState, useRef } from 'react';
+import type { Crop } from 'react-image-crop';
+import { Link } from 'react-router-dom';
 
 import { DEFAULT_FORMAT, PRESET_OPTIONS } from '../../constants';
 import { downloadImage } from '../utilities/download-image';
@@ -269,109 +269,140 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 			<div
 				css={{
-					alignItems: 'center',
 					backgroundColor: theme.colors.neutralLighterAlt,
-					display: 'flex',
-					flexDirection: 'column',
+					display: 'grid',
 					height: '100%',
-					justifyContent: 'center',
+					gridTemplateRows: '1fr auto',
 					padding: theme.space[6],
+					paddingBottom: theme.space[5],
 					paddingLeft: SIDEBAR_WIDTH + theme.space[6]
 				}}
 			>
-				{fileState.status === Status.Initial && <DropzoneContainer onDropAccepted={onDrop} />}
+				<div
+					css={{
+						alignItems: 'center',
+						display: 'flex'
+					}}
+				>
+					{fileState.status === Status.Initial && <DropzoneContainer onDropAccepted={onDrop} />}
 
-				{fileState.status === Status.Loading && <Spinner>Loading image...</Spinner>}
+					{fileState.status === Status.Loading && <Spinner>Loading image...</Spinner>}
 
-				{(fileState.status === Status.Success || fileState.status === Status.Downloading) && (
-					<div
-						css={{
-							alignItems: 'center',
-							display: 'flex',
-							flexDirection: 'column',
-							maxWidth: imageRef?.current?.naturalWidth
-						}}
-					>
+					{(fileState.status === Status.Success || fileState.status === Status.Downloading) && (
 						<div
 							css={{
+								alignItems: 'center',
 								display: 'flex',
-								justifyContent: 'center'
+								flexDirection: 'column',
+								maxWidth: imageRef?.current?.naturalWidth
 							}}
 						>
-							<ActionButton
-								disabled={isNaN(crop.height) || (crop.width === 0 && crop.height === 0)}
-								iconProps={{
-									iconName: 'ClearSelection'
-								}}
-								onClick={resetCrop}
-								styles={{
-									root: {
-										whiteSpace: 'nowrap'
-									},
-									icon: {
-										color: theme.colors.themePrimary
-									}
+							<div
+								css={{
+									display: 'flex',
+									justifyContent: 'center'
 								}}
 							>
-								Deselect crop
-							</ActionButton>
-
-							<ActionButton
-								disabled={fileState.status === Status.Downloading}
-								iconProps={{
-									iconName: 'RemoveFilter'
-								}}
-								onClick={resetImage}
-								styles={{
-									root: {
-										whiteSpace: 'nowrap'
-									},
-									icon: {
-										color: theme.colors.themePrimary
-									}
-								}}
-							>
-								Replace image
-							</ActionButton>
-						</div>
-
-						<div
-							css={{
-								boxShadow: theme.shadows.depth16,
-								maxHeight: 'calc(100% - 40px)',
-								userSelect: 'none'
-							}}
-						>
-							<React.Suspense fallback={<div />}>
-								<ImageCrop
-									crop={{
-										...crop,
-										aspect: formState.lockAspectRatio ? formState.aspectRatioWidth / formState.aspectRatioHeight : null
+								<ActionButton
+									disabled={isNaN(crop.height) || (crop.width === 0 && crop.height === 0)}
+									iconProps={{
+										iconName: 'ClearSelection'
 									}}
-									disabled={fileState.status === Status.Downloading}
-									locked={fileState.status === Status.Downloading}
-									onComplete={(newCrop, percentageCrop) => {
-										// If the crop completes with no width or height, we can assume that
-										// the user clicked outside of the marquee.
-										if (newCrop.width === 0 && newCrop.height === 0) {
-											// Force a reset, so no x/y values remain in the crop.
-											resetCrop();
-										} else {
-											setCrop(percentageCrop);
+									onClick={resetCrop}
+									styles={{
+										root: {
+											whiteSpace: 'nowrap'
+										},
+										icon: {
+											color: theme.colors.themePrimary
 										}
 									}}
-									onImageLoaded={(image) => {
-										imageRef.current = image;
+								>
+									Deselect crop
+								</ActionButton>
 
-										requestAnimationFrame(setDefaultCrop);
+								<ActionButton
+									disabled={fileState.status === Status.Downloading}
+									iconProps={{
+										iconName: 'RemoveFilter'
 									}}
-									ruleOfThirds={true}
-									src={fileState.src}
-								/>
-							</React.Suspense>
+									onClick={resetImage}
+									styles={{
+										root: {
+											whiteSpace: 'nowrap'
+										},
+										icon: {
+											color: theme.colors.themePrimary
+										}
+									}}
+								>
+									Replace image
+								</ActionButton>
+							</div>
+
+							<div
+								css={{
+									boxShadow: theme.shadows.depth16,
+									maxHeight: 'calc(100% - 40px)',
+									userSelect: 'none'
+								}}
+							>
+								<React.Suspense fallback={<div />}>
+									<ImageCrop
+										crop={{
+											...crop,
+											aspect: formState.lockAspectRatio
+												? formState.aspectRatioWidth / formState.aspectRatioHeight
+												: null
+										}}
+										disabled={fileState.status === Status.Downloading}
+										locked={fileState.status === Status.Downloading}
+										onComplete={(newCrop, percentageCrop) => {
+											// If the crop completes with no width or height, we can assume that
+											// the user clicked outside of the marquee.
+											if (newCrop.width === 0 && newCrop.height === 0) {
+												// Force a reset, so no x/y values remain in the crop.
+												resetCrop();
+											} else {
+												setCrop(percentageCrop);
+											}
+										}}
+										onImageLoaded={(image) => {
+											imageRef.current = image;
+
+											requestAnimationFrame(setDefaultCrop);
+										}}
+										ruleOfThirds={true}
+										src={fileState.src}
+									/>
+								</React.Suspense>
+							</div>
 						</div>
-					</div>
-				)}
+					)}
+				</div>
+
+				<footer
+					css={{
+						marginTop: theme.space[3]
+					}}
+				>
+					<p
+						css={{
+							fontSize: theme.fontSizes[1],
+							marginBottom: 0,
+							textAlign: 'center'
+						}}
+					>
+						by{' '}
+						<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
+							Habanero Consulting Group
+						</a>{' '}
+						| <Link to="/image-resizer/documentation">Documentation</Link> |{' '}
+						<a href="https://www.habaneroconsulting.com/privacy-policy" target="_blank" rel="noreferrer">
+							Privacy policy
+						</a>
+					</p>
+				</footer>
 			</div>
 		</React.Fragment>
 	);

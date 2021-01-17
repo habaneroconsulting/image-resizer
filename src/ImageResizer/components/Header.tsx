@@ -2,7 +2,6 @@
 
 import { useTheme } from '@emotion/react';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { ReactComponent as LogoSvg } from '../logo.svg';
 
@@ -40,27 +39,12 @@ export const Header = ({ children }: HeaderProps) => {
 			>
 				<h1
 					css={{
-						fontSize: theme.fontSizes[4],
+						fontSize: theme.fontSizes[6],
 						margin: 0
 					}}
 				>
 					Image resizer
 				</h1>
-
-				<p
-					css={{
-						fontSize: theme.fontSizes[1],
-						marginBottom: 0,
-						marginTop: theme.space[1]
-					}}
-				>
-					by{' '}
-					<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
-						Habanero Consulting Group
-					</a>
-					<br />
-					<Link to="/image-resizer/documentation">Documentation</Link>
-				</p>
 			</div>
 
 			{children}
