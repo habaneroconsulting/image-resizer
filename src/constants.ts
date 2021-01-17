@@ -37,8 +37,6 @@ if (detectWebPCanvasSupport()) {
 }
 
 export const COMMON_OPTIONS = {
-	crop: true,
-	format: 'jpg',
 	lockAspectRatio: true,
 	optimize: false,
 	preventScalingUp: true
