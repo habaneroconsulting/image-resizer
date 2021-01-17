@@ -246,11 +246,10 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				css={{
 					backgroundColor: theme.colors.white,
 					borderRight: `1px solid ${theme.colors.neutralLight}`,
-					bottom: 65,
+					bottom: 64,
 					left: 0,
 					overflowX: 'hidden',
 					overflowY: 'scroll',
-					paddingBottom: theme.space[3],
 					paddingTop: theme.space[3],
 					position: 'fixed',
 					top: 0,
