@@ -15,16 +15,6 @@ export const IMAGE_FORMAT_OPTIONS = [
 		key: 'png',
 		text: 'PNG (illustrations, text or transparency)',
 		optimize: true
-	},
-	{
-		key: 'gif',
-		text: 'GIF',
-		optimize: false
-	},
-	{
-		key: 'tiff',
-		text: 'TIFF',
-		optimize: false
 	}
 ];
 
