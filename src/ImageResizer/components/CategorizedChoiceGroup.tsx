@@ -122,7 +122,9 @@ const CategorizedChoiceOptionElement = ({
 				disabled={disabled}
 				name={name}
 				onChange={(e) => {
-					onChange(e, option);
+					if (!disabled) {
+						onChange(e, option);
+					}
 				}}
 				type="radio"
 				value={option.id}
