@@ -64,21 +64,37 @@ export const PRESET_OPTIONS: { [k: string]: FormState } = {
 		maxWidth: 1200,
 		text: 'Square post'
 	},
-	TWITTER_HEADER_PHOTO: {
+	INSTAGRAM_SQUARE_POST: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 500,
-		aspectRatioWidth: 1500,
-		id: 'TWITTER_HEADER_PHOTO',
-		maxWidth: 1500,
-		text: 'Header photo'
+		aspectRatioHeight: 1080,
+		aspectRatioWidth: 1080,
+		id: 'INSTAGRAM_SQUARE_POST',
+		maxWidth: 1080,
+		text: 'Square post'
 	},
-	TWITTER_POST: {
+	INSTAGRAM_LANDSCAPE_POST: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 512,
-		aspectRatioWidth: 1012,
-		id: 'TWITTER_POST',
-		maxWidth: 1012,
-		text: 'Post'
+		aspectRatioHeight: 566,
+		aspectRatioWidth: 1080,
+		id: 'INSTAGRAM_LANDSCAPE_POST',
+		maxWidth: 1080,
+		text: 'Landscape post'
+	},
+	INSTAGRAM_PORTRAIT_POST: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 1350,
+		aspectRatioWidth: 1080,
+		id: 'INSTAGRAM_PORTRAIT_POST',
+		maxWidth: 1080,
+		text: 'Portrait post'
+	},
+	INSTAGRAM_STORY: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 1920,
+		aspectRatioWidth: 1080,
+		id: 'INSTAGRAM_STORY',
+		maxWidth: 1080,
+		text: 'Story'
 	},
 	LINKEDIN_COVER_PHOTO: {
 		...COMMON_OPTIONS,
@@ -94,6 +110,22 @@ export const PRESET_OPTIONS: { [k: string]: FormState } = {
 		aspectRatioWidth: 1200,
 		id: 'LINKEDIN_POST',
 		maxWidth: 1200,
+		text: 'Post'
+	},
+	TWITTER_HEADER_PHOTO: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 500,
+		aspectRatioWidth: 1500,
+		id: 'TWITTER_HEADER_PHOTO',
+		maxWidth: 1500,
+		text: 'Header photo'
+	},
+	TWITTER_POST: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 512,
+		aspectRatioWidth: 1012,
+		id: 'TWITTER_POST',
+		maxWidth: 1012,
 		text: 'Post'
 	}
 };

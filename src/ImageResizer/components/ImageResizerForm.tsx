@@ -268,16 +268,21 @@ export const ImageResizerForm = ({
 							]
 						},
 						{
-							label: 'Twitter',
-							options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
+							label: 'Instagram',
+							options: [
+								PRESET_OPTIONS.INSTAGRAM_SQUARE_POST,
+								PRESET_OPTIONS.INSTAGRAM_LANDSCAPE_POST,
+								PRESET_OPTIONS.INSTAGRAM_PORTRAIT_POST,
+								PRESET_OPTIONS.INSTAGRAM_STORY
+							]
 						},
 						{
 							label: 'LinkedIn',
 							options: [PRESET_OPTIONS.LINKEDIN_COVER_PHOTO, PRESET_OPTIONS.LINKEDIN_POST]
 						},
 						{
-							label: 'Instagram',
-							options: []
+							label: 'Twitter',
+							options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
 						}
 					]}
 					value={formState.id}
