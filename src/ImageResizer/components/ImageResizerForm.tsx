@@ -343,7 +343,7 @@ export const ImageResizerForm = ({
 						iconProps={{
 							iconName: isDownloading ? undefined : 'Download'
 						}}
-						onClick={onSubmit}
+						type="submit"
 					>
 						{isDownloading && <Spinner size={SpinnerSize.xSmall} />}
 
