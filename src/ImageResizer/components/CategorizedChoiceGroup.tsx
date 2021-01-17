@@ -40,7 +40,7 @@ const CategorizedChoiceOptionElement = ({
 	const isLandscape = option.aspectRatioWidth > option.aspectRatioHeight;
 
 	const height = isLandscape ? `${(option.aspectRatioHeight / option.aspectRatioWidth) * 100}%` : '100%';
-	const width = isLandscape ? '100%' : `${(option.aspectRatioHeight / option.aspectRatioWidth) * 100}%`;
+	const width = isLandscape ? '100%' : `${(option.aspectRatioWidth / option.aspectRatioHeight) * 100}%`;
 
 	return (
 		<label
