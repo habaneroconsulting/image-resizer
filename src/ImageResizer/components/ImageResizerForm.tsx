@@ -11,7 +11,6 @@ import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
 	DEFAULT_ASPECT_RATIO_WIDTH,
 	DEFAULT_ID,
-	DEFAULT_MAX_WIDTH,
 	IMAGE_FORMAT_OPTIONS,
 	PRESET_OPTIONS
 } from '../../constants';
@@ -202,7 +201,7 @@ export const ImageResizerForm = ({
 							let value = e.currentTarget.value;
 
 							if (value === Infinity.toString()) {
-								value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
+								value = image?.naturalWidth.toString();
 							}
 
 							const newMaxWidth = parseInt(value);
@@ -211,7 +210,7 @@ export const ImageResizerForm = ({
 						}}
 						onDecrement={(value) => {
 							if (value === Infinity.toString()) {
-								value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
+								value = image?.naturalWidth.toString();
 							}
 
 							const newMaxWidth = parseInt(value);
@@ -222,7 +221,7 @@ export const ImageResizerForm = ({
 						}}
 						onIncrement={(value) => {
 							if (value === Infinity.toString()) {
-								value = image?.naturalWidth.toString() ?? DEFAULT_MAX_WIDTH.toString();
+								value = image?.naturalWidth.toString();
 							}
 
 							const newMaxWidth = parseInt(value);
@@ -262,6 +261,10 @@ export const ImageResizerForm = ({
 					}}
 					groups={[
 						{
+							label: 'Common',
+							options: [PRESET_OPTIONS.OPENGRAPH, PRESET_OPTIONS.HD720, PRESET_OPTIONS.HD1080, PRESET_OPTIONS.UHD]
+						},
+						{
 							label: 'Facebook',
 							options: [
 								PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
@@ -285,6 +288,10 @@ export const ImageResizerForm = ({
 						{
 							label: 'Twitter',
 							options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
+						},
+						{
+							label: 'Microsoft 365',
+							options: [PRESET_OPTIONS.SHAREPOINT_TILE, PRESET_OPTIONS.SHAREPOINT_WIDE]
 						}
 					]}
 					value={formState.id}

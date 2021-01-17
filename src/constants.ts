@@ -1,10 +1,7 @@
-import { FormState } from 'ImageResizer/types';
-import { detectWebPCanvasSupport } from 'ImageResizer/utilities/detect-webp-canvas-support';
-
 export const DEFAULT_ASPECT_RATIO_HEIGHT = 1;
 export const DEFAULT_ASPECT_RATIO_WIDTH = 1;
 export const DEFAULT_FORMAT = 'jpg';
-export const DEFAULT_MAX_WIDTH = 1000;
+
 export const IMAGE_FORMAT_OPTIONS = [
 	{
 		key: 'jpg',
@@ -15,16 +12,13 @@ export const IMAGE_FORMAT_OPTIONS = [
 		key: 'png',
 		text: 'PNG (illustrations, text or transparency)',
 		optimize: true
-	}
-];
-
-if (detectWebPCanvasSupport()) {
-	IMAGE_FORMAT_OPTIONS.push({
+	},
+	{
 		key: 'webp',
 		text: 'WebP',
 		optimize: false
-	});
-}
+	}
+];
 
 export const DEFAULT_ID = 'CUSTOM';
 
@@ -34,14 +28,38 @@ export const COMMON_OPTIONS = {
 	preventScalingUp: true
 };
 
-export const PRESET_OPTIONS: { [k: string]: FormState } = {
+export const PRESET_OPTIONS = {
 	OPENGRAPH: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 630,
 		aspectRatioWidth: 1200,
 		id: 'OPENGRAPH',
 		maxWidth: 1200,
-		text: 'Open Graph'
+		text: 'Open Graph image'
+	},
+	HD720: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 9,
+		aspectRatioWidth: 16,
+		id: '720p',
+		maxWidth: 720,
+		text: '720p'
+	},
+	HD1080: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 9,
+		aspectRatioWidth: 16,
+		id: '1080p',
+		maxWidth: 1080,
+		text: '1080p'
+	},
+	UHD: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 9,
+		aspectRatioWidth: 16,
+		id: '4K',
+		maxWidth: 3840,
+		text: '4K'
 	},
 	FACEBOOK_COVER_PHOTO: {
 		...COMMON_OPTIONS,
@@ -130,5 +148,21 @@ export const PRESET_OPTIONS: { [k: string]: FormState } = {
 		id: 'TWITTER_POST',
 		maxWidth: 1012,
 		text: 'Post'
+	},
+	SHAREPOINT_TILE: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 3,
+		aspectRatioWidth: 4,
+		id: 'SHAREPOINT_TILE',
+		maxWidth: 1204,
+		text: 'Tile image'
+	},
+	SHAREPOINT_WIDE: {
+		...COMMON_OPTIONS,
+		aspectRatioHeight: 9,
+		aspectRatioWidth: 16,
+		id: 'SHAREPOINT_WIDE',
+		maxWidth: 1204,
+		text: 'Wide image'
 	}
 };
