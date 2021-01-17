@@ -5,24 +5,25 @@ import { ActionButton } from '@fluentui/react/lib/Button';
 import { Spinner } from '@fluentui/react/lib/Spinner';
 import React, { useCallback, useState, useRef } from 'react';
 import type { Crop } from 'react-image-crop';
-import { Link } from 'react-router-dom';
 
-import { DEFAULT_FORMAT, PRESET_OPTIONS } from '../../constants';
-import { downloadImage } from '../utilities/download-image';
-import { getReadableSize } from '../utilities/get-readable-size';
+import { DEFAULT_FORMAT, DEFAULT_ID, PRESET_OPTIONS } from '../../constants';
 import { DropzoneContainer } from './DropzoneContainer';
-import { FileState, Status, FormState } from '../types';
+import { Footer } from './Footer';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
+import { FileState, Status, FormState } from '../types';
+import { downloadImage } from '../utilities/download-image';
+import { getReadableSize } from '../utilities/get-readable-size';
 
 type ImageResizerProps = {
 	aspectRatioHeight?: string;
 	aspectRatioWidth?: string;
-	id?: string;
 	format?: string;
-	optimize?: boolean;
+	id?: string;
+	lockAspectRatio?: boolean;
 	maxWidth?: string;
-	maxHeight?: string;
+	optimize?: boolean;
+	preventScalingUp?: boolean;
 };
 
 const DEFAULT_FILE_STATE: FileState = { status: Status.Initial };
@@ -35,31 +36,31 @@ const ImageCrop = React.lazy(() => import(/* webpackChunkName: "ImageCrop" */ '.
  * area.
  */
 export const ImageResizer = (props: ImageResizerProps) => {
-	const hasDefaultAspectRatio = !!props.aspectRatioHeight && !!props.aspectRatioWidth;
-	const defaultAspectRatioHeight = parseFloat(props.aspectRatioHeight);
-	const defaultAspectRatioWidth = parseFloat(props.aspectRatioWidth);
-	const defaultAspectRatio = hasDefaultAspectRatio ? defaultAspectRatioWidth / defaultAspectRatioHeight : undefined;
-
 	const theme = useTheme();
 	const imageRef = useRef<HTMLImageElement>();
 
-	const [crop, setCrop] = useState<Crop>({ aspect: defaultAspectRatio, unit: '%' });
+	const [crop, setCrop] = useState<Crop>({ unit: '%' });
 	const [fileState, setFileState] = useState<FileState>(DEFAULT_FILE_STATE);
 
-	const defaultFormState =
-		props.id in PRESET_OPTIONS
-			? PRESET_OPTIONS[props.id]
-			: {
-					aspectRatioHeight: hasDefaultAspectRatio ? defaultAspectRatioHeight : null,
-					aspectRatioWidth: hasDefaultAspectRatio ? defaultAspectRatioWidth : null,
-					format: props.format || DEFAULT_FORMAT,
-					id: 'CUSTOM',
-					lockAspectRatio: hasDefaultAspectRatio,
-					maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
-					optimize: props.optimize,
-					preventScalingUp: true,
-					text: 'Custom'
-			  };
+	let defaultFormState: FormState = {
+		aspectRatioHeight: parseFloat(props.aspectRatioHeight),
+		aspectRatioWidth: parseFloat(props.aspectRatioWidth),
+		format: props.format || DEFAULT_FORMAT,
+		id: DEFAULT_ID,
+		optimize: false,
+		lockAspectRatio: props.lockAspectRatio || (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
+		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
+		preventScalingUp: props.preventScalingUp ?? true,
+		text: 'Custom'
+	};
+
+	if (props.id in PRESET_OPTIONS) {
+		defaultFormState = {
+			...defaultFormState,
+			...PRESET_OPTIONS[props.id],
+			optimize: props.optimize
+		};
+	}
 
 	const [formState, setFormState] = useState<FormState>(defaultFormState);
 
@@ -91,7 +92,8 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				...prevState,
 				aspectRatioHeight: image.naturalHeight,
 				aspectRatioWidth: image.naturalWidth,
-				lockAspectRatio: true
+				lockAspectRatio: true,
+				maxWidth: image.naturalWidth
 			}));
 
 			setCrop({
@@ -381,28 +383,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					)}
 				</div>
 
-				<footer
-					css={{
-						marginTop: theme.space[3]
-					}}
-				>
-					<p
-						css={{
-							fontSize: theme.fontSizes[1],
-							marginBottom: 0,
-							textAlign: 'center'
-						}}
-					>
-						by{' '}
-						<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
-							Habanero Consulting Group
-						</a>{' '}
-						| <Link to="/image-resizer/documentation">Documentation</Link> |{' '}
-						<a href="https://www.habaneroconsulting.com/privacy-policy" target="_blank" rel="noreferrer">
-							Privacy policy
-						</a>
-					</p>
-				</footer>
+				<Footer />
 			</div>
 		</React.Fragment>
 	);

@@ -10,6 +10,7 @@ import { Dispatch, SetStateAction } from 'react';
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
 	DEFAULT_ASPECT_RATIO_WIDTH,
+	DEFAULT_ID,
 	DEFAULT_MAX_WIDTH,
 	IMAGE_FORMAT_OPTIONS,
 	PRESET_OPTIONS
@@ -19,6 +20,7 @@ import { Fieldset } from './Fieldset';
 import { FormState } from '../types';
 import { SpinButtonContainer } from './SpinButtonContainer';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
+import { FormStateAnchor } from './FormStateAnchor';
 
 type ImageResizerFormProps = {
 	isDownloading?: boolean;
@@ -55,7 +57,7 @@ export const ImageResizerForm = ({
 	const aspectRatioHeightValue = aspectRatioDisabled ? '' : formState.aspectRatioHeight?.toString() ?? '1';
 	const aspectRatioWidthValue = aspectRatioDisabled ? '' : formState.aspectRatioWidth?.toString() ?? '1';
 
-	const isCustom = formState.id === 'CUSTOM';
+	const isCustom = formState.id === DEFAULT_ID;
 
 	return (
 		<form
@@ -104,13 +106,13 @@ export const ImageResizerForm = ({
 										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, id: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, id: DEFAULT_ID }));
 								}}
 								onDecrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: DEFAULT_ID }));
 								}}
 								onIncrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: DEFAULT_ID }));
 								}}
 								step={1}
 								value={aspectRatioWidthValue}
@@ -147,20 +149,20 @@ export const ImageResizerForm = ({
 										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, id: 'CUSTOM' }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, id: DEFAULT_ID }));
 								}}
 								onDecrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
-										id: 'CUSTOM'
+										id: DEFAULT_ID
 									}));
 								}}
 								onIncrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
-										id: 'CUSTOM'
+										id: DEFAULT_ID
 									}));
 								}}
 								step={1}
@@ -177,7 +179,7 @@ export const ImageResizerForm = ({
 							onClick={() => {
 								setFormState((prevState) => ({
 									...prevState,
-									id: 'CUSTOM',
+									id: DEFAULT_ID,
 									lockAspectRatio: !prevState.lockAspectRatio
 								}));
 							}}
@@ -205,7 +207,7 @@ export const ImageResizerForm = ({
 
 							const newMaxWidth = parseInt(value);
 
-							setFormState((prevState) => ({ ...prevState, id: 'CUSTOM', maxWidth: newMaxWidth }));
+							setFormState((prevState) => ({ ...prevState, id: DEFAULT_ID, maxWidth: newMaxWidth }));
 						}}
 						onDecrement={(value) => {
 							if (value === Infinity.toString()) {
@@ -214,7 +216,7 @@ export const ImageResizerForm = ({
 
 							const newMaxWidth = parseInt(value);
 
-							setFormState((prevState) => ({ ...prevState, id: 'CUSTOM', maxWidth: newMaxWidth }));
+							setFormState((prevState) => ({ ...prevState, id: DEFAULT_ID, maxWidth: newMaxWidth }));
 
 							return `${newMaxWidth} px`;
 						}}
@@ -225,7 +227,7 @@ export const ImageResizerForm = ({
 
 							const newMaxWidth = parseInt(value);
 
-							setFormState((prevState) => ({ ...prevState, id: 'CUSTOM', maxWidth: newMaxWidth }));
+							setFormState((prevState) => ({ ...prevState, id: DEFAULT_ID, maxWidth: newMaxWidth }));
 
 							return `${newMaxWidth} px`;
 						}}
@@ -241,7 +243,7 @@ export const ImageResizerForm = ({
 						onChange={(_e, preventScalingUp) => {
 							setFormState((prevState) => ({
 								...prevState,
-								id: 'CUSTOM',
+								id: DEFAULT_ID,
 								maxWidth: preventScalingUp ? image?.naturalWidth ?? undefined : maxWidth,
 								preventScalingUp
 							}));
@@ -309,7 +311,7 @@ export const ImageResizerForm = ({
 
 					<Toggle
 						checked={formState.optimize}
-						disabled={isDownloading || !IMAGE_FORMAT_OPTIONS.find((o) => o.key === formState.format).optimize}
+						disabled={isDownloading || !IMAGE_FORMAT_OPTIONS.find((o) => o.key === formState.format)?.optimize}
 						label="Optimize image"
 						offText="Off"
 						onChange={(_e, optimize) => {
@@ -320,6 +322,10 @@ export const ImageResizerForm = ({
 						}}
 						onText="On"
 					/>
+
+					<div>
+						<FormStateAnchor formState={formState} />
+					</div>
 				</div>
 			</Fieldset>
 
