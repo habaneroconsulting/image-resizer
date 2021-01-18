@@ -39,24 +39,24 @@ export const PRESET_OPTIONS = {
 	},
 	HD720: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 9,
-		aspectRatioWidth: 16,
+		aspectRatioHeight: 720,
+		aspectRatioWidth: 1280,
 		id: '720p',
-		maxWidth: 720,
+		maxWidth: 1280,
 		text: '720p'
 	},
 	HD1080: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 9,
-		aspectRatioWidth: 16,
+		aspectRatioHeight: 1080,
+		aspectRatioWidth: 1920,
 		id: '1080p',
-		maxWidth: 1080,
+		maxWidth: 1920,
 		text: '1080p'
 	},
 	UHD: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 9,
-		aspectRatioWidth: 16,
+		aspectRatioHeight: 2160,
+		aspectRatioWidth: 3840,
 		id: '4K',
 		maxWidth: 3840,
 		text: '4K'
