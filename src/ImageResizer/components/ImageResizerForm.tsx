@@ -5,7 +5,7 @@ import { IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import { TooltipHost } from '@fluentui/react/lib/Tooltip';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
@@ -37,6 +37,8 @@ export const ImageResizerForm = ({
 }: ImageResizerFormProps) => {
 	const theme = useTheme();
 
+	const [accordionOpen, setAccordionOpen] = useState(formState.id === DEFAULT_ID ? 'Custom' : 'Presets');
+
 	// If prevent scaling up is on, then the maximum width should not be larger
 	// than the image's natural width, so take the smaller number of the default
 	// form state width or the natural width.
@@ -57,8 +59,6 @@ export const ImageResizerForm = ({
 		? ''
 		: formState.aspectRatioHeight?.toString() ?? '1';
 	const aspectRatioWidthValue = isNaN(formState.aspectRatioWidth) ? '' : formState.aspectRatioWidth?.toString() ?? '1';
-
-	const isCustom = formState.id === DEFAULT_ID;
 
 	// Change URL to match form state.
 	useEffect(() => {
@@ -110,7 +110,7 @@ export const ImageResizerForm = ({
 				onSubmit();
 			}}
 		>
-			<Fieldset legend="Custom" isExpanded={isCustom}>
+			<Fieldset legend="Custom" isExpanded={accordionOpen === 'Custom'} onClick={() => setAccordionOpen('Custom')}>
 				<div
 					css={{
 						display: 'grid',
@@ -308,12 +308,12 @@ export const ImageResizerForm = ({
 				</div>
 			</Fieldset>
 
-			<Fieldset legend="Presets" isExpanded={!isCustom}>
+			<Fieldset legend="Presets" isExpanded={accordionOpen === 'Presets'} onClick={() => setAccordionOpen('Presets')}>
 				<CategorizedChoiceGroup
 					name="presets"
 					onChange={(_e, option) => {
 						// Set presets on top of previous state.
-						setFormState((prevState) => ({ ...prevState, ...option }));
+						setFormState((prevState) => ({ ...prevState, ...option, change: 'input' }));
 					}}
 					groups={[
 						{
