@@ -2,7 +2,7 @@
 
 import { useTheme } from '@emotion/react';
 import { FontIcon } from '@fluentui/react/lib/Icon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUID } from 'react-uid';
 
 type FieldsetProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
@@ -19,6 +19,10 @@ export const Fieldset = ({ children, legend, isExpanded = false, onClick, ...pro
 
 	const [isOpen, setIsOpen] = useState(isExpanded);
 	const uid = useUID();
+
+	useEffect(() => {
+		setIsOpen(isExpanded);
+	}, [isExpanded]);
 
 	return (
 		<div
