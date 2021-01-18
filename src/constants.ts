@@ -43,7 +43,7 @@ export const PRESET_OPTIONS = {
 		aspectRatioWidth: 1280,
 		id: '720p',
 		maxWidth: 1280,
-		text: '720p'
+		text: '720p (16:9)'
 	},
 	HD1080: {
 		...COMMON_OPTIONS,
@@ -51,7 +51,7 @@ export const PRESET_OPTIONS = {
 		aspectRatioWidth: 1920,
 		id: '1080p',
 		maxWidth: 1920,
-		text: '1080p'
+		text: '1080p (16:9)'
 	},
 	UHD: {
 		...COMMON_OPTIONS,
@@ -59,7 +59,7 @@ export const PRESET_OPTIONS = {
 		aspectRatioWidth: 3840,
 		id: '4K',
 		maxWidth: 3840,
-		text: '4K'
+		text: '4K (16:9)'
 	},
 	FACEBOOK_COVER_PHOTO: {
 		...COMMON_OPTIONS,
@@ -151,18 +151,18 @@ export const PRESET_OPTIONS = {
 	},
 	SHAREPOINT_TILE: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 3,
-		aspectRatioWidth: 4,
+		aspectRatioHeight: 903,
+		aspectRatioWidth: 1204,
 		id: 'SHAREPOINT_TILE',
 		maxWidth: 1204,
-		text: 'Tile image'
+		text: 'Tile image (4:3)'
 	},
 	SHAREPOINT_WIDE: {
 		...COMMON_OPTIONS,
-		aspectRatioHeight: 9,
-		aspectRatioWidth: 16,
+		aspectRatioHeight: 677,
+		aspectRatioWidth: 1204,
 		id: 'SHAREPOINT_WIDE',
 		maxWidth: 1204,
-		text: 'Wide image'
+		text: 'Wide image (16:9)'
 	}
 };
