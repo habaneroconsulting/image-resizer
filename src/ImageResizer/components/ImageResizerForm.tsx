@@ -51,9 +51,12 @@ export const ImageResizerForm = ({
 		}
 	}
 
-	const aspectRatioDisabled = !formState.lockAspectRatio;
-	const aspectRatioHeightValue = aspectRatioDisabled ? '' : formState.aspectRatioHeight?.toString() ?? '1';
-	const aspectRatioWidthValue = aspectRatioDisabled ? '' : formState.aspectRatioWidth?.toString() ?? '1';
+	// const aspectRatioDisabled = !formState.lockAspectRatio;
+	const aspectRatioDisabled = false;
+	const aspectRatioHeightValue = isNaN(formState.aspectRatioHeight)
+		? ''
+		: formState.aspectRatioHeight?.toString() ?? '1';
+	const aspectRatioWidthValue = isNaN(formState.aspectRatioWidth) ? '' : formState.aspectRatioWidth?.toString() ?? '1';
 
 	const isCustom = formState.id === DEFAULT_ID;
 
@@ -146,13 +149,23 @@ export const ImageResizerForm = ({
 										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, id: DEFAULT_ID }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, change: 'input', id: DEFAULT_ID }));
 								}}
 								onDecrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: DEFAULT_ID }));
+									setFormState((prevState) => ({
+										...prevState,
+										aspectRatioWidth: parseFloat(value),
+										change: 'input',
+										id: DEFAULT_ID
+									}));
 								}}
 								onIncrement={(value) => {
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth: parseFloat(value), id: DEFAULT_ID }));
+									setFormState((prevState) => ({
+										...prevState,
+										aspectRatioWidth: parseFloat(value),
+										change: 'input',
+										id: DEFAULT_ID
+									}));
 								}}
 								step={1}
 								value={aspectRatioWidthValue}
@@ -189,12 +202,13 @@ export const ImageResizerForm = ({
 										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioHeight, id: DEFAULT_ID }));
+									setFormState((prevState) => ({ ...prevState, change: 'input', aspectRatioHeight, id: DEFAULT_ID }));
 								}}
 								onDecrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
+										change: 'input',
 										id: DEFAULT_ID
 									}));
 								}}
@@ -202,6 +216,7 @@ export const ImageResizerForm = ({
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
+										change: 'input',
 										id: DEFAULT_ID
 									}));
 								}}

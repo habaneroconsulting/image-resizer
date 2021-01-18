@@ -235,10 +235,10 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			`[ImageResizer] The aspect ratio has changed to ${formState.aspectRatioWidth}:${formState.aspectRatioHeight}.`
 		);
 
-		if (formState.aspectRatioWidth && formState.aspectRatioHeight) {
+		if (formState.change === 'input' && formState.aspectRatioWidth && formState.aspectRatioHeight) {
 			setDefaultCrop();
 		}
-	}, [formState.aspectRatioHeight, formState.aspectRatioWidth, setDefaultCrop]);
+	}, [formState.aspectRatioHeight, formState.aspectRatioWidth, formState.change, setDefaultCrop]);
 
 	//#endregion USEEFFECTS
 
@@ -371,6 +371,13 @@ export const ImageResizer = (props: ImageResizerProps) => {
 												resetCrop();
 											} else {
 												setCrop(percentageCrop);
+
+												setFormState((prevState) => ({
+													...prevState,
+													change: 'crop',
+													aspectRatioHeight: Math.round((percentageCrop.height * imageRef.current.naturalHeight) / 100),
+													aspectRatioWidth: Math.round((percentageCrop.width * imageRef.current.naturalWidth) / 100)
+												}));
 											}
 										}}
 										onImageLoaded={(image) => {
