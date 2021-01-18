@@ -5,7 +5,7 @@ import { IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import { TooltipHost } from '@fluentui/react/lib/Tooltip';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
@@ -19,7 +19,6 @@ import { Fieldset } from './Fieldset';
 import { FormState } from '../types';
 import { SpinButtonContainer } from './SpinButtonContainer';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
-import { FormStateAnchor } from './FormStateAnchor';
 
 type ImageResizerFormProps = {
 	isDownloading?: boolean;
@@ -57,6 +56,48 @@ export const ImageResizerForm = ({
 	const aspectRatioWidthValue = aspectRatioDisabled ? '' : formState.aspectRatioWidth?.toString() ?? '1';
 
 	const isCustom = formState.id === DEFAULT_ID;
+
+	// Change URL to match form state.
+	useEffect(() => {
+		const params = new URLSearchParams();
+
+		if (formState.id !== DEFAULT_ID) {
+			params.append('id', formState.id);
+		} else {
+			if (formState.aspectRatioHeight) {
+				params.append('ar-h', formState.aspectRatioHeight.toString());
+			}
+
+			if (formState.aspectRatioWidth) {
+				params.append('ar-w', formState.aspectRatioWidth.toString());
+			}
+
+			if (formState.lockAspectRatio) {
+				params.append('lock-aspect-ratio', formState.lockAspectRatio.toString());
+			}
+
+			if (formState.maxWidth) {
+				params.append('max-w', formState.maxWidth.toString());
+			}
+		}
+
+		if (formState.format) {
+			params.append('format', formState.format);
+		}
+
+		if (formState.preventScalingUp) {
+			params.append('prevent-scaling-up', formState.preventScalingUp.toString());
+		}
+
+		if (formState.optimize) {
+			params.append('optimize', formState.optimize.toString());
+		}
+
+		const port = window.location.port ? `:${window.location.port}` : '';
+		const href = `${window.location.protocol}//${window.location.hostname}${port}/image-resizer?${params.toString()}`;
+
+		window.history.replaceState(null, null, href);
+	}, [formState]);
 
 	return (
 		<form
@@ -330,9 +371,9 @@ export const ImageResizerForm = ({
 						onText="On"
 					/>
 
-					<div>
+					{/* <div>
 						<FormStateAnchor formState={formState} />
-					</div>
+					</div> */}
 				</div>
 			</Fieldset>
 
