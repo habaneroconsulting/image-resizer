@@ -249,6 +249,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					backgroundColor: theme.colors.white,
 					borderRight: `1px solid ${theme.colors.neutralLight}`,
 					bottom: 64,
+					label: 'sidebar',
 					left: 0,
 					overflowX: 'hidden',
 					overflowY: 'scroll',
@@ -275,6 +276,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					display: 'grid',
 					height: '100%',
 					gridTemplateRows: '1fr auto',
+					label: 'center',
 					padding: theme.space[6],
 					paddingBottom: theme.space[5],
 					paddingLeft: SIDEBAR_WIDTH + theme.space[6]
@@ -283,7 +285,9 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				<div
 					css={{
 						alignItems: 'center',
-						display: 'flex'
+						display: 'flex',
+						label: 'container',
+						justifyContent: 'center'
 					}}
 				>
 					{fileState.status === Status.Initial && <DropzoneContainer onDropAccepted={onDrop} />}
