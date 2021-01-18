@@ -39,8 +39,9 @@ const CategorizedChoiceOptionElement = ({
 	const isChecked = option.id === value;
 	const isLandscape = option.aspectRatioWidth > option.aspectRatioHeight;
 
-	const height = isLandscape ? `${(option.aspectRatioHeight / option.aspectRatioWidth) * 100}%` : '100%';
-	const width = isLandscape ? '100%' : `${(option.aspectRatioWidth / option.aspectRatioHeight) * 100}%`;
+	const maxWidth = isLandscape ? 100 : 84;
+	const height = isLandscape ? `${(option.aspectRatioHeight / option.aspectRatioWidth) * maxWidth}px` : maxWidth;
+	const width = isLandscape ? maxWidth : `${(option.aspectRatioWidth / option.aspectRatioHeight) * maxWidth}px`;
 
 	return (
 		<label
@@ -138,7 +139,7 @@ const CategorizedChoiceOptionElement = ({
 						flexGrow: 1,
 						justifyContent: 'center',
 						marginBottom: theme.space[3],
-						width: isLandscape ? 100 : 84
+						width: maxWidth
 					}}
 					role="presentation"
 				>
