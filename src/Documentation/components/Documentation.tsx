@@ -51,6 +51,10 @@ export const Documentation = () => {
 				<li>
 					<b>format</b> <code>['jpg'|'png']</code>: Sets the format of the image.
 				</li>
+				<li>
+					<b>optimize</b> <code>['true'|'false']</code>: Sets whether or not the image should be optimized after
+					resizing, using either <i>mozjpeg</i> or <i>optipng</i>.
+				</li>
 			</ul>
 		</div>
 	);

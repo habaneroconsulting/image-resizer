@@ -4,7 +4,8 @@ import type { Results } from '../types';
 
 const MIME_TYPE_MAP = {
 	jpg: 'image/jpeg',
-	png: 'image/png'
+	png: 'image/png',
+	webp: 'image/webp'
 };
 
 type DownloadImageOptions = {
@@ -13,6 +14,7 @@ type DownloadImageOptions = {
 	format: string;
 	image: HTMLImageElement;
 	maxWidth: number;
+	optimize?: boolean;
 	quality?: number;
 };
 
@@ -25,6 +27,7 @@ export async function downloadImage({
 	format,
 	image,
 	maxWidth,
+	optimize = false,
 	quality = 0.85
 }: DownloadImageOptions): Promise<Results> {
 	const canvas = document.createElement('canvas');
@@ -37,13 +40,13 @@ export async function downloadImage({
 
 	// Get the x-y coordinates. If no crop is available, then we'll be using the
 	// entire canvas.
-	const cropX = crop.x ? crop.x : 0;
-	const cropY = crop.y ? crop.y : 0;
+	const cropX = (crop.x / 100) * image.width ?? 0;
+	const cropY = (crop.y / 100) * image.height ?? 0;
 
 	// Get the crop width and height. If no crop is available, we'll be using the
 	// entire canvas.
-	const cropWidth = crop.width ? crop.width : image.width;
-	const cropHeight = crop.height ? crop.height : image.height;
+	const cropWidth = (crop.width / 100) * image.width ?? image.width;
+	const cropHeight = (crop.height / 100) * image.height ?? image.height;
 
 	// If the maximum image width is larger than the area that was selected, then
 	// we need to resize the image down.
@@ -72,7 +75,15 @@ export async function downloadImage({
 	const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
 	const newFileName = `${fileNameWithoutExtension}.${format}`;
 
-	const blob = await toBlob(canvas, MIME_TYPE_MAP[format], quality);
+	let blob = await toBlob(canvas, MIME_TYPE_MAP[format], quality);
+
+	if (optimize) {
+		const blobArrayBuffer = await blob.arrayBuffer();
+		const res = await optimizeImage(new Uint8Array(blobArrayBuffer), blob.type);
+
+		blob = new Blob([res.data], { type: blob.type });
+	}
+
 	const href = URL.createObjectURL(blob);
 
 	downloadHref(newFileName, href);
@@ -124,4 +135,18 @@ function downloadHref(filename: string, href: string) {
 	document.body.appendChild(a);
 	a.click();
 	document.body.removeChild(a);
+}
+
+async function optimizeImage(data: Uint8Array, type: string): Promise<{ data: Uint8Array }> {
+	if (type === 'image/png') {
+		const optipng = await import(/* webpackChunkName: "optipng-js" */ 'optipng-js');
+
+		return optipng.default(data, ['-o2']);
+	} else if (type === 'image/jpeg') {
+		const { encode } = await import(/* webpackChunkName: "mozjpeg-js" */ 'mozjpeg-js');
+
+		return encode(data);
+	}
+
+	return { data };
 }

@@ -24,17 +24,28 @@ export const Header = ({ children }: HeaderProps) => {
 				paddingLeft: theme.space[3]
 			}}
 		>
-			<LogoSvg />
+			<div>
+				<LogoSvg
+					css={{
+						display: 'block'
+					}}
+				/>
+			</div>
 
-			<h1
+			<div
 				css={{
-					fontSize: theme.fontSizes[4],
-					margin: 0,
 					marginLeft: theme.space[3]
 				}}
 			>
-				Image resizer
-			</h1>
+				<h1
+					css={{
+						fontSize: theme.fontSizes[6],
+						margin: 0
+					}}
+				>
+					<i>Haba</i>sizer
+				</h1>
+			</div>
 
 			{children}
 		</header>

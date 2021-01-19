@@ -1,68 +1,70 @@
 /** @jsxImportSource @emotion/react */
 
 import { useTheme } from '@emotion/react';
-import React, { useCallback, useState, useRef } from 'react';
-
-import type { Crop } from 'react-image-crop';
 import { ActionButton } from '@fluentui/react/lib/Button';
 import { Spinner } from '@fluentui/react/lib/Spinner';
+import React, { useCallback, useState, useRef } from 'react';
+import type { Crop } from 'react-image-crop';
 
-import { DEFAULT_FORMAT } from '../../constants';
-import { downloadImage } from '../utilities/download-image';
+import { DEFAULT_FORMAT, DEFAULT_ID, PRESET_OPTIONS } from '../../constants';
 import { DropzoneContainer } from './DropzoneContainer';
-import { FileState, Status, Results, FormState } from '../types';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { ImageResizerForm } from './ImageResizerForm';
-import { ResultsTable } from './ResultsTable';
+import { FileState, Status, FormState } from '../types';
+import { downloadImage } from '../utilities/download-image';
+import { getReadableSize } from '../utilities/get-readable-size';
 
 type ImageResizerProps = {
 	aspectRatioHeight?: string;
 	aspectRatioWidth?: string;
 	format?: string;
+	id?: string;
+	lockAspectRatio?: boolean;
 	maxWidth?: string;
-	maxHeight?: string;
+	optimize?: boolean;
+	preventScalingUp?: boolean;
 };
 
 const DEFAULT_FILE_STATE: FileState = { status: Status.Initial };
 const SIDEBAR_WIDTH = 320;
 
-const ReactImageCrop = React.lazy(() => import(/* webpackChunkName: "ReactImageCrop" */ './ReactImageCrop'));
+const ImageCrop = React.lazy(() => import(/* webpackChunkName: "ImageCrop" */ './ImageCrop'));
 
 /**
  * Main image resizer component. Keeps state for the form, drop zone and crop
  * area.
  */
 export const ImageResizer = (props: ImageResizerProps) => {
-	const hasDefaultAspectRatio = !!props.aspectRatioHeight && !!props.aspectRatioWidth;
-	const defaultAspectRatioHeight = parseFloat(props.aspectRatioHeight);
-	const defaultAspectRatioWidth = parseFloat(props.aspectRatioWidth);
-	const defaultAspectRatio = hasDefaultAspectRatio ? defaultAspectRatioWidth / defaultAspectRatioHeight : undefined;
-
 	const theme = useTheme();
 	const imageRef = useRef<HTMLImageElement>();
 
-	const [crop, setCrop] = useState<Crop>({ aspect: defaultAspectRatio });
+	const [crop, setCrop] = useState<Crop>({ unit: '%' });
 	const [fileState, setFileState] = useState<FileState>(DEFAULT_FILE_STATE);
-	const [formState, setFormState] = useState<FormState>({
-		aspectRatioHeight: hasDefaultAspectRatio ? defaultAspectRatioHeight : null,
-		aspectRatioWidth: hasDefaultAspectRatio ? defaultAspectRatioWidth : null,
-		crop: true,
-		lockAspectRatio: hasDefaultAspectRatio,
+
+	let defaultFormState: FormState = {
+		aspectRatioHeight: parseFloat(props.aspectRatioHeight),
+		aspectRatioWidth: parseFloat(props.aspectRatioWidth),
 		format: props.format || DEFAULT_FORMAT,
+		id: DEFAULT_ID,
+		optimize: false,
+		lockAspectRatio: props.lockAspectRatio || (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
-		preventScalingUp: true
-	});
-	const [results, setResults] = useState<Results>();
+		preventScalingUp: props.preventScalingUp ?? true,
+		text: 'Custom'
+	};
+
+	if (props.id in PRESET_OPTIONS) {
+		defaultFormState = {
+			...defaultFormState,
+			...PRESET_OPTIONS[props.id],
+			optimize: props.optimize
+		};
+	}
+
+	const [formState, setFormState] = useState<FormState>(defaultFormState);
 
 	//#region CALLBACKS
-
-	/**
-	 * Return the current aspect ratio of the form to create a crop object.
-	 */
-	const getAspectRatio = useCallback(() => {
-		return formState.aspectRatioWidth / formState.aspectRatioHeight;
-	}, [formState.aspectRatioWidth, formState.aspectRatioHeight]);
 
 	/**
 	 * Create a default crop for the current image using the form aspect ratio.
@@ -74,37 +76,57 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			return;
 		}
 
-		const aspect = getAspectRatio();
+		const aspectRatio = formState.aspectRatioWidth / formState.aspectRatioHeight;
 		const image = imageRef.current;
 
 		const defaultCrop = {
-			aspect,
-			unit: 'px',
+			unit: '%',
 			x: 0,
 			y: 0
 		} as const;
 
-		// If the image is too wide for the aspect ratio, then the crop can be full
-		// height and centered horizontally (x-axis).
-		if (image.width / aspect > image.height) {
+		// If there is no aspect ratio yet, assume we have a new image. Set the aspect
+		// ratio form fields and add a default crop.
+		if (isNaN(aspectRatio)) {
+			setFormState((prevState) => ({
+				...prevState,
+				aspectRatioHeight: image.naturalHeight,
+				aspectRatioWidth: image.naturalWidth,
+				lockAspectRatio: true,
+				maxWidth: image.naturalWidth
+			}));
+
 			setCrop({
 				...defaultCrop,
-				height: image.height,
-				width: image.height * aspect,
-				x: (image.width - image.height * aspect) / 2
+				height: 100,
+				width: 100
+			});
+		}
+		// If the image is too wide for the aspect ratio, then the crop can be full
+		// height and centered horizontally (x-axis).
+		else if (image.width / aspectRatio > image.height) {
+			const width = (image.height / image.width) * aspectRatio * 100;
+
+			setCrop({
+				...defaultCrop,
+				height: 100,
+				width,
+				x: (100 - width) / 2
 			});
 		}
 		// If the image is too tall for the aspect ratio, then the crop can be full
 		// width and centered vertically (y-axis).
 		else {
+			const height = (image.width / image.height / aspectRatio) * 100;
+
 			setCrop({
 				...defaultCrop,
-				height: image.width / aspect,
-				width: image.width,
-				y: (image.height - image.width / aspect) / 2
+				height,
+				width: 100,
+				y: (100 - height) / 2
 			});
 		}
-	}, [imageRef, getAspectRatio]);
+	}, [imageRef, formState.aspectRatioHeight, formState.aspectRatioWidth]);
 
 	/**
 	 * When deselected, reset the crop state.
@@ -113,7 +135,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		// If we have existing aspect ratio form values, keep the aspect ratio
 		// locked.
 		if (formState.aspectRatioHeight && formState.aspectRatioWidth) {
-			setCrop({ aspect: formState.aspectRatioWidth / formState.aspectRatioHeight });
+			setCrop({ aspect: formState.aspectRatioWidth / formState.aspectRatioHeight, x: 0, y: 0 });
 		}
 		// Otherwise, remove the aspect ratio.
 		else {
@@ -151,7 +173,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 	const resetImage = useCallback(() => {
 		resetCrop();
 		setFileState(DEFAULT_FILE_STATE);
-		setResults(undefined);
 	}, [resetCrop]);
 
 	/**
@@ -181,45 +202,32 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			fileName: fileState.file.name,
 			format: formState.format,
 			image: imageRef.current,
+			optimize: formState.optimize,
 			maxWidth
 		});
 
-		setResults(results);
+		// Temporarily show stats within the console area.
+		console.table([
+			{
+				name: 'Original',
+				width: imageRef.current.naturalWidth,
+				height: imageRef.current.naturalHeight,
+				size: getReadableSize(fileState.file.size)
+			},
+			{
+				name: 'New',
+				width: results.width,
+				height: results.height,
+				size: getReadableSize(results.size)
+			}
+		]);
 
 		setFileState({ status: Status.Success, file: fileState.file, src: fileState.src });
-	}, [crop, fileState, formState, imageRef, setFileState, setResults]);
+	}, [crop, fileState, formState, imageRef, setFileState]);
 
 	//#endregion CALLBACKS
 
 	//#region USEEFFECTS
-
-	/**
-	 * Enable or disable crop when the state value changes.
-	 */
-	React.useEffect(() => {
-		console.info(`[ImageResizer] The crop toggle has been changed to ${formState.crop}.`);
-
-		if (formState.crop) {
-			setDefaultCrop();
-		} else {
-			setCrop({});
-		}
-	}, [formState.crop, setDefaultCrop]);
-
-	/**
-	 * Enable or disable the locked image ratio.
-	 */
-	React.useEffect(() => {
-		console.info(`[ImageResizer] The lock aspect ratio toggle has been changed to ${formState.lockAspectRatio}.`);
-
-		if (formState.lockAspectRatio) {
-			setDefaultCrop();
-		} else {
-			setCrop((prevState) => {
-				return { ...prevState, aspect: undefined };
-			});
-		}
-	}, [formState.lockAspectRatio, setDefaultCrop]);
 
 	// Re-set the crop.
 	React.useEffect(() => {
@@ -227,11 +235,10 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			`[ImageResizer] The aspect ratio has changed to ${formState.aspectRatioWidth}:${formState.aspectRatioHeight}.`
 		);
 
-		if (formState.aspectRatioWidth && formState.aspectRatioHeight) {
+		if (formState.change === 'input' && formState.aspectRatioWidth && formState.aspectRatioHeight) {
 			setDefaultCrop();
-			setFormState((prevState) => ({ ...prevState, crop: true }));
 		}
-	}, [formState.aspectRatioHeight, formState.aspectRatioWidth, setDefaultCrop]);
+	}, [formState.aspectRatioHeight, formState.aspectRatioWidth, formState.change, setDefaultCrop]);
 
 	//#endregion USEEFFECTS
 
@@ -241,12 +248,14 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				css={{
 					backgroundColor: theme.colors.white,
 					borderRight: `1px solid ${theme.colors.neutralLight}`,
-					height: '100%',
+					bottom: 64,
+					label: 'sidebar',
 					left: 0,
+					overflowX: 'hidden',
 					overflowY: 'scroll',
-					paddingBottom: theme.space[3],
 					paddingTop: theme.space[3],
 					position: 'fixed',
+					top: 0,
 					width: SIDEBAR_WIDTH
 				}}
 			>
@@ -259,134 +268,133 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					setFormState={setFormState}
 					onSubmit={onSubmit}
 				/>
-
-				{fileState.status === Status.Downloading && <Spinner>Compressing image...</Spinner>}
-
-				<hr />
-
-				{results && fileState.status === Status.Success && (
-					<React.Fragment>
-						<ResultsTable
-							results={[
-								{
-									name: 'Original',
-									width: imageRef.current.naturalWidth,
-									height: imageRef.current.naturalHeight,
-									size: fileState.file.size
-								},
-								{
-									name: 'New',
-									width: results.width,
-									height: results.height,
-									size: results.size
-								}
-							]}
-						/>
-						<hr />
-					</React.Fragment>
-				)}
-
-				<Footer />
 			</div>
 
 			<div
 				css={{
-					alignItems: 'center',
 					backgroundColor: theme.colors.neutralLighterAlt,
-					display: 'flex',
-					flexDirection: 'column',
+					display: 'grid',
 					height: '100%',
-					justifyContent: 'center',
+					gridTemplateRows: '1fr auto',
+					label: 'center',
 					padding: theme.space[6],
+					paddingBottom: theme.space[5],
 					paddingLeft: SIDEBAR_WIDTH + theme.space[6]
 				}}
 			>
-				{fileState.status === Status.Initial && <DropzoneContainer onDropAccepted={onDrop} />}
+				<div
+					css={{
+						alignItems: 'center',
+						display: 'flex',
+						label: 'container',
+						justifyContent: 'center'
+					}}
+				>
+					{fileState.status === Status.Initial && <DropzoneContainer onDropAccepted={onDrop} />}
 
-				{fileState.status === Status.Loading && <Spinner>Loading image...</Spinner>}
+					{fileState.status === Status.Loading && <Spinner>Loading image...</Spinner>}
 
-				{(fileState.status === Status.Success || fileState.status === Status.Downloading) && (
-					<div
-						css={{
-							alignItems: 'center',
-							display: 'flex',
-							flexDirection: 'column',
-							maxWidth: imageRef?.current?.naturalWidth
-						}}
-					>
+					{(fileState.status === Status.Success || fileState.status === Status.Downloading) && (
 						<div
 							css={{
+								alignItems: 'center',
 								display: 'flex',
-								justifyContent: 'center'
+								flexDirection: 'column',
+								maxWidth: imageRef?.current?.naturalWidth
 							}}
 						>
-							<ActionButton
-								disabled={!crop || isNaN(crop.height) || (crop.width === 0 && crop.height === 0)}
-								iconProps={{
-									iconName: 'ClearSelection'
-								}}
-								onClick={resetCrop}
-								styles={{
-									root: {
-										whiteSpace: 'nowrap'
-									},
-									icon: {
-										color: theme.colors.themePrimary
-									}
+							<div
+								css={{
+									display: 'flex',
+									justifyContent: 'center'
 								}}
 							>
-								Deselect crop
-							</ActionButton>
-
-							<ActionButton
-								disabled={fileState.status === Status.Downloading}
-								iconProps={{
-									iconName: 'RemoveFilter'
-								}}
-								onClick={resetImage}
-								styles={{
-									root: {
-										whiteSpace: 'nowrap'
-									},
-									icon: {
-										color: theme.colors.themePrimary
-									}
-								}}
-							>
-								Replace image
-							</ActionButton>
-						</div>
-
-						<div
-							css={{
-								boxShadow: theme.shadows.depth16,
-								maxHeight: 'calc(100% - 40px)'
-							}}
-						>
-							<React.Suspense fallback={<div />}>
-								<ReactImageCrop
-									crop={crop}
-									disabled={!formState.crop || fileState.status === Status.Downloading}
-									locked={!formState.crop || fileState.status === Status.Downloading}
-									onChange={(newCrop) => {
-										requestAnimationFrame(() => setCrop(newCrop));
+								<ActionButton
+									disabled={isNaN(crop.height) || (crop.width === 0 && crop.height === 0)}
+									iconProps={{
+										iconName: 'ClearSelection'
 									}}
-									onImageLoaded={(image) => {
-										imageRef.current = image;
-
-										if (!formState.crop) {
-											return;
+									onClick={resetCrop}
+									styles={{
+										root: {
+											whiteSpace: 'nowrap'
+										},
+										icon: {
+											color: theme.colors.themePrimary
 										}
-
-										requestAnimationFrame(setDefaultCrop);
 									}}
-									ruleOfThirds={true}
-									src={fileState.src}
-								/>
-							</React.Suspense>
+								>
+									Deselect crop
+								</ActionButton>
+
+								<ActionButton
+									disabled={fileState.status === Status.Downloading}
+									iconProps={{
+										iconName: 'RemoveFilter'
+									}}
+									onClick={resetImage}
+									styles={{
+										root: {
+											whiteSpace: 'nowrap'
+										},
+										icon: {
+											color: theme.colors.themePrimary
+										}
+									}}
+								>
+									Replace image
+								</ActionButton>
+							</div>
+
+							<div
+								css={{
+									boxShadow: theme.shadows.depth16,
+									maxHeight: 'calc(100% - 40px)',
+									userSelect: 'none'
+								}}
+							>
+								<React.Suspense fallback={<div />}>
+									<ImageCrop
+										crop={{
+											...crop,
+											aspect: formState.lockAspectRatio
+												? formState.aspectRatioWidth / formState.aspectRatioHeight
+												: null
+										}}
+										disabled={fileState.status === Status.Downloading}
+										locked={fileState.status === Status.Downloading}
+										onComplete={(newCrop, percentageCrop) => {
+											// If the crop completes with no width or height, we can assume that
+											// the user clicked outside of the marquee.
+											if (newCrop.width === 0 && newCrop.height === 0) {
+												// Force a reset, so no x/y values remain in the crop.
+												resetCrop();
+											} else {
+												setCrop(percentageCrop);
+
+												setFormState((prevState) => ({
+													...prevState,
+													change: 'crop',
+													aspectRatioHeight: Math.round((percentageCrop.height * imageRef.current.naturalHeight) / 100),
+													aspectRatioWidth: Math.round((percentageCrop.width * imageRef.current.naturalWidth) / 100)
+												}));
+											}
+										}}
+										onImageLoaded={(image) => {
+											imageRef.current = image;
+
+											requestAnimationFrame(setDefaultCrop);
+										}}
+										ruleOfThirds={true}
+										src={fileState.src}
+									/>
+								</React.Suspense>
+							</div>
 						</div>
-					</div>
-				)}
+					)}
+				</div>
+
+				<Footer />
 			</div>
 		</React.Fragment>
 	);

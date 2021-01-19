@@ -15,7 +15,7 @@ export const DropzoneContainer = ({ onDropAccepted }: DropzoneContainerProps) =>
 	const theme = useTheme();
 
 	return (
-		<Dropzone accept=".bmp,.gif,.jpeg,.jpg,.png,.tiff" multiple={false} onDropAccepted={onDropAccepted}>
+		<Dropzone accept=".avif,.bmp,.gif,.jpeg,.jpg,.png,.tiff,.webp" multiple={false} onDropAccepted={onDropAccepted}>
 			{({ getRootProps, getInputProps, isDragActive }) => (
 				<div
 					css={{

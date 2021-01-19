@@ -10,7 +10,10 @@ export const ImageResizerContainer = () => {
 			aspectRatioHeight={urlParams.get('ar-h')}
 			aspectRatioWidth={urlParams.get('ar-w')}
 			format={urlParams.get('format')}
-			maxHeight={urlParams.get('max-h')}
+			id={urlParams.get('id')}
+			lockAspectRatio={urlParams.get('lock-aspect-ratio') === 'true'}
+			optimize={urlParams.get('optimize') === 'true'}
+			preventScalingUp={urlParams.get('prevent-scaling-up') === 'true'}
 			maxWidth={urlParams.get('max-w')}
 		/>
 	);
