@@ -4,8 +4,8 @@
     "static/js/0.3fb82fda.chunk.js.map": "/image-resizer/static/js/0.3fb82fda.chunk.js.map",
     "ImageCrop.js": "/image-resizer/static/js/ImageCrop.2d31058e.chunk.js",
     "ImageCrop.js.map": "/image-resizer/static/js/ImageCrop.2d31058e.chunk.js.map",
-    "main.js": "/image-resizer/static/js/main.4a2c5a70.chunk.js",
-    "main.js.map": "/image-resizer/static/js/main.4a2c5a70.chunk.js.map",
+    "main.js": "/image-resizer/static/js/main.ae6ab504.chunk.js",
+    "main.js.map": "/image-resizer/static/js/main.ae6ab504.chunk.js.map",
     "optipng-js.js": "/image-resizer/static/js/optipng-js.110082b9.chunk.js",
     "optipng-js.js.map": "/image-resizer/static/js/optipng-js.110082b9.chunk.js.map",
     "runtime-main.js": "/image-resizer/static/js/runtime-main.f5a3ad0f.js",
@@ -29,6 +29,6 @@
   "entrypoints": [
     "static/js/runtime-main.f5a3ad0f.js",
     "static/js/6.4dd85c7f.chunk.js",
-    "static/js/main.4a2c5a70.chunk.js"
+    "static/js/main.ae6ab504.chunk.js"
   ]
 }
