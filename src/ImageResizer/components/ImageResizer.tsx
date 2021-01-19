@@ -154,6 +154,21 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				src: URL.createObjectURL(file)
 			});
 
+			// If there was no default format, set the format based on the input image.
+			if (!props.format) {
+				if (file.type === 'image/png') {
+					setFormState((prevState) => ({
+						...prevState,
+						format: 'png'
+					}));
+				} else if (file.type === 'image/jpeg') {
+					setFormState((prevState) => ({
+						...prevState,
+						format: 'jpeg'
+					}));
+				}
+			}
+
 			// @todo: Once the file state above loads, several renders are required
 			// before we can set a default crop. Need to determine a better way of
 			// programmatically determining this, rather than using a timeout.
