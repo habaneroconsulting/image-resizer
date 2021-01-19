@@ -23,8 +23,7 @@ export const IMAGE_FORMAT_OPTIONS = [
 export const DEFAULT_ID = 'CUSTOM';
 
 export const COMMON_OPTIONS = {
-	lockAspectRatio: true,
-	optimize: false
+	lockAspectRatio: true
 };
 
 export const PRESET_OPTIONS = {
