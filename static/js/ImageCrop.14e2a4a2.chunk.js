@@ -1,0 +1,2 @@
+(this["webpackJsonpimage-resizer"]=this["webpackJsonpimage-resizer"]||[]).push([[1],{386:function(e,t,c){"use strict";c.r(t),c.d(t,"ImageCrop",(function(){return p}));var n=c(3),r=c(43),a=c(42),u=c(38),i=c(289),o=c.n(i),s=c(0),p=(c(290),function(e){var t=e.crop,c=Object(u.a)(e,["crop"]),i=Object(s.useState)(t),p=Object(a.a)(i,2),b=p[0],f=p[1];return Object(s.useEffect)((function(){f(t)}),[t]),Object(r.jsx)(o.a,Object(n.a)({crop:b,onChange:function(e){return f(e)}},c))});t.default=p}}]);
+//# sourceMappingURL=ImageCrop.14e2a4a2.chunk.js.map
