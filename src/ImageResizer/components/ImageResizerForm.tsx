@@ -5,7 +5,7 @@ import { IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import { TooltipHost } from '@fluentui/react/lib/Tooltip';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
@@ -36,8 +36,6 @@ export const ImageResizerForm = ({
 	setFormState
 }: ImageResizerFormProps) => {
 	const theme = useTheme();
-
-	const [accordionOpen, setAccordionOpen] = useState(formState.id === DEFAULT_ID ? 'Custom' : 'Presets');
 
 	const aspectRatioDisabled = false;
 	const aspectRatioHeightValue = isNaN(formState.aspectRatioHeight)
@@ -91,7 +89,7 @@ export const ImageResizerForm = ({
 				onSubmit();
 			}}
 		>
-			<Fieldset legend="Custom" isExpanded={accordionOpen === 'Custom'} onClick={() => setAccordionOpen('Custom')}>
+			<Fieldset legend="Custom" isExpanded={formState.id === DEFAULT_ID}>
 				<div
 					css={{
 						display: 'grid',
@@ -273,7 +271,7 @@ export const ImageResizerForm = ({
 				</div>
 			</Fieldset>
 
-			<Fieldset legend="Presets" isExpanded={accordionOpen === 'Presets'} onClick={() => setAccordionOpen('Presets')}>
+			<Fieldset legend="Presets" isExpanded={formState.id !== DEFAULT_ID}>
 				<CategorizedChoiceGroup
 					name="presets"
 					onChange={(_e, option) => {

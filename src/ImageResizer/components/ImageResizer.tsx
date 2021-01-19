@@ -161,7 +161,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				setDefaultCrop();
 			}, 250);
 		},
-		[setDefaultCrop]
+		[props.format, setDefaultCrop]
 	);
 
 	/**

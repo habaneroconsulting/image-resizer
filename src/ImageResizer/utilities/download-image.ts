@@ -3,7 +3,7 @@ import type { Crop } from 'react-image-crop';
 import type { Results } from '../types';
 
 const MIME_TYPE_MAP = {
-	jpg: 'image/jpeg',
+	jpeg: 'image/jpeg',
 	png: 'image/png',
 	webp: 'image/webp'
 };

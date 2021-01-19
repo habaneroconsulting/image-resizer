@@ -1,11 +1,11 @@
 export const DEFAULT_ASPECT_RATIO_HEIGHT = 1;
 export const DEFAULT_ASPECT_RATIO_WIDTH = 1;
-export const DEFAULT_FORMAT = 'jpg';
+export const DEFAULT_FORMAT = 'jpeg';
 
 export const IMAGE_FORMAT_OPTIONS = [
 	{
-		key: 'jpg',
-		text: 'JPG (photography)',
+		key: 'jpeg',
+		text: 'JPEG (photography)',
 		optimize: true
 	},
 	{
