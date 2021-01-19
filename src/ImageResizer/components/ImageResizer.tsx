@@ -23,7 +23,6 @@ type ImageResizerProps = {
 	lockAspectRatio?: boolean;
 	maxWidth?: string;
 	optimize?: boolean;
-	preventScalingUp?: boolean;
 };
 
 const DEFAULT_FILE_STATE: FileState = { status: Status.Initial };
@@ -50,7 +49,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		optimize: false,
 		lockAspectRatio: props.lockAspectRatio || (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
-		preventScalingUp: props.preventScalingUp ?? true,
 		text: 'Custom'
 	};
 
@@ -192,10 +190,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 		setFileState({ status: Status.Downloading, file: fileState.file, src: fileState.src });
 
-		const maxWidth = formState.preventScalingUp
-			? Math.min(formState.maxWidth, imageRef.current.naturalWidth)
-			: formState.maxWidth;
-
 		// Generate the image.
 		const results = await downloadImage({
 			crop,
@@ -203,7 +197,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 			format: formState.format,
 			image: imageRef.current,
 			optimize: formState.optimize,
-			maxWidth
+			maxWidth: formState.maxWidth
 		});
 
 		// Temporarily show stats within the console area.

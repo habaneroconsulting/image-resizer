@@ -24,8 +24,7 @@ export const DEFAULT_ID = 'CUSTOM';
 
 export const COMMON_OPTIONS = {
 	lockAspectRatio: true,
-	optimize: false,
-	preventScalingUp: false
+	optimize: false
 };
 
 export const PRESET_OPTIONS = {

@@ -39,21 +39,6 @@ export const ImageResizerForm = ({
 
 	const [accordionOpen, setAccordionOpen] = useState(formState.id === DEFAULT_ID ? 'Custom' : 'Presets');
 
-	// If prevent scaling up is on, then the maximum width should not be larger
-	// than the image's natural width, so take the smaller number of the default
-	// form state width or the natural width.
-	// If no image is available yet, default to the form state width.
-	let maxWidth = formState.maxWidth;
-
-	if (formState.preventScalingUp) {
-		if (formState.maxWidth && image?.naturalWidth) {
-			maxWidth = Math.min(formState.maxWidth, image.naturalWidth);
-		} else if (image?.naturalWidth) {
-			maxWidth = image.naturalWidth;
-		}
-	}
-
-	// const aspectRatioDisabled = !formState.lockAspectRatio;
 	const aspectRatioDisabled = false;
 	const aspectRatioHeightValue = isNaN(formState.aspectRatioHeight)
 		? ''
@@ -86,10 +71,6 @@ export const ImageResizerForm = ({
 
 		if (formState.format) {
 			params.append('format', formState.format);
-		}
-
-		if (formState.preventScalingUp) {
-			params.append('prevent-scaling-up', formState.preventScalingUp.toString());
 		}
 
 		if (formState.optimize) {
@@ -252,7 +233,7 @@ export const ImageResizerForm = ({
 					<SpinButtonContainer
 						disabled={isDownloading}
 						label={'Output width'}
-						max={maxWidth}
+						max={formState.maxWidth}
 						onBlur={(e) => {
 							let value = e.currentTarget.value;
 
@@ -287,23 +268,7 @@ export const ImageResizerForm = ({
 							return `${newMaxWidth} px`;
 						}}
 						step={1}
-						value={maxWidth === Infinity || isNaN(maxWidth) ? '' : `${maxWidth} px`}
-					/>
-
-					<Toggle
-						checked={formState.preventScalingUp}
-						disabled={isDownloading}
-						label="Prevent scaling up"
-						offText="Off"
-						onChange={(_e, preventScalingUp) => {
-							setFormState((prevState) => ({
-								...prevState,
-								id: DEFAULT_ID,
-								maxWidth: preventScalingUp ? image?.naturalWidth ?? undefined : maxWidth,
-								preventScalingUp
-							}));
-						}}
-						onText="On"
+						value={formState.maxWidth === Infinity || isNaN(formState.maxWidth) ? '' : `${formState.maxWidth} px`}
 					/>
 				</div>
 			</Fieldset>
