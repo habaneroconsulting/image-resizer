@@ -375,18 +375,35 @@ export const ImageResizerForm = ({
 						justifyContent: 'center'
 					}}
 				>
-					<PrimaryButton
-						disabled={isDownloading || !image?.currentSrc}
-						iconProps={{
-							iconName: isDownloading ? undefined : 'Download'
+					<TooltipHost
+						calloutProps={{
+							calloutMaxWidth: 212,
+							styles: {
+								root: {
+									textAlign: 'center'
+								}
+							}
 						}}
-						type="submit"
+						content={
+							// Show tooltip only when we're optimizing the image.
+							isDownloading && formState.optimize
+								? 'Hey! Your image is pretty big. This may take a little bit to process.'
+								: ''
+						}
 					>
-						{isDownloading && <Spinner size={SpinnerSize.xSmall} />}
+						<PrimaryButton
+							disabled={isDownloading || !image?.currentSrc}
+							iconProps={{
+								iconName: isDownloading ? undefined : 'Download'
+							}}
+							type="submit"
+						>
+							{isDownloading && <Spinner size={SpinnerSize.xSmall} />}
 
-						{/* Adding a <Spinner> above removes the label from the text below. */}
-						<span css={{ fontWeight: theme.fontWeights.semibold, marginLeft: theme.space[2] }}>Download image</span>
-					</PrimaryButton>
+							{/* Adding a <Spinner> above removes the label from the text below. */}
+							<span css={{ fontWeight: theme.fontWeights.semibold, marginLeft: theme.space[2] }}>Download image</span>
+						</PrimaryButton>
+					</TooltipHost>
 				</div>
 			</div>
 		</form>
