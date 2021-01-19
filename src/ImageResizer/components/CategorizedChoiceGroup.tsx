@@ -159,7 +159,7 @@ const CategorizedChoiceOptionElement = ({
 							width
 						}}
 					>
-						{option.aspectRatioWidth} x {option.aspectRatioHeight}
+						{option.aspectRatioWidth} x&nbsp;{option.aspectRatioHeight}
 					</div>
 				</div>
 			)}
