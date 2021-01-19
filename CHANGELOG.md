@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0]
+
+### Added
+
+- Add tooltip to download button during image optimization.
+- Add image format detection, changing the output format to match the input.
+
+### Change
+
+- Fix `overflow-y` scroll bar on the sidebar for Windows.
+- Remove _Prevent scaling up_ toggle.
+- Unregister service workers to remove offline access.
+- Remove optimize setting from presets.
+
 ## [1.1.0]
 
 ### Added
