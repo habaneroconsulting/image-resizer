@@ -387,9 +387,7 @@ export const ImageResizerForm = ({
 						{isDownloading && <Spinner size={SpinnerSize.xSmall} />}
 
 						{/* Adding a <Spinner> above removes the label from the text below. */}
-						<span css={{ fontWeight: theme.fontWeights.semibold, marginLeft: theme.space[2] }}>
-							Download resized image
-						</span>
+						<span css={{ fontWeight: theme.fontWeights.semibold, marginLeft: theme.space[2] }}>Download image</span>
 					</PrimaryButton>
 				</div>
 			</div>
