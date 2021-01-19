@@ -246,7 +246,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					label: 'sidebar',
 					left: 0,
 					overflowX: 'hidden',
-					overflowY: 'scroll',
+					overflowY: 'auto',
 					paddingTop: theme.space[3],
 					position: 'fixed',
 					top: 0,
