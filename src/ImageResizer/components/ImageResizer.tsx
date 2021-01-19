@@ -46,7 +46,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		aspectRatioWidth: parseFloat(props.aspectRatioWidth),
 		format: props.format || DEFAULT_FORMAT,
 		id: DEFAULT_ID,
-		optimize: false,
+		optimize: props.optimize,
 		lockAspectRatio: props.lockAspectRatio || (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
 		text: 'Custom'
@@ -55,8 +55,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 	if (props.id in PRESET_OPTIONS) {
 		defaultFormState = {
 			...defaultFormState,
-			...PRESET_OPTIONS[props.id],
-			optimize: props.optimize
+			...PRESET_OPTIONS[props.id]
 		};
 	}
 
