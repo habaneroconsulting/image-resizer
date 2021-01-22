@@ -43,7 +43,7 @@ export const Header = ({ children }: HeaderProps) => {
 						margin: 0
 					}}
 				>
-					<i>Haba</i>sizer
+					Habasizer
 				</h1>
 			</div>
 
