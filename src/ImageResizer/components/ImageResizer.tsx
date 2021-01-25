@@ -6,7 +6,7 @@ import { Spinner } from '@fluentui/react/lib/Spinner';
 import React, { useCallback, useState, useRef } from 'react';
 import type { Crop } from 'react-image-crop';
 
-import { DEFAULT_FORMAT, DEFAULT_ID, PRESET_OPTIONS } from '../../constants';
+import { CUSTOM_ID, DEFAULT_FORMAT, DEFAULT_ID, PRESET_OPTIONS } from '../../constants';
 import { DropzoneContainer } from './DropzoneContainer';
 import { Footer } from './Footer';
 import { Header } from './Header';
@@ -41,21 +41,23 @@ export const ImageResizer = (props: ImageResizerProps) => {
 	const [crop, setCrop] = useState<Crop>({ unit: '%' });
 	const [fileState, setFileState] = useState<FileState>(DEFAULT_FILE_STATE);
 
+	const initialId = props.id ?? (props.aspectRatioHeight || props.aspectRatioWidth ? CUSTOM_ID : DEFAULT_ID);
+
 	let defaultFormState: FormState = {
 		aspectRatioHeight: parseFloat(props.aspectRatioHeight),
 		aspectRatioWidth: parseFloat(props.aspectRatioWidth),
 		format: props.format || DEFAULT_FORMAT,
-		id: DEFAULT_ID,
+		id: initialId,
 		optimize: props.optimize,
 		lockAspectRatio: props.lockAspectRatio || (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : undefined,
 		text: 'Custom'
 	};
 
-	if (props.id in PRESET_OPTIONS) {
+	if (initialId in PRESET_OPTIONS) {
 		defaultFormState = {
 			...defaultFormState,
-			...PRESET_OPTIONS[props.id]
+			...PRESET_OPTIONS[initialId]
 		};
 	}
 
@@ -256,7 +258,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				css={{
 					backgroundColor: theme.colors.white,
 					borderRight: `1px solid ${theme.colors.neutralLight}`,
-					bottom: 64,
+					bottom: 218,
 					label: 'sidebar',
 					left: 0,
 					overflowX: 'hidden',

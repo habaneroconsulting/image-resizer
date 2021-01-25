@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
 	DEFAULT_ASPECT_RATIO_WIDTH,
-	DEFAULT_ID,
+	CUSTOM_ID,
 	IMAGE_FORMAT_OPTIONS,
 	PRESET_OPTIONS
 } from '../../constants';
@@ -47,7 +47,7 @@ export const ImageResizerForm = ({
 	useEffect(() => {
 		const params = new URLSearchParams();
 
-		if (formState.id !== DEFAULT_ID) {
+		if (formState.id !== CUSTOM_ID) {
 			params.append('id', formState.id);
 		} else {
 			if (formState.aspectRatioHeight) {
@@ -89,13 +89,58 @@ export const ImageResizerForm = ({
 				onSubmit();
 			}}
 		>
-			<Fieldset legend="Custom" isExpanded={formState.id === DEFAULT_ID}>
+			<Fieldset legend="Presets" isExpanded={formState.id !== CUSTOM_ID}>
+				<CategorizedChoiceGroup
+					name="presets"
+					onChange={(_e, option) => {
+						// Set presets on top of previous state.
+						setFormState((prevState) => ({ ...prevState, ...option, change: 'input' }));
+					}}
+					groups={[
+						{
+							label: 'Common',
+							options: [PRESET_OPTIONS.opengraph, PRESET_OPTIONS.hd720, PRESET_OPTIONS.hd1080, PRESET_OPTIONS.uhd]
+						},
+						{
+							label: 'Facebook',
+							options: [
+								PRESET_OPTIONS.facebook_cover_photo,
+								PRESET_OPTIONS.facebook_post,
+								PRESET_OPTIONS.facebook_square_post
+							]
+						},
+						{
+							label: 'Instagram',
+							options: [
+								PRESET_OPTIONS.instagram_square_post,
+								PRESET_OPTIONS.instagram_landscape_post,
+								PRESET_OPTIONS.instagram_portrait_post,
+								PRESET_OPTIONS.instagram_story
+							]
+						},
+						{
+							label: 'LinkedIn',
+							options: [PRESET_OPTIONS.linkedin_cover_photo, PRESET_OPTIONS.linkedin_post]
+						},
+						{
+							label: 'Twitter',
+							options: [PRESET_OPTIONS.twitter_header_photo, PRESET_OPTIONS.twitter_post]
+						},
+						{
+							label: 'Microsoft 365',
+							options: [PRESET_OPTIONS.sharepoint_tile, PRESET_OPTIONS.sharepoint_wide]
+						}
+					]}
+					value={formState.id}
+				/>
+			</Fieldset>
+
+			<Fieldset legend="Custom ratio" isExpanded={formState.id === CUSTOM_ID}>
 				<div
 					css={{
 						display: 'grid',
 						gridGap: theme.space[4],
-						gridTemplateColumns: '105px 105px 1fr',
-						marginBottom: theme.space[3]
+						gridTemplateColumns: '105px 105px 1fr'
 					}}
 				>
 					<TooltipHost content="Units wide">
@@ -128,14 +173,14 @@ export const ImageResizerForm = ({
 										aspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH;
 									}
 
-									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, change: 'input', id: DEFAULT_ID }));
+									setFormState((prevState) => ({ ...prevState, aspectRatioWidth, change: 'input', id: CUSTOM_ID }));
 								}}
 								onDecrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioWidth: parseFloat(value),
 										change: 'input',
-										id: DEFAULT_ID
+										id: CUSTOM_ID
 									}));
 								}}
 								onIncrement={(value) => {
@@ -143,7 +188,7 @@ export const ImageResizerForm = ({
 										...prevState,
 										aspectRatioWidth: parseFloat(value),
 										change: 'input',
-										id: DEFAULT_ID
+										id: CUSTOM_ID
 									}));
 								}}
 								step={1}
@@ -181,14 +226,14 @@ export const ImageResizerForm = ({
 										aspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT;
 									}
 
-									setFormState((prevState) => ({ ...prevState, change: 'input', aspectRatioHeight, id: DEFAULT_ID }));
+									setFormState((prevState) => ({ ...prevState, change: 'input', aspectRatioHeight, id: CUSTOM_ID }));
 								}}
 								onDecrement={(value) => {
 									setFormState((prevState) => ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
 										change: 'input',
-										id: DEFAULT_ID
+										id: CUSTOM_ID
 									}));
 								}}
 								onIncrement={(value) => {
@@ -196,7 +241,7 @@ export const ImageResizerForm = ({
 										...prevState,
 										aspectRatioHeight: parseFloat(value),
 										change: 'input',
-										id: DEFAULT_ID
+										id: CUSTOM_ID
 									}));
 								}}
 								step={1}
@@ -213,111 +258,28 @@ export const ImageResizerForm = ({
 							onClick={() => {
 								setFormState((prevState) => ({
 									...prevState,
-									id: DEFAULT_ID,
+									id: CUSTOM_ID,
 									lockAspectRatio: !prevState.lockAspectRatio
 								}));
 							}}
 						/>
 					</TooltipHost>
 				</div>
-
-				<div
-					css={{
-						display: 'grid',
-						gridGap: theme.space[4],
-						gridTemplateColumns: '105px 1fr'
-					}}
-				>
-					<SpinButtonContainer
-						disabled={isDownloading}
-						label={'Output width'}
-						max={formState.maxWidth}
-						onBlur={(e) => {
-							let value = e.currentTarget.value;
-
-							if (value === Infinity.toString()) {
-								value = image?.naturalWidth.toString();
-							}
-
-							const newMaxWidth = parseInt(value);
-
-							setFormState((prevState) => ({ ...prevState, id: DEFAULT_ID, maxWidth: newMaxWidth }));
-						}}
-						onDecrement={(value) => {
-							if (value === Infinity.toString()) {
-								value = image?.naturalWidth.toString();
-							}
-
-							const newMaxWidth = parseInt(value);
-
-							setFormState((prevState) => ({ ...prevState, id: DEFAULT_ID, maxWidth: newMaxWidth }));
-
-							return `${newMaxWidth} px`;
-						}}
-						onIncrement={(value) => {
-							if (value === Infinity.toString()) {
-								value = image?.naturalWidth.toString();
-							}
-
-							const newMaxWidth = parseInt(value);
-
-							setFormState((prevState) => ({ ...prevState, id: DEFAULT_ID, maxWidth: newMaxWidth }));
-
-							return `${newMaxWidth} px`;
-						}}
-						step={1}
-						value={formState.maxWidth === Infinity || isNaN(formState.maxWidth) ? '' : `${formState.maxWidth} px`}
-					/>
-				</div>
 			</Fieldset>
 
-			<Fieldset legend="Presets" isExpanded={formState.id !== DEFAULT_ID}>
-				<CategorizedChoiceGroup
-					name="presets"
-					onChange={(_e, option) => {
-						// Set presets on top of previous state.
-						setFormState((prevState) => ({ ...prevState, ...option, change: 'input' }));
-					}}
-					groups={[
-						{
-							label: 'Common',
-							options: [PRESET_OPTIONS.OPENGRAPH, PRESET_OPTIONS.HD720, PRESET_OPTIONS.HD1080, PRESET_OPTIONS.UHD]
-						},
-						{
-							label: 'Facebook',
-							options: [
-								PRESET_OPTIONS.FACEBOOK_COVER_PHOTO,
-								PRESET_OPTIONS.FACEBOOK_POST,
-								PRESET_OPTIONS.FACEBOOK_SQUARE_POST
-							]
-						},
-						{
-							label: 'Instagram',
-							options: [
-								PRESET_OPTIONS.INSTAGRAM_SQUARE_POST,
-								PRESET_OPTIONS.INSTAGRAM_LANDSCAPE_POST,
-								PRESET_OPTIONS.INSTAGRAM_PORTRAIT_POST,
-								PRESET_OPTIONS.INSTAGRAM_STORY
-							]
-						},
-						{
-							label: 'LinkedIn',
-							options: [PRESET_OPTIONS.LINKEDIN_COVER_PHOTO, PRESET_OPTIONS.LINKEDIN_POST]
-						},
-						{
-							label: 'Twitter',
-							options: [PRESET_OPTIONS.TWITTER_HEADER_PHOTO, PRESET_OPTIONS.TWITTER_POST]
-						},
-						{
-							label: 'Microsoft 365',
-							options: [PRESET_OPTIONS.SHAREPOINT_TILE, PRESET_OPTIONS.SHAREPOINT_WIDE]
-						}
-					]}
-					value={formState.id}
-				/>
-			</Fieldset>
-
-			<Fieldset legend="Advanced">
+			<div
+				css={{
+					backgroundColor: theme.colors.white,
+					borderRight: `1px solid ${theme.colors.neutralLight}`,
+					borderTop: `1px solid ${theme.colors.neutralLight}`,
+					bottom: 0,
+					label: 'footer',
+					left: 0,
+					padding: theme.space[3],
+					position: 'fixed',
+					width: 320
+				}}
+			>
 				<div
 					css={{
 						display: 'grid',
@@ -335,46 +297,77 @@ export const ImageResizerForm = ({
 						}}
 					/>
 
-					<Toggle
-						checked={formState.optimize}
-						disabled={isDownloading || !IMAGE_FORMAT_OPTIONS.find((o) => o.key === formState.format)?.optimize}
-						label="Optimize image"
-						offText="Off"
-						onChange={(_e, optimize) => {
-							setFormState((prevState) => ({
-								...prevState,
-								optimize
-							}));
+					<div
+						css={{
+							display: 'grid',
+							gridGap: theme.space[3],
+							gridTemplateColumns: '1fr 1fr'
 						}}
-						onText="On"
-					/>
+					>
+						<div
+							css={{
+								display: 'grid',
+								gridGap: theme.space[4],
+								gridTemplateColumns: '105px 1fr'
+							}}
+						>
+							<SpinButtonContainer
+								disabled={isDownloading}
+								label={'Export width'}
+								max={formState.maxWidth}
+								onBlur={(e) => {
+									let value = e.currentTarget.value;
 
-					{/* <div>
-						<FormStateAnchor formState={formState} />
-					</div> */}
-				</div>
-			</Fieldset>
+									if (value === Infinity.toString()) {
+										value = image?.naturalWidth.toString();
+									}
 
-			<div
-				css={{
-					backgroundColor: theme.colors.white,
-					borderRight: `1px solid ${theme.colors.neutralLight}`,
-					borderTop: `1px solid ${theme.colors.neutralLight}`,
-					bottom: 0,
-					label: 'footer',
-					left: 0,
-					paddingBottom: theme.space[3],
-					paddingTop: theme.space[3],
-					position: 'fixed',
-					width: 320
-				}}
-			>
-				<div
-					css={{
-						display: 'flex',
-						justifyContent: 'center'
-					}}
-				>
+									const newMaxWidth = parseInt(value);
+
+									setFormState((prevState) => ({ ...prevState, id: CUSTOM_ID, maxWidth: newMaxWidth }));
+								}}
+								onDecrement={(value) => {
+									if (value === Infinity.toString()) {
+										value = image?.naturalWidth.toString();
+									}
+
+									const newMaxWidth = parseInt(value);
+
+									setFormState((prevState) => ({ ...prevState, id: CUSTOM_ID, maxWidth: newMaxWidth }));
+
+									return `${newMaxWidth} px`;
+								}}
+								onIncrement={(value) => {
+									if (value === Infinity.toString()) {
+										value = image?.naturalWidth.toString();
+									}
+
+									const newMaxWidth = parseInt(value);
+
+									setFormState((prevState) => ({ ...prevState, id: CUSTOM_ID, maxWidth: newMaxWidth }));
+
+									return `${newMaxWidth} px`;
+								}}
+								step={1}
+								value={formState.maxWidth === Infinity || isNaN(formState.maxWidth) ? '' : `${formState.maxWidth} px`}
+							/>
+						</div>
+
+						<Toggle
+							checked={formState.optimize}
+							disabled={isDownloading || !IMAGE_FORMAT_OPTIONS.find((o) => o.key === formState.format)?.optimize}
+							label="Optimize image"
+							offText="Off"
+							onChange={(_e, optimize) => {
+								setFormState((prevState) => ({
+									...prevState,
+									optimize
+								}));
+							}}
+							onText="On"
+						/>
+					</div>
+
 					<TooltipHost
 						calloutProps={{
 							calloutMaxWidth: 212,
@@ -397,6 +390,11 @@ export const ImageResizerForm = ({
 								iconName: isDownloading ? undefined : 'Download'
 							}}
 							type="submit"
+							styles={{
+								root: {
+									width: '100%'
+								}
+							}}
 						>
 							{isDownloading && <Spinner size={SpinnerSize.xSmall} />}
 

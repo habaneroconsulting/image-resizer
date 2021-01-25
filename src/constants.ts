@@ -20,14 +20,16 @@ export const IMAGE_FORMAT_OPTIONS = [
 	}
 ];
 
-export const DEFAULT_ID = 'CUSTOM';
+export const CUSTOM_ID = 'custom';
+
+export const DEFAULT_ID = 'opengraph';
 
 export const COMMON_OPTIONS = {
 	lockAspectRatio: true
 };
 
 export const PRESET_OPTIONS = {
-	OPENGRAPH: {
+	opengraph: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 630,
 		aspectRatioWidth: 1200,
@@ -35,31 +37,31 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1200,
 		text: 'Open Graph image'
 	},
-	HD720: {
+	hd720: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 720,
 		aspectRatioWidth: 1280,
-		id: '720p',
+		id: 'hd720',
 		maxWidth: 1280,
 		text: '720p (16:9)'
 	},
-	HD1080: {
+	hd1080: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 1080,
 		aspectRatioWidth: 1920,
-		id: '1080p',
+		id: 'hd1080',
 		maxWidth: 1920,
 		text: '1080p (16:9)'
 	},
-	UHD: {
+	uhd: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 2160,
 		aspectRatioWidth: 3840,
-		id: '4k',
+		id: 'uhd',
 		maxWidth: 3840,
 		text: '4K (16:9)'
 	},
-	FACEBOOK_COVER_PHOTO: {
+	facebook_cover_photo: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 312,
 		aspectRatioWidth: 820,
@@ -67,7 +69,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 820,
 		text: 'Cover photo'
 	},
-	FACEBOOK_POST: {
+	facebook_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 630,
 		aspectRatioWidth: 1200,
@@ -75,7 +77,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1200,
 		text: 'Post'
 	},
-	FACEBOOK_SQUARE_POST: {
+	facebook_square_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 1200,
 		aspectRatioWidth: 1200,
@@ -83,7 +85,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1200,
 		text: 'Square post'
 	},
-	INSTAGRAM_SQUARE_POST: {
+	instagram_square_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 1080,
 		aspectRatioWidth: 1080,
@@ -91,7 +93,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1080,
 		text: 'Square post'
 	},
-	INSTAGRAM_LANDSCAPE_POST: {
+	instagram_landscape_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 566,
 		aspectRatioWidth: 1080,
@@ -99,7 +101,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1080,
 		text: 'Landscape post'
 	},
-	INSTAGRAM_PORTRAIT_POST: {
+	instagram_portrait_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 1350,
 		aspectRatioWidth: 1080,
@@ -107,7 +109,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1080,
 		text: 'Portrait post'
 	},
-	INSTAGRAM_STORY: {
+	instagram_story: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 1920,
 		aspectRatioWidth: 1080,
@@ -115,7 +117,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1080,
 		text: 'Story'
 	},
-	LINKEDIN_COVER_PHOTO: {
+	linkedin_cover_photo: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 396,
 		aspectRatioWidth: 1584,
@@ -123,7 +125,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1584,
 		text: 'Cover photo'
 	},
-	LINKEDIN_POST: {
+	linkedin_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 628,
 		aspectRatioWidth: 1200,
@@ -131,7 +133,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1200,
 		text: 'Post'
 	},
-	TWITTER_HEADER_PHOTO: {
+	twitter_header_photo: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 500,
 		aspectRatioWidth: 1500,
@@ -139,7 +141,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1500,
 		text: 'Header photo'
 	},
-	TWITTER_POST: {
+	twitter_post: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 512,
 		aspectRatioWidth: 1012,
@@ -147,7 +149,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1012,
 		text: 'Post'
 	},
-	SHAREPOINT_TILE: {
+	sharepoint_tile: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 903,
 		aspectRatioWidth: 1204,
@@ -155,7 +157,7 @@ export const PRESET_OPTIONS = {
 		maxWidth: 1204,
 		text: 'Tile image (4:3)'
 	},
-	SHAREPOINT_WIDE: {
+	sharepoint_wide: {
 		...COMMON_OPTIONS,
 		aspectRatioHeight: 677,
 		aspectRatioWidth: 1204,
