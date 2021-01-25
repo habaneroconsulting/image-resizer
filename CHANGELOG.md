@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0]
+
+### Change
+
+- Move _Presets_ accordion below custom ratio option.
+- Move _Advanced_ section into fixed form footer area.
+
 ## [1.2.0]
 
 ### Added
