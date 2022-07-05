@@ -24,12 +24,9 @@ export const Footer = (props: FooterProps) => {
 			>
 				by{' '}
 				<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
-					Habanero Consulting Group
+					Habanero
 				</a>{' '}
-				| <Link to="/image-resizer/documentation">Documentation</Link> |{' '}
-				<a href="https://www.habaneroconsulting.com/privacy-policy" target="_blank" rel="noreferrer">
-					Privacy policy
-				</a>
+				| <Link to="/image-resizer/documentation">Documentation</Link>
 			</p>
 		</footer>
 	);
