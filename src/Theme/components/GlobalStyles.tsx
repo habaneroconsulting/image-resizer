@@ -103,7 +103,7 @@ export const GlobalStyles = () => {
 					WebkitFontSmoothing: 'antialiased'
 				},
 
-				'html, body, #root': {
+				'html, body, #app': {
 					height: '100%'
 				},
 

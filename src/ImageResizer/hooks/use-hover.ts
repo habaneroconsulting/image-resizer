@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const useHover = <T extends HTMLElement>(): [React.MutableRefObject<T>, boolean] => {
+export const useHover = <T extends HTMLElement>(): [React.RefObject<T>, boolean] => {
 	const [value, setValue] = React.useState(false);
 	const ref = React.useRef<T>(null);
 

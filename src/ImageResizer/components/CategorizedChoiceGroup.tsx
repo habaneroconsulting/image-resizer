@@ -37,11 +37,18 @@ const CategorizedChoiceOptionElement = ({
 	const theme = useTheme();
 
 	const isChecked = option.id === value;
-	const isLandscape = option.aspectRatioWidth > option.aspectRatioHeight;
+	const isLandscape =
+		option.aspectRatioWidth && option.aspectRatioHeight && option.aspectRatioWidth > option.aspectRatioHeight;
 
 	const maxWidth = isLandscape ? 100 : 84;
-	const height = isLandscape ? `${(option.aspectRatioHeight / option.aspectRatioWidth) * maxWidth}px` : maxWidth;
-	const width = isLandscape ? maxWidth : `${(option.aspectRatioWidth / option.aspectRatioHeight) * maxWidth}px`;
+	const height =
+		isLandscape && option.aspectRatioHeight && option.aspectRatioWidth
+			? `${(option.aspectRatioHeight / option.aspectRatioWidth) * maxWidth}px`
+			: maxWidth;
+	const width =
+		!isLandscape && option.aspectRatioWidth && option.aspectRatioHeight
+			? `${(option.aspectRatioWidth / option.aspectRatioHeight) * maxWidth}px`
+			: maxWidth;
 
 	return (
 		<label

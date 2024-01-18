@@ -2,7 +2,9 @@
 
 import { SpinButton, ISpinButtonProps } from '@fluentui/react/lib/SpinButton';
 
-type SpinButtonContainerProps = ISpinButtonProps;
+type SpinButtonContainerProps = Omit<ISpinButtonProps, 'step'> & {
+	step: number;
+};
 
 // Taken from:
 // import { Position } from 'office-ui-fabric-react/lib/utilities/positioning';
@@ -39,7 +41,7 @@ export const SpinButtonContainer = ({ min, onDecrement, onIncrement, step, ...pr
 				const newValueFixed = isFloat ? newValue.toFixed(1) : newValue.toString();
 
 				if (onIncrement) {
-					return onDecrement(newValueFixed);
+					return onIncrement(newValueFixed);
 				}
 
 				return newValueFixed;

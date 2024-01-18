@@ -3,7 +3,7 @@
 import { useTheme } from '@emotion/react';
 import React from 'react';
 
-import { ReactComponent as LogoSvg } from '../logo.svg';
+import Logo from '../logo.svg?react';
 
 type HeaderProps = {
 	children?: React.ReactNode;
@@ -25,11 +25,7 @@ export const Header = ({ children }: HeaderProps) => {
 			}}
 		>
 			<div>
-				<LogoSvg
-					css={{
-						display: 'block'
-					}}
-				/>
+				<Logo />
 			</div>
 
 			<div

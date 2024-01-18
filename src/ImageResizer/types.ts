@@ -27,14 +27,16 @@ export type FileState =
 			src: string;
 	  };
 
+export type Formats = 'jpeg' | 'png' | 'webp';
+
 export type FormState = {
 	aspectRatioHeight: number;
 	aspectRatioWidth: number;
 	change?: 'crop' | 'input';
-	format?: string;
+	format: Formats;
 	id: string;
 	lockAspectRatio: boolean;
-	maxWidth?: number;
+	maxWidth: number;
 	optimize: boolean;
 	text: string;
 };

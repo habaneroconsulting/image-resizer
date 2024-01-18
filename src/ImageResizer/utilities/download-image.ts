@@ -1,6 +1,6 @@
 import type { Crop } from 'react-image-crop';
 
-import type { Results } from '../types';
+import type { Formats, Results } from '../types';
 
 const MIME_TYPE_MAP = {
 	jpeg: 'image/jpeg',
@@ -11,7 +11,7 @@ const MIME_TYPE_MAP = {
 type DownloadImageOptions = {
 	crop: Crop;
 	fileName: string;
-	format: string;
+	format?: Formats;
 	image: HTMLImageElement;
 	maxWidth: number;
 	optimize?: boolean;
@@ -24,7 +24,7 @@ type DownloadImageOptions = {
 export async function downloadImage({
 	crop,
 	fileName,
-	format,
+	format = 'png',
 	image,
 	maxWidth,
 	optimize = false,
@@ -40,13 +40,13 @@ export async function downloadImage({
 
 	// Get the x-y coordinates. If no crop is available, then we'll be using the
 	// entire canvas.
-	const cropX = (crop.x / 100) * image.width ?? 0;
-	const cropY = (crop.y / 100) * image.height ?? 0;
+	const cropX = (crop.x / 100) * image.width;
+	const cropY = (crop.y / 100) * image.height;
 
 	// Get the crop width and height. If no crop is available, we'll be using the
 	// entire canvas.
-	const cropWidth = (crop.width / 100) * image.width ?? image.width;
-	const cropHeight = (crop.height / 100) * image.height ?? image.height;
+	const cropWidth = (crop.width / 100) * image.width;
+	const cropHeight = (crop.height / 100) * image.height;
 
 	// If the maximum image width is larger than the area that was selected, then
 	// we need to resize the image down.
@@ -69,6 +69,10 @@ export async function downloadImage({
 	const sy = Math.round(cropY * scaleY);
 	const sWidth = Math.round(cropWidth * scaleX);
 	const sHeight = Math.round(cropHeight * scaleY);
+
+	if (!ctx) {
+		throw new Error();
+	}
 
 	ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, width, height);
 

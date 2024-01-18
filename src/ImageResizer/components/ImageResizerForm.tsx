@@ -16,7 +16,7 @@ import {
 } from '../../constants';
 import { CategorizedChoiceGroup } from './CategorizedChoiceGroup';
 import { Fieldset } from './Fieldset';
-import { FormState } from '../types';
+import { FormState, Formats } from '../types';
 import { SpinButtonContainer } from './SpinButtonContainer';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 
@@ -38,10 +38,12 @@ export const ImageResizerForm = ({
 	const theme = useTheme();
 
 	const aspectRatioDisabled = false;
-	const aspectRatioHeightValue = isNaN(formState.aspectRatioHeight)
+	const aspectRatioHeightValue = isNaN(formState.aspectRatioHeight ?? NaN)
 		? ''
 		: formState.aspectRatioHeight?.toString() ?? '1';
-	const aspectRatioWidthValue = isNaN(formState.aspectRatioWidth) ? '' : formState.aspectRatioWidth?.toString() ?? '1';
+	const aspectRatioWidthValue = isNaN(formState.aspectRatioWidth ?? NaN)
+		? ''
+		: formState.aspectRatioWidth?.toString() ?? '1';
 
 	// Change URL to match form state.
 	useEffect(() => {
@@ -78,7 +80,7 @@ export const ImageResizerForm = ({
 		const port = window.location.port ? `:${window.location.port}` : '';
 		const href = `${window.location.protocol}//${window.location.hostname}${port}/image-resizer?${params.toString()}`;
 
-		window.history.replaceState(null, null, href);
+		window.history.replaceState(null, '', href);
 	}, [formState]);
 
 	return (
@@ -293,7 +295,10 @@ export const ImageResizerForm = ({
 						selectedKey={formState.format}
 						options={IMAGE_FORMAT_OPTIONS}
 						onChange={(_e, option) => {
-							setFormState((prevState) => ({ ...prevState, format: option.key.toString() }));
+							setFormState((prevState) => ({
+								...prevState,
+								format: option?.key.toString() as Formats
+							}));
 						}}
 					/>
 
@@ -318,38 +323,34 @@ export const ImageResizerForm = ({
 								onBlur={(e) => {
 									let value = e.currentTarget.value;
 
-									if (value === Infinity.toString()) {
-										value = image?.naturalWidth.toString();
-									}
+									const newValue = value === Infinity.toString() && image ? image.naturalWidth.toString() : value;
 
-									const newMaxWidth = parseInt(value);
+									const newMaxWidth = parseInt(newValue);
 
 									setFormState((prevState) => ({ ...prevState, id: CUSTOM_ID, maxWidth: newMaxWidth }));
 								}}
 								onDecrement={(value) => {
-									if (value === Infinity.toString()) {
-										value = image?.naturalWidth.toString();
-									}
+									const newValue = value === Infinity.toString() && image ? image.naturalWidth.toString() : value;
 
-									const newMaxWidth = parseInt(value);
+									const newMaxWidth = parseInt(newValue);
 
 									setFormState((prevState) => ({ ...prevState, id: CUSTOM_ID, maxWidth: newMaxWidth }));
 
 									return `${newMaxWidth} px`;
 								}}
 								onIncrement={(value) => {
-									if (value === Infinity.toString()) {
-										value = image?.naturalWidth.toString();
-									}
+									const newValue = value === Infinity.toString() && image ? image.naturalWidth.toString() : value;
 
-									const newMaxWidth = parseInt(value);
+									const newMaxWidth = parseInt(newValue);
 
 									setFormState((prevState) => ({ ...prevState, id: CUSTOM_ID, maxWidth: newMaxWidth }));
 
 									return `${newMaxWidth} px`;
 								}}
 								step={1}
-								value={formState.maxWidth === Infinity || isNaN(formState.maxWidth) ? '' : `${formState.maxWidth} px`}
+								value={
+									formState.maxWidth === Infinity || isNaN(formState.maxWidth ?? NaN) ? '' : `${formState.maxWidth} px`
+								}
 							/>
 						</div>
 
@@ -361,7 +362,7 @@ export const ImageResizerForm = ({
 							onChange={(_e, optimize) => {
 								setFormState((prevState) => ({
 									...prevState,
-									optimize
+									optimize: optimize ?? false
 								}));
 							}}
 							onText="On"
