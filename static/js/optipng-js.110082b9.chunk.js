@@ -1,2 +1,0 @@
-(this["webpackJsonpimage-resizer"]=this["webpackJsonpimage-resizer"]||[]).push([[3],{296:function(n,i){},298:function(n,i){},310:function(n,i){},312:function(n,i){},339:function(n,i){},341:function(n,i){},342:function(n,i){},347:function(n,i){},349:function(n,i){},368:function(n,i){},380:function(n,i){},383:function(n,i){}}]);
-//# sourceMappingURL=optipng-js.110082b9.chunk.js.map
