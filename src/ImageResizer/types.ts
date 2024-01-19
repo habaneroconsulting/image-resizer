@@ -27,7 +27,7 @@ export type FileState =
 			src: string;
 	  };
 
-export type Formats = 'jpeg' | 'png' | 'webp';
+export type Formats = 'avif' | 'jpeg' | 'png' | 'webp';
 
 export type FormState = {
 	aspectRatioHeight: number;

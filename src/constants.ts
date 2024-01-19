@@ -17,9 +17,29 @@ export const IMAGE_FORMAT_OPTIONS = [
 	{
 		key: 'webp',
 		text: 'WebP',
-		optimize: false
+		optimize: true
+	},
+	{
+		key: 'avif',
+		text: 'AVIF',
+		optimize: true
 	}
 ];
+
+export const QUALITY_LEVELS = {
+	optimize: {
+		avif: 40,
+		png: 3,
+		jpeg: 50,
+		webp: 50
+	},
+	unoptimized: {
+		avif: 10,
+		png: undefined,
+		jpeg: 90,
+		webp: 90
+	}
+};
 
 export const CUSTOM_ID = 'custom';
 

@@ -6,11 +6,9 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
 	base: '/image-resizer',
 
-	plugins: [react(), svgr()],
+	optimizeDeps: {
+		exclude: ['@jsquash/avif', '@jsquash/jpeg', '@jsquash/oxipng', '@jsquash/png', '@jsquash/webp']
+	},
 
-	server: {
-		watch: {
-			usePolling: true
-		}
-	}
+	plugins: [react(), svgr()]
 });

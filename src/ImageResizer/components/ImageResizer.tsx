@@ -159,15 +159,25 @@ export const ImageResizer = (props: ImageResizerProps) => {
 
 			// If there was no default format, set the format based on the input image.
 			if (!props.format) {
-				if (file.type === 'image/png') {
+				if (file.type === 'image/avif') {
 					setFormState((prevState) => ({
 						...prevState,
-						format: 'png'
+						format: 'avif'
 					}));
 				} else if (file.type === 'image/jpeg') {
 					setFormState((prevState) => ({
 						...prevState,
 						format: 'jpeg'
+					}));
+				} else if (file.type === 'image/png') {
+					setFormState((prevState) => ({
+						...prevState,
+						format: 'png'
+					}));
+				} else if (file.type === 'image/webp') {
+					setFormState((prevState) => ({
+						...prevState,
+						format: 'webp'
 					}));
 				}
 			}

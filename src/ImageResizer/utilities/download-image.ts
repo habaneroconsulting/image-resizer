@@ -1,8 +1,10 @@
 import type { Crop } from 'react-image-crop';
 
 import type { Formats, Results } from '../types';
+import { QUALITY_LEVELS } from '../../constants';
 
 const MIME_TYPE_MAP = {
+	avif: 'image/avif',
 	jpeg: 'image/jpeg',
 	png: 'image/png',
 	webp: 'image/webp'
@@ -15,7 +17,6 @@ type DownloadImageOptions = {
 	image: HTMLImageElement;
 	maxWidth: number;
 	optimize?: boolean;
-	quality?: number;
 };
 
 /**
@@ -27,8 +28,7 @@ export async function downloadImage({
 	format = 'png',
 	image,
 	maxWidth,
-	optimize = false,
-	quality = 0.85
+	optimize = false
 }: DownloadImageOptions): Promise<Results> {
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
@@ -75,20 +75,18 @@ export async function downloadImage({
 	}
 
 	ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, width, height);
+	const imageData = ctx.getImageData(0, 0, width, height);
+
+	let blob: Blob;
+
+	const res = await encodeImage(imageData, format, optimize);
+
+	blob = new Blob([res], { type: MIME_TYPE_MAP[format] });
+
+	const href = URL.createObjectURL(blob);
 
 	const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
 	const newFileName = `${fileNameWithoutExtension}.${format}`;
-
-	let blob = await toBlob(canvas, MIME_TYPE_MAP[format], quality);
-
-	if (optimize) {
-		const blobArrayBuffer = await blob.arrayBuffer();
-		const res = await optimizeImage(new Uint8Array(blobArrayBuffer), blob.type);
-
-		blob = new Blob([res.data], { type: blob.type });
-	}
-
-	const href = URL.createObjectURL(blob);
 
 	downloadHref(newFileName, href);
 
@@ -98,31 +96,6 @@ export async function downloadImage({
 		size: blob.size,
 		width
 	};
-}
-
-/**
- * Convert the toBlob function to use a promise instead of a callback for async
- * and await usage.
- * @param canvas The canvas element to get a blob from.
- * @param type The mime type of the image format to retrieve.
- * @param quality A quality number from 0 - 1.
- */
-function toBlob(canvas: HTMLCanvasElement, type?: string, quality?: number): Promise<Blob> {
-	return new Promise((resolve, reject) => {
-		canvas.toBlob(
-			(blob) => {
-				if (blob === null) {
-					reject(`Blob cannot be null`);
-
-					return;
-				}
-
-				resolve(blob);
-			},
-			type,
-			quality
-		);
-	});
 }
 
 /**
@@ -141,16 +114,35 @@ function downloadHref(filename: string, href: string) {
 	document.body.removeChild(a);
 }
 
-async function optimizeImage(data: Uint8Array, type: string): Promise<{ data: Uint8Array }> {
-	if (type === 'image/png') {
-		const optipng = await import(/* webpackChunkName: "optipng-js" */ 'optipng-js');
+async function encodeImage(data: ImageData, type: Formats, optimize: boolean): Promise<ArrayBuffer> {
+	const quality = optimize ? QUALITY_LEVELS.optimize[type] : QUALITY_LEVELS.unoptimized[type];
 
-		return optipng.default(data, ['-o2']);
-	} else if (type === 'image/jpeg') {
-		const { encode } = await import(/* webpackChunkName: "mozjpeg-js" */ 'mozjpeg-js');
+	if (type === 'avif') {
+		const { encode } = await import(/* webpackChunkName: "jsquash-avif" */ '@jsquash/avif');
 
-		return encode(data);
+		return encode(data, { cqLevel: quality });
+	}
+	if (type === 'png') {
+		const { encode } = await import(/* webpackChunkName: "jsquash-png" */ '@jsquash/png');
+
+		if (!optimize) {
+			return encode(data);
+		} else {
+			const result = await encode(data);
+
+			const optimise = await import(/* webpackChunkName: "jsquash-oxipng" */ '@jsquash/oxipng/optimise');
+
+			return optimise.default(result, { level: quality });
+		}
+	} else if (type === 'jpeg') {
+		const { encode } = await import(/* webpackChunkName: "jsquash-jpeg" */ '@jsquash/jpeg');
+
+		return encode(data, { quality });
+	} else if (type === 'webp') {
+		const { encode } = await import(/* webpackChunkName: "jsquash-webp" */ '@jsquash/webp');
+
+		return encode(data, { quality });
 	}
 
-	return { data };
+	return data.data;
 }
