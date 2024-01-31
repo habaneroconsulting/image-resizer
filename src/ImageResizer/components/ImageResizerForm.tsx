@@ -3,9 +3,11 @@
 import { useTheme } from '@emotion/react';
 import { IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import { TooltipHost } from '@fluentui/react/lib/Tooltip';
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Crop } from 'react-image-crop';
 
 import {
 	DEFAULT_ASPECT_RATIO_HEIGHT,
@@ -18,9 +20,9 @@ import { CategorizedChoiceGroup } from './CategorizedChoiceGroup';
 import { Fieldset } from './Fieldset';
 import { FormState, Formats } from '../types';
 import { SpinButtonContainer } from './SpinButtonContainer';
-import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 
 type ImageResizerFormProps = {
+	crop?: Crop;
 	isDownloading?: boolean;
 	image?: HTMLImageElement;
 	formState: FormState;
@@ -29,6 +31,7 @@ type ImageResizerFormProps = {
 };
 
 export const ImageResizerForm = ({
+	crop,
 	isDownloading = false,
 	image,
 	formState,
@@ -167,6 +170,7 @@ export const ImageResizerForm = ({
 								disabled={isDownloading || aspectRatioDisabled}
 								max={Infinity}
 								min={0.1}
+								id="aspect-ratio-units-wide"
 								onBlur={(e) => {
 									const value = e.currentTarget.value;
 									let aspectRatioWidth = parseFloat(parseFloat(value).toFixed(1));
@@ -220,6 +224,8 @@ export const ImageResizerForm = ({
 							<SpinButtonContainer
 								disabled={isDownloading || aspectRatioDisabled}
 								max={Infinity}
+								min={0.1}
+								id="aspect-ratio-units-high"
 								onBlur={(e) => {
 									const value = e.currentTarget.value;
 									let aspectRatioHeight = parseFloat(parseFloat(value).toFixed(1));
@@ -257,6 +263,7 @@ export const ImageResizerForm = ({
 							ariaLabel="Toggle aspect ratio lock"
 							checked={formState.lockAspectRatio}
 							iconProps={{ iconName: formState.lockAspectRatio ? 'Lock' : 'Unlock' }}
+							id="aspect-ratio-lock"
 							onClick={() => {
 								setFormState((prevState) => ({
 									...prevState,
@@ -292,6 +299,7 @@ export const ImageResizerForm = ({
 					<Dropdown
 						disabled={isDownloading}
 						label="Image format"
+						id="image-format"
 						selectedKey={formState.format}
 						options={IMAGE_FORMAT_OPTIONS}
 						onChange={(_e, option) => {
@@ -319,6 +327,7 @@ export const ImageResizerForm = ({
 							<SpinButtonContainer
 								disabled={isDownloading}
 								label={'Export width'}
+								id="export-width"
 								max={formState.maxWidth}
 								onBlur={(e) => {
 									let value = e.currentTarget.value;
@@ -358,6 +367,7 @@ export const ImageResizerForm = ({
 							checked={formState.optimize}
 							disabled={isDownloading || !IMAGE_FORMAT_OPTIONS.find((o) => o.key === formState.format)?.optimize}
 							label="Optimize image"
+							id="optimize-image"
 							offText="Off"
 							onChange={(_e, optimize) => {
 								setFormState((prevState) => ({
@@ -386,7 +396,7 @@ export const ImageResizerForm = ({
 						}
 					>
 						<PrimaryButton
-							disabled={isDownloading || !image?.currentSrc}
+							disabled={isDownloading || !image?.currentSrc || !crop}
 							iconProps={{
 								iconName: isDownloading ? undefined : 'Download'
 							}}

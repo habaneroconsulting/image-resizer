@@ -13,7 +13,7 @@ and [`react-image-crop`](https://github.com/DominicTobias/react-image-crop).
 - **max-w** `[number]`: Sets the maximum width of the image.
 - **ar-w** `[number]`: Sets the aspect ratio width.
 - **ar-h** `[number]`: Sets the aspect ratio height.
-- **format** `['jpeg'|'png']`: Sets the format of the image.
+- **format** `['jpeg'|'png'|'avif'|'webp']`: Sets the format of the image.
 
 ## Available Scripts (via Create React App)
 

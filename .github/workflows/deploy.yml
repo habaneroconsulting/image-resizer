@@ -27,6 +27,19 @@ jobs:
       - name: Build page
         run: npm run build
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:

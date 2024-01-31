@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "github.vscode-github-actions",
+    "ms-playwright.playwright",
+    "yoavbls.pretty-ts-errors"
+  ]
+}

@@ -49,7 +49,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 		format: props.format || DEFAULT_FORMAT,
 		id: initialId,
 		optimize: props.optimize ?? false,
-		lockAspectRatio: props.lockAspectRatio || (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
+		lockAspectRatio: props.lockAspectRatio ?? (!!props.aspectRatioHeight && !!props.aspectRatioWidth),
 		maxWidth: props.maxWidth ? parseInt(props.maxWidth) : DEFAULT_MAX_WIDTH,
 		text: 'Custom'
 	};
@@ -287,6 +287,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				<Header />
 
 				<ImageResizerForm
+					crop={crop}
 					isDownloading={fileState.status === Status.Downloading}
 					image={imageRef.current}
 					formState={formState}

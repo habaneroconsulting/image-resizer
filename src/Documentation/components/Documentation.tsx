@@ -49,11 +49,11 @@ export const Documentation = () => {
 					<b>ar-h</b> <code>[number]</code>: Sets the aspect ratio height.
 				</li>
 				<li>
-					<b>format</b> <code>['jpeg'|'png']</code>: Sets the format of the image.
+					<b>format</b> <code>['jpeg'|'png'|'avif'|'webp']</code>: Sets the format of the image.
 				</li>
 				<li>
 					<b>optimize</b> <code>['true'|'false']</code>: Sets whether or not the image should be optimized after
-					resizing, using either <i>mozjpeg</i> or <i>optipng</i>.
+					resizing.
 				</li>
 			</ul>
 		</div>

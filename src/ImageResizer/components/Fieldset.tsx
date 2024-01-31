@@ -62,7 +62,7 @@ export const Fieldset = ({ children, legend, isExpanded = false, onClick, ...pro
 						? onClick
 						: () => {
 								setIsOpen(!isOpen);
-						  }
+							}
 				}
 				id={`${uid}-button`}
 				type="button"
