@@ -27,11 +27,11 @@ jobs:
       - name: Build page
         run: npm run build
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      - name: Build test container
+        run: npm run docker-test-build
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run tests
+        run: npm run docker-test-run
 
       - uses: actions/upload-artifact@v3
         if: always()

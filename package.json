@@ -39,6 +39,8 @@
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build": "tsc && vite build",
+    "docker-test-build": "docker build -t playwright-tests .",
+    "docker-test-run": "docker run -v ./test-downloads:/app/test-downloads -v ./playwright-report:/app/playwright-report playwright-tests",
     "prettier": "prettier ./src/**/* --write",
     "test": "npx playwright test",
     "serve": "vite preview",
