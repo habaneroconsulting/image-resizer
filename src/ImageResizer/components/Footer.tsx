@@ -26,7 +26,10 @@ export const Footer = (props: FooterProps) => {
 				<a href="https://www.habaneroconsulting.com" rel="noopener noreferrer" target="_blank">
 					Habanero
 				</a>{' '}
-				| <Link to="/image-resizer/documentation">Documentation</Link>
+				| <Link to="/image-resizer/documentation">Documentation</Link> |{' '}
+				<a href="https://github.com/habaneroconsulting/image-resizer" rel="noopener">
+					GitHub
+				</a>
 			</p>
 		</footer>
 	);
