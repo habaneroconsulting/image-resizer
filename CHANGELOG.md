@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0]
+
+### Added
+
+- Add GitHub repository link to footer.
+- Add Playwright tests.
+
 ## [1.3.0]
 
 ### Change
