@@ -7,20 +7,20 @@ test.describe('image controls', () => {
 		await expect(page.getByText('Select one from your device')).toBeVisible();
 		await expect(page.getByText('Replace image')).not.toBeVisible();
 
-		await expect(page.getByText('Download image')).toBeDisabled();
+		await expect(page.getByRole('button', { name: 'Download image' })).toBeDisabled();
 
 		await page.setInputFiles('input[type="file"]', 'tests/sample/source.png');
 
 		await expect(page.getByText('Select one from your device')).not.toBeVisible();
-		await expect(page.getByText('Replace image')).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Replace image' })).toBeVisible();
 
-		await expect(page.getByText('Download image')).toBeEnabled();
+		await expect(page.getByRole('button', { name: 'Download image' })).toBeEnabled();
 
 		await page.getByText('Deselect crop').click();
-		await expect(page.getByText('Download image')).toBeDisabled();
+		await expect(page.getByRole('button', { name: 'Download image' })).toBeDisabled();
 
 		await page.getByText('Replace image').click();
-		await expect(page.getByText('Replace image')).not.toBeVisible();
+		await expect(page.getByRole('button', { name: 'Replace image' })).not.toBeVisible();
 	});
 
 	test('are set default values', async ({ page }) => {
