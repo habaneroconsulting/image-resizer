@@ -10,5 +10,11 @@ export default defineConfig({
 		exclude: ['@jsquash/avif', '@jsquash/jpeg', '@jsquash/oxipng', '@jsquash/png', '@jsquash/webp']
 	},
 
-	plugins: [react(), svgr()]
+	plugins: [react(), svgr()],
+
+	server: {
+		watch: {
+			followSymlinks: false
+		}
+	}
 });
