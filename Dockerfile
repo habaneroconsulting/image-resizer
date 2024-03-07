@@ -10,5 +10,7 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
+ARG CI=true
+
 # Set the entry point for the container
 CMD ["npx", "playwright", "test"]
