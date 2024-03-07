@@ -27,6 +27,9 @@ jobs:
       - name: Build page
         run: npm run build
 
+      - name: Copy index.html to 404.html
+        run: cp ./dist/index.html ./dist/404.html
+
       - name: Build test container
         run: npm run docker-test-build
 
