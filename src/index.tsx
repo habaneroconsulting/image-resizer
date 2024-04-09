@@ -8,9 +8,9 @@ import { Documentation } from './Documentation';
 import { ImageResizerContainer } from './ImageResizer';
 import { ThemeProvider } from './Theme/components/ThemeProvider';
 
-if (import.meta.env.REACT_APP_GOOGLE_TAG_MANAGER_CONTAINER_ID) {
+if (import.meta.env.VITE_APP_GOOGLE_TAG_MANAGER_CONTAINER_ID) {
 	TagManager.initialize({
-		gtmId: import.meta.env.REACT_APP_GOOGLE_TAG_MANAGER_CONTAINER_ID
+		gtmId: import.meta.env.VITE_APP_GOOGLE_TAG_MANAGER_CONTAINER_ID
 	});
 }
 
