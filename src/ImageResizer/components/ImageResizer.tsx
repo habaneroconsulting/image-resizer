@@ -301,7 +301,7 @@ export const ImageResizer = (props: ImageResizerProps) => {
 					backgroundColor: theme.colors.neutralLighterAlt,
 					display: 'grid',
 					height: '100%',
-					gridTemplateRows: '1fr auto',
+					gridTemplateRows: 'minmax(0, 1fr) auto',
 					label: 'center',
 					padding: theme.space[6],
 					paddingBottom: theme.space[5],
@@ -311,6 +311,9 @@ export const ImageResizer = (props: ImageResizerProps) => {
 				<div
 					css={{
 						alignItems: 'center',
+						// Size container so the image can be capped to the available height
+						// with `cqh` units (see GlobalStyles).
+						containerType: 'size',
 						display: 'flex',
 						label: 'container',
 						justifyContent: 'center'
@@ -375,7 +378,6 @@ export const ImageResizer = (props: ImageResizerProps) => {
 							<div
 								css={{
 									boxShadow: theme.shadows.depth16,
-									maxHeight: 'calc(100% - 40px)',
 									userSelect: 'none'
 								}}
 							>

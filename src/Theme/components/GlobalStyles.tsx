@@ -252,11 +252,12 @@ export const GlobalStyles = () => {
 				},
 
 				'.ReactCrop': {
-					display: 'block !important',
-					maxHeight: '100%'
+					display: 'block !important'
 				},
 
-				'.ReactCrop__image': {
+				// Extra specificity to beat react-image-crop's lazily loaded
+				// `.ReactCrop__child-wrapper > img` rule.
+				'.ReactCrop .ReactCrop__child-wrapper > img': {
 					backgroundImage: `linear-gradient(45deg, ${theme.colors.neutralLight} 25%, transparent 25%),
 						linear-gradient(45deg, transparent 75%, ${theme.colors.neutralLight} 75%),
 						linear-gradient(45deg, transparent 75%, ${theme.colors.neutralLight} 75%),
@@ -266,7 +267,9 @@ export const GlobalStyles = () => {
 						0 0,
 						-${checkeredSize / 2}px -${checkeredSize / 2}px,
 						${checkeredSize / 2}px ${checkeredSize / 2}px`,
-					maxHeight: 'calc(100vh - 120px)'
+					// Fit within the image container, leaving room for the 40px action
+					// buttons above the image.
+					maxHeight: 'calc(100cqh - 40px)'
 				}
 			}}
 		/>
