@@ -118,31 +118,31 @@ async function encodeImage(data: ImageData, type: Formats, optimize: boolean): P
 	const quality = optimize ? QUALITY_LEVELS.optimize[type] : QUALITY_LEVELS.unoptimized[type];
 
 	if (type === 'avif') {
-		const { encode } = await import(/* webpackChunkName: "jsquash-avif" */ '@jsquash/avif');
+		const { encode } = await import('@jsquash/avif');
 
-		return encode(data, { cqLevel: quality });
+		return encode(data, { quality });
 	}
 	if (type === 'png') {
-		const { encode } = await import(/* webpackChunkName: "jsquash-png" */ '@jsquash/png');
+		const { encode } = await import('@jsquash/png');
 
 		if (!optimize) {
 			return encode(data);
 		} else {
 			const result = await encode(data);
 
-			const optimise = await import(/* webpackChunkName: "jsquash-oxipng" */ '@jsquash/oxipng/optimise');
+			const optimise = await import('@jsquash/oxipng/optimise');
 
 			return optimise.default(result, { level: quality });
 		}
 	} else if (type === 'jpeg') {
-		const { encode } = await import(/* webpackChunkName: "jsquash-jpeg" */ '@jsquash/jpeg');
+		const { encode } = await import('@jsquash/jpeg');
 
 		return encode(data, { quality });
 	} else if (type === 'webp') {
-		const { encode } = await import(/* webpackChunkName: "jsquash-webp" */ '@jsquash/webp');
+		const { encode } = await import('@jsquash/webp');
 
 		return encode(data, { quality });
 	}
 
-	return data.data;
+	return data.data.buffer;
 }

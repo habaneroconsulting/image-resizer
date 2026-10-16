@@ -28,7 +28,7 @@ type ImageResizerProps = {
 const DEFAULT_FILE_STATE: FileState = { status: Status.Initial };
 const SIDEBAR_WIDTH = 320;
 
-const ImageCrop = React.lazy(() => import(/* webpackChunkName: "ImageCrop" */ './ImageCrop'));
+const ImageCrop = React.lazy(() => import('./ImageCrop'));
 
 /**
  * Main image resizer component. Keeps state for the form, drop zone and crop
@@ -36,7 +36,7 @@ const ImageCrop = React.lazy(() => import(/* webpackChunkName: "ImageCrop" */ '.
  */
 export const ImageResizer = (props: ImageResizerProps) => {
 	const theme = useTheme();
-	const imageRef = useRef<HTMLImageElement>();
+	const imageRef = useRef<HTMLImageElement>(undefined);
 
 	const [crop, setCrop] = useState<Crop | undefined>(undefined);
 	const [fileState, setFileState] = useState<FileState>(DEFAULT_FILE_STATE);

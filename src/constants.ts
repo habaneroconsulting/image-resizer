@@ -26,15 +26,17 @@ export const IMAGE_FORMAT_OPTIONS = [
 	}
 ];
 
+// AVIF uses a 0-100 quality scale (higher is better). The values map to the
+// libavif quantizers previously set with `cqLevel` (40 and 10, respectively).
 export const QUALITY_LEVELS = {
 	optimize: {
-		avif: 40,
+		avif: 37,
 		png: 3,
 		jpeg: 50,
 		webp: 50
 	},
 	unoptimized: {
-		avif: 10,
+		avif: 84,
 		png: undefined,
 		jpeg: 90,
 		webp: 90

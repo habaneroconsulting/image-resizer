@@ -43,10 +43,10 @@ export const ImageResizerForm = ({
 	const aspectRatioDisabled = false;
 	const aspectRatioHeightValue = isNaN(formState.aspectRatioHeight ?? NaN)
 		? ''
-		: formState.aspectRatioHeight?.toString() ?? '1';
+		: (formState.aspectRatioHeight?.toString() ?? '1');
 	const aspectRatioWidthValue = isNaN(formState.aspectRatioWidth ?? NaN)
 		? ''
-		: formState.aspectRatioWidth?.toString() ?? '1';
+		: (formState.aspectRatioWidth?.toString() ?? '1');
 
 	// Change URL to match form state.
 	useEffect(() => {

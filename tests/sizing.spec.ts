@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import imageSize from 'image-size';
+import { imageSizeFromFile } from 'image-size/fromFile';
 
 import { getFileHash } from './utilities/get-file-hash';
 
@@ -16,7 +16,7 @@ test.describe('image formats', () => {
 
 		expect(getFileHash('tests/sample/hd720.jpeg')).toEqual(getFileHash('test-downloads/hd720.jpeg'));
 
-		const dimensions = imageSize('test-downloads/hd720.jpeg');
+		const dimensions = await imageSizeFromFile('test-downloads/hd720.jpeg');
 		expect(dimensions.height).toBe(720);
 		expect(dimensions.width).toBe(1280);
 	});
@@ -33,7 +33,7 @@ test.describe('image formats', () => {
 
 		expect(getFileHash('tests/sample/1x1-1000w.jpeg')).toEqual(getFileHash('test-downloads/1x1-1000w.jpeg'));
 
-		const dimensions = imageSize('test-downloads/1x1-1000w.jpeg');
+		const dimensions = await imageSizeFromFile('test-downloads/1x1-1000w.jpeg');
 		expect(dimensions.height).toBe(1000);
 		expect(dimensions.width).toBe(1000);
 	});
